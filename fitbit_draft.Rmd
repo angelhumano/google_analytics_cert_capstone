@@ -33,10 +33,15 @@ library(lubridate) #working with dates
 # Reading CSV file
 
 ```{r}
-df <- read_csv("sleep_activity.csv")
+
+df <- read_csv("dailyActivity_merged.csv", trim_ws = TRUE, show_col_types = FALSE)
+
 ```
 
-\#Inspecting dataset
+
+
+
+#Inspecting dataset
 
 ```{r}
 head(df)
@@ -106,7 +111,7 @@ df1 <-
 View(df1)
 ```
 
-\#Filter users with at least 10,000 average steps
+#Filter users with at least 10,000 average steps
 
 ```{r}
 View(df1 %>% filter(mean_totalstep >= 10000))
@@ -118,16 +123,20 @@ View(df1 %>% filter(mean_totalstep >= 10000))
 --Use mutate to add columns
 
 ```{r}
-df2 <- 
-  df %>% group_by(id) %>% 
-  summarise(mean_total_steps = mean(total_steps), sd(total_steps), mean_calories = mean(calories), sd(calories), mean (total_minutes_asleep), sd(total_minutes_asleep), mean(total_time_in_bed), sd(total_time_in_bed))
+
+str(df)
 ```
 
 ```{r}
-View(df2)
+df2 <- df %>% group_by(id) %>% 
+  summarise(mean_total_steps = mean(total_steps), sd(total_steps), mean_calories = mean(calories), sd(calories))
 ```
 
-\#graphing with ggplot2
+```{r}
+view(df2)
+```
+
+#graphing with ggplot2
 
 -aes (size, shape, color, alpha) - use color for colorblind audience -geom_jitter for overlaping points
 

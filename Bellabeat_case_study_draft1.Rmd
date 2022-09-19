@@ -3,8 +3,8 @@ title: "Bellabeat Case study draft1"
 output: html_notebook
 ---
 
-# Set working envionment
-```{r}
+# Importing Libraries 
+```{r warning=FALSE, message=FALSE}
 library(tidyverse)
 library(skimr)
 library(janitor)
@@ -92,7 +92,7 @@ daily_activity %>%
   summary()
 
 ```
-This summary helps us explore quickly each attribute.We notice that some attributes have minimum value of zero (total_step, total_distance, calories). Let us explore this observation.
+This summary helps us explore quickly each attribute. We notice that some attributes have minimum value of zero (total_step, total_distance, calories). Let us explore this observation.
 
 
 ```{r}
@@ -108,11 +108,11 @@ filter(daily_activity, calories == 0)
 #Check where total_distance is zero
 filter(daily_activity, total_distance == 0, total_distance==0)
 ```
-If total_step is zero that means that the person did not wear the Fitbit. [Source]. From our inspection above, we can see that we just need to delete the entries where total_steps is zero and will take take of the rest.
+If total_step is zero that means that the person did not wear the Fitbit. From our inspection above, we can see that we just need to delete the entries where total_steps is zero and will take take care of the rest.
 
 
 ```{r}
- daily_activity_clean<-filter(daily_activity, total_steps != 0, total_distance!=0, calories!=0)
+ daily_activity_clean<- filter(daily_activity, total_steps != 0, total_distance!=0, calories!=0)
 daily_activity_clean
 ```
 ```{r}
@@ -153,7 +153,7 @@ cat("\n",
 
 Let us clean:
 - Change column names to lower case because R is case sensitive
-- Change "Id" fromm double to a character because the number represents a category
+- Change "Id" from double to a character because the number represents a category
 - Change "SleepDay" from char to date. Since the time component of this column is the
   same for each observation"12:00:00 AM", we can remove it. This will helps us merged this 
   data set with daily_activity later.
@@ -232,8 +232,9 @@ cat("\n",
     "Duplicate values:", sum(duplicated(hourly_steps))
     )
 ```
-These data sets shared the same Id and Activity_hour, let us join them into a new data set (hourly_activity) 
-them before we clean them.
+
+# Join data sets
+These data sets shared the same Id and Activity_hour, let us join them into a new data set (hourly_activity) them before we clean them.
 
 
 
@@ -242,7 +243,7 @@ them before we clean them.
 
 hourly_activity <- inner_join(hourly_calories, hourly_intensities, by = c("Id","ActivityHour"))
 
-hourly_activity <-inner_join(hourly_activity, hourly_steps, by = c("Id","ActivityHour"))
+hourly_activity <- inner_join(hourly_activity, hourly_steps, by = c("Id","ActivityHour"))
 ```
 
 
@@ -265,13 +266,6 @@ Let us clean:
 - Change "Id" from double to a character because the number represents a category
 - Change "ActivityHour" from char to datetime
 
-
-
-
-
-
-```{r}
-```
 
 
 ```{r}
@@ -301,8 +295,6 @@ cat("\n",
 ```
 
 
-```{r}
-```
 
 Changes:
 - Columns names are lower case 
@@ -329,9 +321,14 @@ Let us clean:
 - Change column names to lower case because R is case sensitive
 - Change "Id" from double to a character because the number represents a category
 - Change "date" from char to datetime
-- Change "value" from double to chr. Value indicates the sleep state: 1 = asleep, 2 = restless, 3 = awake. See: 
+- Change "value" from double to factor. Value indicates the sleep state: 1 = asleep, 2 = restless, 3 = awake. See: 
  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
  - Remove duplicartes
+
+
+
+
+
 
 ```{r}
 # Clean minute_sleep data set
@@ -339,7 +336,7 @@ Let us clean:
 #Clean column names
 minute_sleep <- clean_names(minute_sleep) %>% 
   #Correct column types  
-  mutate(value = as.character(value)) %>%       #from double to chr
+  mutate(value = as.factor(value))  %>%       #from double to chr
   mutate(id = as.character(id)) %>%             # from double to chr
   mutate( date = as_datetime(date,
                                    format ="%m/%d/%Y %I:%M:%S %p"))%>%  #From chr to datetime
@@ -362,7 +359,7 @@ Changes:
 - Columns names are lower case 
 -"id" converted to character (chr)
 - "date" from char to datetime
--"value" from double to chr
+-"value" from double to factor
 - Removed uplicate values: 543
 
 
@@ -419,6 +416,8 @@ cat("\n",
 
 #as_datetime() converts with default timezone = "UTC"
 ```
+
+
 
 
 ## Clean the weight_logs data set
