@@ -2,137 +2,191 @@
 title: "Bellabeat Case study draft1"
 output: html_notebook
 ---
+# Prepare and Preprocess Phase
 
-# Importing Libraries 
+
+# Meta data 
+
+ [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+
+
+# Import libraries 
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse)
 library(skimr)
 library(janitor)
-library(lubridate) #working with dates
-library(RColorBrewer) # color palette  #display.brewer.all(colorblindFriendly = TRUE)
-library(ggcorrplot) #Visualization of a correlation matrix using ggplot2
+library(lubridate) # working with dates
+library(RColorBrewer) # color palette
+library(ggcorrplot) # Visualization of a correlation matrix using ggplot2
+
+# display.brewer.all(colorblindFriendly = TRUE)
 ```
 
-# Import datasets 
+
+# Load datasets 
+
 ```{r}
+# Clean environment
+rm(list = ls())
 
-daily_activity <- read_csv("dailyActivity_merged.csv", trim_ws = TRUE, show_col_types = FALSE)
-daily_sleep <- read_csv("sleepDay_merged.csv", trim_ws = TRUE, show_col_types = FALSE)
-hourly_calories <- read_csv("hourlyCalories_merged.csv", trim_ws = TRUE, show_col_types = FALSE) 
-hourly_intensities <- read_csv("hourlyIntensities_merged.csv", trim_ws = TRUE, show_col_types = FALSE) 
-hourly_steps <- read_csv("hourlySteps_merged.csv", trim_ws = TRUE, show_col_types = FALSE) 
-minute_sleep <- read_csv("minuteSleep_merged.csv", trim_ws = TRUE, show_col_types = FALSE) 
-seconds_heartrate <- read_csv("heartrate_seconds_merged.csv", trim_ws = TRUE, show_col_types = FALSE) 
-weight_logs <- read_csv("weightLogInfo_merged.csv", trim_ws = TRUE, show_col_types = FALSE) 
-  
+daily_activity <-
+  read_csv("dailyActivity_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
+daily_sleep <- read_csv("sleepDay_merged.csv",
+  trim_ws = TRUE,
+  show_col_types = FALSE
+)
+
+hourly_calories <-
+  read_csv("hourlyCalories_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
+hourly_intensities <-
+  read_csv("hourlyIntensities_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+hourly_steps <-
+  read_csv("hourlySteps_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
+minute_sleep <-
+  read_csv("minuteSleep_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
+weight_logs <-
+  read_csv("weightLogInfo_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
+seconds_heartrate <-
+  read_csv("heartrate_seconds_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
 # Remove trailing spaces (trim_ws = TRUE)
-
 ```
+
+
 
 # Clean data sets
 
 ## Clean the daily_activity data set
 ```{r}
-#Check daily_activity data set before cleaning 
+# Check daily_activity data set before cleaning
 glimpse(daily_activity)
 
-#Check missing values and duplicates
-cat("\n",
-    "Missing values:", sum(is.na(daily_activity)),
-    "\n",
-    "Duplicate values:", sum(duplicated(daily_activity)),
-    "\n",
-    "Unique Ids:",n_distinct(daily_activity$Id)
-    )
-
-
-
+# Check missing values and duplicates
+cat(
+  "\n",
+  "Missing values:",
+  sum(is.na(daily_activity)),
+  "\n",
+  "Duplicate values:",
+  sum(duplicated(daily_activity)),
+  "\n",
+  "Unique Ids:",
+  n_distinct(daily_activity$Id)
+)
 ```
 
 Let us clean:
 - Change column names to lower case because R is case sensitive
-- Change "Id" form double to a character because the number represents a category
-- Change "ActivityDate" from char to date  
-
+- Change "Id" from double to a character because the number represents a category
+- Change "ActivityDate" from char to date 
 
 ```{r}
 # Clean daily_activity data set
 
-#Clean column names
-daily_activity <- clean_names(daily_activity) %>% 
-  #Correct column types   
-  mutate(id = as.character(id)) %>% #From double to chr
-  mutate( activity_date = as.Date(activity_date, 
-                                  format = "%m/%d/%Y"))%>% #From chr to date
-  #Remove duplicate rows
+daily_activity <-
+  # Clean column names
+  clean_names(daily_activity) %>%
+  # Correct column types
+  mutate(id = as.character(id)) %>% # from double to chr
+  mutate(activity_date = as.Date(activity_date,
+                                 format = "%m/%d/%Y")) %>% # from chr to date
+  # Remove duplicate rows
   distinct()
 
-#Check daily_activity data set after cleaning
+# Check daily_activity data set after cleaning
 glimpse(daily_activity)
 
-#Check missing values and duplicates after cleaning
+# Check missing values and duplicates after cleaning
 cat("\n",
-    "Missing values:", sum(is.na(daily_activity)),
+    "Missing values:",
+    sum(is.na(daily_activity)),
     "\n",
-    "Duplicate values:", sum(duplicated(daily_activity))
-    )
-
+    "Duplicate values:",
+    sum(duplicated(daily_activity)))
 ```
-Changes:
-- Columns names are lower case
--"id" converted to character (chr)
--"activity_date" converted to date
-
 
 
 
 ```{r}
-#Let us print summary statistic to check have a better idea of the data set
-daily_activity %>% 
+# Let us print summary statistic to have a better idea of the data set
+daily_activity %>%
   summary()
-
 ```
-This summary helps us explore quickly each attribute. We notice that some attributes have minimum value of zero (total_step, total_distance, calories). Let us explore this observation.
+
+This summary helps us explore quickly each attribute. We notice that some attributes have minimum value of zero (total_step, total_distance, calories). 
+Let us explore this observation.
 
 
 ```{r}
-#Check where total_steps is zero
+# Check where total_steps is zero
 filter(daily_activity, total_steps == 0)
 ```
 We found 77 observations where total_steps is zero. We should delete these observations so that they do not affect our the mean and median.
+If total_step is zero that means that the person did not wear the Fitbit.
+
 ```{r}
-#Check where calories is zero
+# Check where calories is zero
 filter(daily_activity, calories == 0)
 ```
+
 ```{r}
-#Check where total_distance is zero
-filter(daily_activity, total_distance == 0, total_distance==0)
+# Check where total_distance is zero
+filter(daily_activity, total_distance == 0)
 ```
-If total_step is zero that means that the person did not wear the Fitbit. From our inspection above, we can see that we just need to delete the entries where total_steps is zero and will take take care of the rest.
+ From our inspection above, we can see that we just need to delete the entries where total_steps is zero and will take take care of the rest.
 
 
 ```{r}
- daily_activity_clean<- filter(daily_activity, total_steps != 0, total_distance!=0, calories!=0)
+daily_activity_clean <-
+  filter(daily_activity,
+         total_steps != 0,
+         total_distance != 0,
+         calories != 0)
 daily_activity_clean
-```
-```{r}
-#Check the attributes again
 
-#Before deleting the entries
-select(daily_activity, total_steps, total_distance, calories) %>% 
+```
+
+```{r}
+# Check the attributes again
+
+cat("Before deleting the entries\n\n")
+select(daily_activity, total_steps, total_distance, calories) %>%
   summary()
 
 cat("\n\n\n",
-     "\t\t vs",
-    "\n\n\n"
-    )
+    "\t\t vs",
+    "\n\n\n")
 
 
-#After deleting the entries
-select(daily_activity_clean, total_steps, total_distance, calories) %>% 
+cat("After deleting the entries\n\n")
+select(daily_activity_clean, total_steps, total_distance, calories) %>%
   summary()
-
-
 ```
 We can see that the observation we removed affected our mean and median.
 
@@ -140,124 +194,130 @@ We can see that the observation we removed affected our mean and median.
 
 ## Clean the daily_sleep data set
 ```{r}
-# Check daily_sleep data set before cleaning 
+# Check daily_sleep data set before cleaning
 glimpse(daily_sleep)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(daily_sleep)),
+    "Missing values:",
+    sum(is.na(daily_sleep)),
     "\n",
-    "Duplicate values:", sum(duplicated(daily_sleep))
-    )
+    "Duplicate values:",
+    sum(duplicated(daily_sleep)))
 ```
 
 Let us clean:
+
 - Change column names to lower case because R is case sensitive
 - Change "Id" from double to a character because the number represents a category
 - Change "SleepDay" from char to date. Since the time component of this column is the
   same for each observation"12:00:00 AM", we can remove it. This will helps us merged this 
-  data set with daily_activity later.
+  data set with daily_activity later
 - Delete duplicates (3 observations are duplicates)
 
 
 
 ```{r}
-
 # Clean daily_sleep data set
 
-daily_sleep <- clean_names(daily_sleep) %>% 
-  #Correct column types 
-  mutate(id = as.character(id)) %>% #From double to chr
-  mutate( sleep_day = as.Date(sleep_day, 
-                              format = "%m/%d/%Y"))%>%   #From chr to date
-  #Remove duplicate rows
+daily_sleep_clean <-
+  # Clean column names
+  clean_names(daily_sleep) %>%
+  # Correct column types
+  mutate(id = as.character(id)) %>% # from double to chr
+  mutate(sleep_day = as.Date(sleep_day,
+                             format = "%m/%d/%Y")) %>% # from chr to date
+  # Remove duplicate rows
   distinct()
 
-#Check clean daily_sleep data set
-glimpse(daily_sleep)
+# Check clean daily_sleep data set
+glimpse(daily_sleep_clean)
 
-#Check missing values and duplicates after cleaning
+# Check missing values and duplicates after cleaning
 cat("\n",
-    "Missing values:", sum(is.na(daily_sleep)),
+    "Missing values:",
+    sum(is.na(daily_sleep_clean)),
     "\n",
-    "Duplicate values:", sum(duplicated(daily_sleep))
-    )
-
+    "Duplicate values:",
+    sum(duplicated(daily_sleep_clean)))
 ```
 
-Changes:
-- Columns names are lower case
--"id" converted to character (chr)
--"sleep_day" converted to date 
 
 
-## Clean the hourly data sets
+## Clean the hourly data sets (hourly_calories, hourly_intensities, and hourly_steps)
 
 
 ```{r}
-# Check hourly_calories data set before cleaning 
+# Check hourly_calories data set before cleaning
 glimpse(hourly_calories)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(hourly_calories)),
+    "Missing values:",
+    sum(is.na(hourly_calories)),
     "\n",
-    "Duplicate values:", sum(duplicated(hourly_calories))
-    )
-
+    "Duplicate values:",
+    sum(duplicated(hourly_calories)))
 ```
 
 ```{r}
-# Check hourly_intensities data set before cleaning 
+# Check hourly_intensities data set before cleaning
 glimpse(hourly_intensities)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(hourly_intensities)),
+    "Missing values:",
+    sum(is.na(hourly_intensities)),
     "\n",
-    "Duplicate values:", sum(duplicated(hourly_intensities))
-    )
+    "Duplicate values:",
+    sum(duplicated(hourly_intensities)))
 ```
 
 
 
 ```{r}
-# Check hourly_steps data set before cleaning 
-glimpse(hourly_steps) 
+# Check hourly_steps data set before cleaning
+glimpse(hourly_steps)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(hourly_steps)),
+    "Missing values:",
+    sum(is.na(hourly_steps)),
     "\n",
-    "Duplicate values:", sum(duplicated(hourly_steps))
-    )
+    "Duplicate values:",
+    sum(duplicated(hourly_steps)))
 ```
 
-# Join data sets
-These data sets shared the same Id and Activity_hour, let us join them into a new data set (hourly_activity) them before we clean them.
+### Join hourly data sets to create a hourly_actitvity data set
+These data sets shared the same Id and Activity_hour, let us join them into a new data set (hourly_activity) before we clean them.
 
 
 
 ```{r}
-#Join the hourly data sets (hourly_calories, hourly_intensities, hourly_steps)
+# Join the hourly data sets (hourly_calories, hourly_intensities, and hourly_steps)
 
-hourly_activity <- inner_join(hourly_calories, hourly_intensities, by = c("Id","ActivityHour"))
+hourly_activity <-
+  inner_join(hourly_calories,
+             hourly_intensities,
+             by = c("Id", "ActivityHour"))
 
-hourly_activity <- inner_join(hourly_activity, hourly_steps, by = c("Id","ActivityHour"))
+hourly_activity <-
+  inner_join(hourly_activity, hourly_steps, by = c("Id", "ActivityHour"))
 ```
 
 
 
 ```{r}
-# Check hourly_activity data set before cleaning 
-glimpse(hourly_activity) 
+# Check hourly_activity data set before cleaning
+glimpse(hourly_activity)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(hourly_activity)),
+    "Missing values:",
+    sum(is.na(hourly_activity)),
     "\n",
-    "Duplicate values:", sum(duplicated(hourly_activity))
-    )
+    "Duplicate values:",
+    sum(duplicated(hourly_activity)))
 ```
 
 Let us clean:
@@ -266,54 +326,55 @@ Let us clean:
 - Change "Id" from double to a character because the number represents a category
 - Change "ActivityHour" from char to datetime
 
+Note:The default timezone is UTC.
+
 
 
 ```{r}
 # Clean hourly_activity data set
 
-#Clean column names
-hourly_activity <- clean_names(hourly_activity) %>% 
-  #Correct column types   
-  mutate(id = as.character(id)) %>%  #From double to chr
-  mutate( activity_hour = as_datetime(activity_hour,
-                                   format ="%m/%d/%Y %I:%M:%S %p"))%>%  #From chr to datetime
-  #Remove duplicate rows
+hourly_activity_clean <-
+  # Clean column names
+  clean_names(hourly_activity) %>%
+  # Correct column types
+  mutate(id = as.character(id)) %>% # from double to chr
+  mutate(activity_hour = as_datetime(activity_hour,
+                                     format = "%m/%d/%Y %I:%M:%S %p")) %>% # from chr to datetime
+  # Remove duplicate rows
   distinct()
 
-#Check clean daily_activity data set
-glimpse(hourly_activity)
+# Check clean daily_activity data set
+glimpse(hourly_activity_clean)
 
 
-#Check missing values and duplicates after cleaning
+# Check missing values and duplicates after cleaning
 cat("\n",
-    "Missing values:", sum(is.na(hourly_activity)),
+    "Missing values:",
+    sum(is.na(hourly_activity_clean)),
     "\n",
-    "Duplicate values:", sum(duplicated(hourly_activity))
-    )
+    "Duplicate values:",
+    sum(duplicated(hourly_activity_clean)))
 
-#as_datetime() converts with default timezone = "UTC"
+# as_datetime() converts with default timezone = "UTC"
 ```
 
 
 
-Changes:
-- Columns names are lower case 
--"id" converted to character (chr)
--"activity_hour" converted to datetime with default timezone (UTC)
 
 
 ## Clean the minute_sleep data set
 
 ```{r}
-#Check minute_sleep data set before cleaning 
+# Check minute_sleep data set before cleaning
 glimpse(minute_sleep)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(minute_sleep)),
+    "Missing values:",
+    sum(is.na(minute_sleep)),
     "\n",
-    "Duplicate values:", sum(duplicated(minute_sleep))
-    )
+    "Duplicate values:",
+    sum(duplicated(minute_sleep)))
 ```
 
 Let us clean:
@@ -323,60 +384,51 @@ Let us clean:
 - Change "date" from char to datetime
 - Change "value" from double to factor. Value indicates the sleep state: 1 = asleep, 2 = restless, 3 = awake. See: 
  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
- - Remove duplicartes
-
-
-
-
+ - Remove duplicate values: 543
 
 
 ```{r}
 # Clean minute_sleep data set
 
-#Clean column names
-minute_sleep <- clean_names(minute_sleep) %>% 
-  #Correct column types  
-  mutate(value = as.factor(value))  %>%       #from double to chr
-  mutate(id = as.character(id)) %>%             # from double to chr
-  mutate( date = as_datetime(date,
-                                   format ="%m/%d/%Y %I:%M:%S %p"))%>%  #From chr to datetime
-  #Remove duplicate rows
+minute_sleep_clean <-
+  # Clean column names
+  clean_names(minute_sleep) %>%
+  # Correct column types
+  mutate(value = as.factor(value)) %>% # from double to chr
+  mutate(id = as.character(id)) %>% # from double to chr
+  mutate(date = as_datetime(date,
+                            format = "%m/%d/%Y %I:%M:%S %p")) %>% # From chr to datetime
+  # Remove duplicate rows
   distinct()
 
-#Check clean daily_activity data set
-glimpse(minute_sleep)
+# Check clean daily_activity data set
+glimpse(minute_sleep_clean)
 
 
-#Check missing values and duplicates after cleaning
+# Check missing values and duplicates after cleaning
 cat("\n",
-    "Missing values:", sum(is.na(minute_sleep)),
+    "Missing values:",
+    sum(is.na(minute_sleep_clean)),
     "\n",
-    "Duplicate values:", sum(duplicated(minute_sleep))
-    )
+    "Duplicate values:",
+    sum(duplicated(minute_sleep_clean)))
 ```
-
-Changes:
-- Columns names are lower case 
--"id" converted to character (chr)
-- "date" from char to datetime
--"value" from double to factor
-- Removed uplicate values: 543
 
 
 ## Clean the seconds_heartrate data set
 
 
 ```{r}
-#Check seconds_heartrate set before cleaning 
+# Check seconds_heartrate set before cleaning
 glimpse(seconds_heartrate)
 
-#Check missing values and duplicates
-cat("\n",
-    "Missing values:", sum(is.na(seconds_heartrate)),
-    "\n",
-    "Duplicate values:", sum(duplicated(seconds_heartrate))
-    )
-
+# Check missing values and duplicates
+cat(
+  "\n",
+  "Missing values:", sum(is.na(seconds_heartrate)),
+  "\n",
+  "Duplicate values:", sum(duplicated(seconds_heartrate))
+)
 ```
 
 Let us clean:
@@ -391,32 +443,35 @@ Let us clean:
 ```{r}
 # Clean seconds_heartrate data set
 
-#Clean column names
-seconds_heartrate <- clean_names(seconds_heartrate) %>% 
-  #Correct column types   
-  mutate(id = as.character(id)) %>%  #From double to chr
-  mutate( time = as_datetime(time,
-                                   format ="%m/%d/%Y %I:%M:%S %p"))%>%  #From chr to datetime
-  #Rename columns
-  rename(date_time= time,
-         heart_rate = value ) %>% 
-  #Remove duplicate rows
+seconds_heartrate_clean <-
+  # Clean column names
+  clean_names(seconds_heartrate) %>%
+  # Correct column types
+  mutate(id = as.character(id)) %>% # from double to chr
+  mutate(time = as_datetime(time,
+                            format = "%m/%d/%Y %I:%M:%S %p")) %>% # from chr to datetime
+  # Rename columns
+  rename(date_time = time,
+         heart_rate = value) %>%
+  # Remove duplicate rows
   distinct()
 
-#Check clean daily_activity data set
-glimpse(seconds_heartrate)
+# Check clean daily_activity data set
+glimpse(seconds_heartrate_clean)
 
 
-#Check missing values and duplicates after cleaning
+# Check missing values and duplicates after cleaning
+
 cat("\n",
-    "Missing values:", sum(is.na(seconds_heartrate)),
+    "Missing values:",
+    sum(is.na(seconds_heartrate_clean)),
     "\n",
-    "Duplicate values:", sum(duplicated(seconds_heartrate))
-    )
+    "Duplicate values:",
+    sum(duplicated(seconds_heartrate_clean)))
 
-#as_datetime() converts with default timezone = "UTC"
+
+# as_datetime() converts with default timezone = "UTC"
 ```
-
 
 
 
@@ -424,57 +479,178 @@ cat("\n",
 
 
 ```{r}
-#Check weight_logs set before cleaning 
+# Check weight_logs set before cleaning
+
 glimpse(weight_logs)
 
-#Check missing values and duplicates
+# Check missing values and duplicates
 cat("\n",
-    "Missing values:", sum(is.na(weight_logs)),
+    "Missing values:",
+    sum(is.na(weight_logs)),
     "\n",
-    "Duplicate values:", sum(duplicated(weight_logs))
-    )
+    "Duplicate values:",
+    sum(duplicated(weight_logs)))
 ```
 
 
-
+Let us clean:
+- Change column names to lower case because R is case sensitive
+- Change "Id" from double to a character because the number represents a category
+- Change "Date" from char to datetime and rename it date_time
+- Change NA to 0 in the column "fat"
 
 
 ```{r}
 # Clean  weight_logs data set
 
-#Clean column names
- weight_logs <- clean_names( weight_logs) %>% 
-  #Correct column types   
-  mutate(id = as.character(id)) %>%  #From double to chr
-  mutate( date = as_datetime(date,
-                                   format ="%m/%d/%Y %I:%M:%S %p"))%>%  #From chr to datetime
-  #Rename columns
-  rename(date_time= date) %>% 
-  #Remove duplicate rows
-  distinct() 
+weight_logs_clean <-
+  # Clean column names
+  clean_names(weight_logs) %>%
+  # Correct column types
+  mutate(id = as.character(id)) %>% # from double to chr
+  mutate(date = as_datetime(date,
+                            format = "%m/%d/%Y %I:%M:%S %p")) %>% # from chr to datetime
+  # Rename columns
+  rename(date_time = date) %>%
+  # Remove duplicate rows
+  distinct()
 
 
 
-#Change NA to 0 in the column "fat"
-weight_logs$fat[is.na(weight_logs$fat)] <- 0
+# Change NA to 0 in the column "fat"
+weight_logs_clean$fat[is.na(weight_logs$fat)] <- 0
 
-#Check clean daily_activity data set
-glimpse(weight_logs)
+# Check clean daily_activity data set
+glimpse(weight_logs_clean)
 
 
 
-#Check missing values and duplicates after cleaning
+# Check missing values and duplicates after cleaning
+
 cat("\n",
-    "Missing values:", sum(is.na(weight_logs)),
+    "Missing values:",
+    sum(is.na(weight_logs_clean)),
     "\n",
-    "Duplicate values:", sum(duplicated(weight_logs))
-    )
+    "Duplicate values:",
+    sum(duplicated(weight_logs_clean)))
 
+```
+
+
+# Export clean data sets
+
+```{r}
+# To uncomment the following code, select all the lines and press shift + control + c on Mac
+
+
+# write.csv(daily_activity_clean, 
+#           "daily_activity_clean.csv", 
+#           row.names = FALSE)
+# 
+# write.csv(daily_sleep_clean, 
+#           "daily_sleep_clean.csv", 
+#           row.names = FALSE)
+# 
+# write.csv(daily_sleep_clean, 
+#           "hourly_activity_clean.csv", 
+#           row.names = FALSE)
+# 
+# write.csv(minute_sleep_clean, 
+#           "minute_sleep_clean.csv",
+#           row.names = FALSE)
+# 
+# write.csv(seconds_heartrate_clean,
+#           "seconds_heartrate_clean.csv",
+#           row.names = FALSE)
+# 
+# write.csv(weight_logs_clean , 
+#           "weight_logs_clean .csv",
+#           row.names = FALSE)
+
+```
+
+# Analyze Phase 
+
+
+
+
+
+
+# Exploratory Data Analysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## daily_activity_clean EDA
+```{r}
+str(daily_activity_clean)
+```
+# https://r-coder.com/density-plot-r/
+https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot 
+```{r}
+for (i in 3:length(daily_activity_clean)) {
+  hist(
+    daily_activity_clean[[i]],
+    freq = FALSE,
+    main = "Histogram and density",
+    xlab = colnames(daily_activity_clean[i])
+  )
+  dx <- density(daily_activity_clean[[i]])
+  lines(dx, lwd = 2, col = "red")
+}
+```
+
+
+
+https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot
+```{r}
+library(reshape2)
+library(ggplot2)
+d <- melt(daily_activity_clean[, -c(1:2)])
+ggplot(d, aes(x = value)) +
+  facet_wrap(~variable, scales = "free_x") +
+  geom_histogram()
 ```
 
 
 
 
+# Insights and recommendations
+
+https://www.cdc.gov/mmwr/volumes/68/wr/mm6823a1.htm
+
+file:///Users/vivianbarros/Desktop/Physical_Activity_Guidelines_2nd_edition.pdf
 
 
 
+# Appendix 
+
+# Another source
+
+this is it:
+
+https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity
+
+
+
+https://www.bls.gov/tus/data/datafiles-0321.htm
+
+
+https://www.cdc.gov/nchs/products/databriefs/db443.htm
+
+
+https://www.cdc.gov/nchs/products/databriefs/db443.htm
+
+# Reference:
+- EDA: https://rpubs.com/jovial/r 

@@ -129,7 +129,10 @@ str(df)
 
 ```{r}
 df2 <- df %>% group_by(id) %>% 
-  summarise(mean_total_steps = mean(total_steps), sd(total_steps), mean_calories = mean(calories), sd(calories))
+  summarise(mean_total_steps = mean(total_steps), 
+            sd(total_steps), 
+            mean_calories = mean(calories), 
+            sd(calories))
 ```
 
 ```{r}
