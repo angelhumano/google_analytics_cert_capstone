@@ -172,11 +172,19 @@ daily_activity_clean
 
 ```
 
+
+
+
+```{r}
+names(daily_activity)
+```
+
+
 ```{r}
 # Check the attributes again
 
 cat("Before deleting the entries\n\n")
-select(daily_activity, total_steps, total_distance, calories) %>%
+select(daily_activity,total_steps,total_distance,calories) %>%
   summary()
 
 cat("\n\n\n",
@@ -646,7 +654,79 @@ select_if(daily_activity_clean, negate(is.numeric))
 ```
 
 
+```{r}
+# Check counts by id
+ggplot(data=daily_activity_clean) + 
+  geom_bar(mapping = aes (x= reorder(id, id,length)))+
+  xlab("id") +
+  coord_flip()
+  
+#https://stackoverflow.com/a/9231857/15333580
 
+#reorder(id, id, length) takes the id variable, uses itself to determine the order, and uses the length() function to calculate the values used for ordering. Essentially, this reorders the levels of the id variable based on the length of their names.
+```
+
+
+```{r}
+count_max_ratio <- daily_activity_clean %>%
+  count(id) %>%
+  rename(id = "id", count = "n") %>%
+  mutate(percent_of_max = count / max(count) * 100) %>%
+  arrange(desc(percent_of_max))
+
+id_percent_max
+```
+
+
+
+```{r}
+
+# Create bar graph with percentage of entries compared to maximum
+ggplot(count_max_ratio, aes(x = reorder(id, percent_of_max), y = percent_of_max)) +
+  geom_bar(stat = "identity") +
+  xlab("ID") +
+  ylab("Percentage of Maximum Count") +
+  ggtitle("Count by ID and Percentage of Maximum Count") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_hline(yintercept=50, color="orange", linewidth=1)+
+  geom_hline(yintercept=75, color="red", linewidth=1)+
+  coord_flip()
+
+
+```
+
+
+```{r}
+daily_activity_clean$activity_date %>% summary()
+```
+
+
+```{r}
+ggplot(data=daily_activity_clean , aes(x = activity_date)) + 
+  geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
+  labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date") 
+
+```
+
+
+Observations:
+
+- Some users are missing activity data for some id and dates. Can I show the columns as percentage of total maximum count
+
+
+
+
+
+# Insights and recommendations
+
+https://www.cdc.gov/mmwr/volumes/68/wr/mm6823a1.htm
+
+file:///Users/vivianbarros/Desktop/Physical_Activity_Guidelines_2nd_edition.pdf
+
+
+
+# Appendix 
 
 
 
@@ -680,15 +760,13 @@ ggplot(d, aes(x = value)) +
 
 
 
-# Insights and recommendations
-
-https://www.cdc.gov/mmwr/volumes/68/wr/mm6823a1.htm
-
-file:///Users/vivianbarros/Desktop/Physical_Activity_Guidelines_2nd_edition.pdf
 
 
 
-# Appendix 
+
+
+
+
 
 # Another source
 
