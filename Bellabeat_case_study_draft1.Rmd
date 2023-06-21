@@ -13,11 +13,13 @@ output: html_notebook
 # Import libraries 
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse)
+library(caret)
 library(skimr)
 library(janitor)
 library(lubridate) # working with dates
 library(RColorBrewer) # color palette
 library(ggcorrplot) # Visualization of a correlation matrix using ggplot2
+
 
 # display.brewer.all(colorblindFriendly = TRUE)
 ```
@@ -588,7 +590,7 @@ cat("\n",
 
 
 
-## daily_activity_clean EDA
+##  EDA for daily_activity_clean
 ```{r}
 str(daily_activity_clean)
 ```
@@ -616,23 +618,35 @@ for (i in col_names) {
       geom_histogram(
         bins = 30,
         color = "black",
-        fill = "gray"
-      ) + xlab(i) + ylab("Count") + ggtitle(paste("Histogram of", {{i}}))
+        fill = "gray",
+        aes(y = ..density..)
+      ) +
+      geom_density(
+        color = "blue",
+        size = 1
+      ) +
+      xlab(i) + ylab("Count") +
+      ggtitle(paste("Histogram with Density of", i))
   ))
-  
 }
+
+
+
 
 ```
 
+
+
+
 Observations:
 
-- Many variables show a right-skewed distribution— a larger number of data values are located on the left side of the curve
+- Many variables show a right-skewed distribution: a larger number of data values are located on the left side of the curve
 
 - The variables total_steps, total_distance, tracker_distance have a similar distribution. We can explore their correlations later
 
 - Since the distributions are not normal. The median is a better indicator of central tendency for the numerical variables in these data set
 
-- The variable logged_activities_distance and sedentary_active_distance might not provide useful information since most of the data points are zero. It seems that the users are not logging the distance frequently
+- **The variable logged_activities_distance and sedentary_active_distance might not provide useful information since most of the data points are zero. It seems that the users are not logging the distance frequently**
 
 -  The following variables seem related. We will explore them further in the bivariate analysis section:
 
@@ -641,7 +655,9 @@ lightly_active_minutes; light_active_distance
 fairly_active_minutes; moderately_active_distance
 very_active_minutes; very_active_distance   
 
-- The variables calories and sedentary_minutes are multimodal distribution. This might suggest the presence of subpopulations. In this data set, gender could be a variable that would present as a bimodal distribution for a histogram with the variable calories. Unfortunately, we the gender of the users is not provided
+- The variables calories and sedentary_minutes exhibit a multimodal distribution, indicating the presence of subpopulations within the data. In this dataset, gender could be a potential variable that would result in a bimodal distribution when examining histograms of calories and sedentary minutes. Unfortunately, the gender of the users is not provided, limiting our ability to confirm this hypothesis.
+
+
 
 
 ### Categorical variables
@@ -674,7 +690,7 @@ count_max_ratio <- daily_activity_clean %>%
   mutate(percent_of_max = count / max(count) * 100) %>%
   arrange(desc(percent_of_max))
 
-id_percent_max
+
 ```
 
 
@@ -696,6 +712,21 @@ ggplot(count_max_ratio, aes(x = reorder(id, percent_of_max), y = percent_of_max)
 
 ```
 
+```{r}
+# percent_of_max > 75%
+
+percent_of_max_top_75 <- filter(count_max_ratio, percent_of_max >=75)
+percent_of_max_top_75 
+```
+
+```{r}
+# percent_of_max < 75
+
+percent_of_max_under_75 <- filter(count_max_ratio, percent_of_max < 75)
+percent_of_max_under_75 
+```
+
+
 
 ```{r}
 daily_activity_clean$activity_date %>% summary()
@@ -710,12 +741,197 @@ ggplot(data=daily_activity_clean , aes(x = activity_date)) +
 ```
 
 
+
 Observations:
 
-- Some users are missing activity data for some id and dates. Can I show the columns as percentage of total maximum count
+- It appears that there is missing activity data towards the end of the available period, specifically in the beginning of May
 
 
 
+```{r}
+# Investigate if the missing activity data coincides with the absence of entries for certain user IDs.
+
+ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_top_75$id), aes(x = activity_date)) + 
+  geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
+  labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date For IDs with Above 75% of Entries")
+```
+```{r}
+
+ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_under_75$id), aes(x = activity_date)) + 
+  geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
+  labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date For IDs withunder 75% of Entries")
+```
+- Users with more than 75% of data consistently report activity dates, while those with less than 75% of data show a decline in reporting starting from the end of April. The decline in Activity Date seems to be primarily due to a lack of data reporting from some users during that period.
+
+
+
+### Bivariate analysis
+
+
+#### Correlation between numerical variables
+
+
+```{r fig.width=8, fig.height=8}
+corr <- cor(select_if(daily_activity_clean, is.numeric))
+
+ggcorrplot(corr,
+           hc.order = TRUE,
+           type = "lower",
+           lab = TRUE,
+           colors = c("firebrick", "white", "royalblue"),
+           lab_size = 4,
+           lab_col = "black",
+           title = "Correlation Between Numerical Variables")
+
+#https://rdrr.io/github/microresearcher/MicroVis/man/ggcorrplot.html
+```
+sedentary_minutes; sedentary_active_distance 
+lightly_active_minutes; light_active_distance  
+fairly_active_minutes; moderately_active_distance
+very_active_minutes; very_active_distance   
+
+
+
+
+```{r}
+# Compute correlation matrix
+corr_matrix <- corr
+
+# Set the threshold for correlation
+threshold <- 0.60
+
+# Find pairs of highly correlated variables
+high_cor_pairs <- which(abs(corr_matrix) > threshold & lower.tri(corr_matrix, diag = FALSE), arr.ind = TRUE)
+
+# Extract the variable names and correlation coefficients for the correlated pairs
+variable_names <- colnames(corr_matrix)
+cor_values <- as.vector(corr_matrix[high_cor_pairs])
+
+# Create a data frame to store the correlated pairs and their correlation coefficients
+cor_data <- data.frame(
+  Variable1 = variable_names[high_cor_pairs[, 1]],
+  Variable2 = variable_names[high_cor_pairs[, 2]],
+  Correlation = cor_values
+)
+
+# Sort the correlated pairs by correlation coefficient in descending order
+sorted_cor_data <- cor_data[order(-cor_data$Correlation), ]
+
+# Remove the index
+row.names(sorted_cor_data) <- NULL
+
+# Display the sorted correlated variable pairs in the dataframe
+print(sorted_cor_data)
+
+```
+
+
+- Total_distance, tracker_distance, and total steps are highly correlated, so we will retain only total distance and total steps as they provide similar information.
+
+- The following minute and distance types are correlated. Which indicates that they report different aspects of the same activity, this is time or distance:
+  - lightly_active_minutes and light_active_distance (corr = 0.85)
+  - fairly_active_minutes and moderately_active_distance (corr = 0.94)
+  - very_active_minutes	and very_active_distance (corr = 0.82)
+
+- There is a moderately high correlation between the time spent during very active periods and the total number of steps/total distance:
+  - The correlation between very_active_minutes and total_distance is 0.68
+  - The correlation between very_active_minutes and total_steps is 0.66
+
+- There is a moderate correlation of 0.61 between the total duration of very active minutes and the estimated daily calories consumed.
+- There is a moderate correlation of 0.62 between the total distance covered and the estimated daily calories consumed.
+- There is a moderate correlation coefficient of 0.60 between the distance covered during light activity (light_active_distance) and the total number of steps taken (total_steps).
+
+
+#### Scatterplots of selected highly correlated variables pairs (>0.60)
+
+
+
+```{r fig.align='center'}
+
+# List of correlated variable pairs
+correlated_pairs <- list(c("total_steps", "total_distance"), 
+                         c("lightly_active_minutes", "light_active_distance"),
+                         c("fairly_active_minutes", "moderately_active_distance"),
+                         c("very_active_minutes", "very_active_distance"),
+                         c("very_active_minutes", "total_distance"),
+                         c("very_active_minutes", "total_steps"),
+                         c("very_active_minutes", "calories"),
+                         c("total_distance", "calories"),
+                         c("light_active_distance", "total_steps"))
+
+# Loop over each pair and create scatter plot
+for (pair in correlated_pairs) {
+  var1 <- pair[1]
+  var2 <- pair[2]
+  
+  # Calculate averages
+  avg_var1 <- mean(daily_activity_clean[[var1]], na.rm = TRUE)
+  avg_var2 <- mean(daily_activity_clean[[var2]], na.rm = TRUE)
+  
+  # Create scatter plot using ggplot2 with aes()
+  print(ggplot(data = daily_activity_clean, aes(x = !!sym(var1), y = !!sym(var2))) +
+    geom_point() +
+    geom_vline(xintercept = avg_var1, linetype = "dashed", color = "red") +
+    geom_hline(yintercept = avg_var2, linetype = "dashed", color = "blue") +
+    xlab(var1) + ylab(var2) +
+    ggtitle(paste("Scatter Plot with Average Reference Lines of", var1, "vs", var2)))
+}
+```
+
+- Create KPIs
+
+daily
+Percentage of IDs that achieved 5000 steps: Count the number of IDs that have total_steps greater than or equal to 5000, divide it by the total number of IDs, and multiply by 100.
+
+Percentage of IDs that achieved 10000 steps: Count the number of IDs that have total_steps greater than or equal to 10000, divide it by the total number of IDs, and multiply by 100.
+
+
+Average daily distance of the users: Calculate the mean of the total_distance variable across all IDs.
+Percentage of IDs that achieved >10000 steps: Count the number of IDs that have total_steps greater than 10000, divide it by the total number of IDs, and multiply by 100.
+
+Percentage of IDs above average distance: Count the number of IDs that have total_distance greater than the average distance, divide it by the total number of IDs, and multiply by 100.
+
+Percentage of IDs below average distance: Count the number of IDs that have total_distance less than the average distance, divide it by the total number of IDs, and multiply by 100.
+
+
+Average Daily Steps: Calculate the average number of steps taken per day by dividing the total_steps by the number of activity dates.
+
+Average Daily Distance: Calculate the average distance covered per day by dividing the total_distance by the number of activity dates.
+
+Average Daily Active Minutes: Calculate the average total active minutes per day by summing up very_active_minutes, fairly_active_minutes, and lightly_active_minutes, and dividing the result by the number of activity dates.
+
+Sedentary Time Percentage: Calculate the percentage of time spent in sedentary activities by dividing sedentary_minutes by the sum of sedentary_minutes, very_active_minutes, fairly_active_minutes, and lightly_active_minutes, and multiplying the result by 100.
+
+Very Active Time Percentage: Calculate the percentage of time spent in very active activities by dividing very_active_minutes by the sum of very_active_minutes, fairly_active_minutes, and lightly_active_minutes, and multiplying the result by 100.
+
+Distance Ratio: Calculate the ratio of total_distance to tracker_distance to assess the accuracy of the distance tracked by the device.
+
+Logged Activities Ratio: Calculate the ratio of logged_activities_distance to total_distance to evaluate the proportion of distance covered through logged activities.
+
+Average Calorie Burn: Calculate the average calories burned per day by dividing the total calories by the number of activity dates.
+
+These indicators provide insights into activity levels, sedentary behavior, accuracy of distance tracking, and calorie burn. They can help track progress, set goals, and evaluate user behavior over time. Remember to consider the specific context and goals of your analysis to select and customize the most relevant KPIs for your use case.
+
+##  EDA for hourly_activity_clean
+
+
+
+
+##  EDA for daily_sleep_clean
+
+
+
+##  EDA for weight_logs_clean
+- Weight Reporting Behavior: Assess the reporting behavior of users using the IsManualReport variable. Calculate the percentage of manual weight reports compared to total weight reports to determine how actively users are providing weight updates. This can indicate user engagement and motivation to track their weight.
+
+- Data Completeness: Analyze the completeness and quality of data using variables such as LogId. Assess if there are missing or erroneous data points that may impact the analysis. Exclude or handle such data points appropriately to ensure accurate insights.
+
+- BMI distribution (percentage above normal BMI)
+
+- Weight Trends: Analyze the trends in weight over time (Date) to understand if users are experiencing weight loss, gain, or stability. Plotting weight (WeightKg or WeightPounds) against time can reveal patterns, fluctuations, or significant changes in weight. You can also calculate descriptive statistics such as average weight, standard deviation, or rate of weight change to gain insights into user behavior.
+
+
+##  EDA for seconds_heartrate_clean
 
 
 # Insights and recommendations
@@ -730,7 +946,7 @@ file:///Users/vivianbarros/Desktop/Physical_Activity_Guidelines_2nd_edition.pdf
 
 
 
-# https://r-coder.com/density-plot-r/
+#
 https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot 
 ```{r}
 for (i in 3:length(daily_activity_clean)) {
@@ -792,3 +1008,4 @@ https://blog.minitab.com/en/3-things-a-histogram-can-tell-you
 
 Categorical, ordinal, interval, and ratio variables : https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm
 
+Add density line to histogram: https://r-coder.com/density-plot-r
