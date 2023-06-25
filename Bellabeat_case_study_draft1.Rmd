@@ -878,12 +878,88 @@ for (pair in correlated_pairs) {
 }
 ```
 
-- Create KPIs
 
-daily
-Percentage of IDs that achieved 5000 steps: Count the number of IDs that have total_steps greater than or equal to 5000, divide it by the total number of IDs, and multiply by 100.
+#### User Behavior for daily activity dataset
 
-Percentage of IDs that achieved 10000 steps: Count the number of IDs that have total_steps greater than or equal to 10000, divide it by the total number of IDs, and multiply by 100.
+#### Total steps
+
+
+```{r}
+# Create a boxplot for total_steps
+boxplot(daily_activity_clean$total_steps, 
+        main = "Boxplot of Total Steps",
+        ylab = "Total Steps")
+
+# Calculate the median
+median_value <- median(daily_activity_clean$total_steps)
+
+# Identify outliers
+outliers <- boxplot.stats(daily_activity_clean$total_steps)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median and outlier count
+legend_label <- paste("Median:", median_value, "\nOutliers:", num_outliers)
+
+# Add the legend with median and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black")
+```
+
+
+
+##### Percentage of users that take at least 5000 steps on average
+```{r}
+
+# Aggregate IDs by steps averages 
+average_data <- daily_activity_clean %>%
+  group_by(id) %>%
+  summarise(average_steps = mean(total_steps), median_steps =median(total_steps))
+
+average_data 
+```
+
+```{r}
+# Calculate percentages for the average column
+at_least_10k_avg <- sum(average_data$average_steps >= 10000) / nrow(average_data) * 100
+between_5K_10K_avg <- sum(average_data$average_steps >= 5000 & average_data$average_steps < 10000) / nrow(average_data) * 100
+below_5k_avg <- sum(average_data$average_steps < 5000) / nrow(average_data) * 100
+
+# Calculate percentages for the median column
+at_least_10k_med <- sum(average_data$median_steps >= 10000) / nrow(average_data) * 100
+between_5K_10K_med <- sum(average_data$median_steps >= 5000 & average_data$median_steps < 10000) / nrow(average_data) * 100
+below_5k_med <- sum(average_data$median_steps < 5000) / nrow(average_data) * 100
+
+# Create a data frame for the steps categories
+percentage_data <- data.frame(
+  Category = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"),
+  Percentage_Average = round(c(below_5k_avg, between_5K_10K_avg, at_least_10k_avg)),
+  Percentage_Median = round(c(below_5k_med, between_5K_10K_med, at_least_10k_med)))
+percentage_data
+
+```
+
+
+
+
+
+```{r}
+# Convert Category to a factor with custom factor levels
+percentage_data$Category <- factor(percentage_data$Category, levels = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"))
+
+# Create a bar plot using ggplot
+ggplot(percentage_data, aes(x = Category, y = Percentage_Average)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(x = "Average Total Steps", y = "Percentage Users", title = "Percentage of Users by Step Category") +
+  geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
+  ylim(0, 100) +  theme_minimal()
+
+
+```
+
+
+daily 
+
 
 
 Average daily distance of the users: Calculate the mean of the total_distance variable across all IDs.
