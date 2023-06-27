@@ -884,6 +884,7 @@ for (pair in correlated_pairs) {
 #### Total steps
 
 
+
 ```{r}
 # Create a boxplot for total_steps
 boxplot(daily_activity_clean$total_steps, 
@@ -907,37 +908,37 @@ legend("topright", legend = legend_label, pch = "", col = "black")
 ```
 
 
-
-##### Percentage of users that take at least 5000 steps on average
+##### Percentage of Users by Step Goals Below 5,000, Between 5,000 and 10,000, At least 10,000
 ```{r}
 
 # Aggregate IDs by steps averages 
-average_data <- daily_activity_clean %>%
+steps_df <- daily_activity_clean %>%
   group_by(id) %>%
   summarise(average_steps = mean(total_steps), median_steps =median(total_steps))
 
-average_data 
+steps_df
 ```
 
 ```{r}
 # Calculate percentages for the average column
-at_least_10k_avg <- sum(average_data$average_steps >= 10000) / nrow(average_data) * 100
-between_5K_10K_avg <- sum(average_data$average_steps >= 5000 & average_data$average_steps < 10000) / nrow(average_data) * 100
-below_5k_avg <- sum(average_data$average_steps < 5000) / nrow(average_data) * 100
+at_least_10k_avg <- sum(steps_df$average_steps >= 10000) / nrow(steps_df) * 100
+between_5K_10K_avg <- sum(steps_df$average_steps >= 5000 & steps_df$average_steps < 10000) / nrow(steps_df) * 100
+below_5k_avg <- sum(steps_df$average_steps < 5000) / nrow(steps_df) * 100
 
 # Calculate percentages for the median column
-at_least_10k_med <- sum(average_data$median_steps >= 10000) / nrow(average_data) * 100
-between_5K_10K_med <- sum(average_data$median_steps >= 5000 & average_data$median_steps < 10000) / nrow(average_data) * 100
-below_5k_med <- sum(average_data$median_steps < 5000) / nrow(average_data) * 100
+at_least_10k_med <- sum(steps_df$median_steps >= 10000) / nrow(steps_df) * 100
+between_5K_10K_med <- sum(steps_df$median_steps >= 5000 & steps_df$median_steps < 10000) / nrow(steps_df) * 100
+below_5k_med <- sum(steps_df$median_steps < 5000) / nrow(steps_df) * 100
 
 # Create a data frame for the steps categories
-percentage_data <- data.frame(
+percentage_steps_df<- data.frame(
   Category = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"),
   Percentage_Average = round(c(below_5k_avg, between_5K_10K_avg, at_least_10k_avg)),
   Percentage_Median = round(c(below_5k_med, between_5K_10K_med, at_least_10k_med)))
-percentage_data
+percentage_steps_df
 
 ```
+
 
 
 
@@ -945,17 +946,107 @@ percentage_data
 
 ```{r}
 # Convert Category to a factor with custom factor levels
-percentage_data$Category <- factor(percentage_data$Category, levels = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"))
+percentage_steps_df$Category <- factor(percentage_steps_df$Category, levels = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"))
 
 # Create a bar plot using ggplot
-ggplot(percentage_data, aes(x = Category, y = Percentage_Average)) +
+ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "blue") +
-  labs(x = "Average Total Steps", y = "Percentage Users", title = "Percentage of Users by Step Category") +
+  labs(x = "Average Total Steps", y = "Percentage of Users", title = "58% of Users Average 5,000-10,000 Step Daily",subtitle = "Only 21% Achieve the 10,000-Step Goal") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
-  ylim(0, 100) +  theme_minimal()
+  ylim(0, 100) +  theme_minimal() + theme(panel.grid = element_blank())
 
 
 ```
+
+
+##### Percentage of Users by Total Distance 
+
+
+
+```{r}
+# Create a boxplot for total_distance
+boxplot(daily_activity_clean$total_distance, 
+        main = "Boxplot of Total Distance",
+        ylab = "Total Distance")
+
+# Calculate the median
+median_value <- median(daily_activity_clean$total_distance)
+
+# Identify outliers
+outliers <- boxplot.stats(daily_activity_clean$total_distance)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median and outlier count
+legend_label <- paste("Median:", round(median_value, 2), "\nOutliers:", num_outliers)
+
+# Add the legend with median and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black")
+
+```
+
+```{r}
+
+# Aggregate IDs by steps averages 
+t_distance_df <- daily_activity_clean %>%
+  group_by(id) %>%
+  summarise(average_t_distance = mean(total_distance ), median_t_distance =median(total_distance ))
+
+t_distance_df
+```
+
+
+```{r}
+# Calculate percentages for the average column
+at_least_10_avg<- sum(t_distance_df$average_t_distance>= 10) / nrow(t_distance_df) * 100
+between_5_10_avg <- sum(t_distance_df$average_t_distance >= 5 & t_distance_df$average_t_distance < 10) / nrow(t_distance_df) * 100
+below_5_avg <- sum(t_distance_df$average_t_distance < 5) / nrow(t_distance_df) * 100
+
+
+# Create a data frame for the distance categories
+percentage_t_distance_df<- data.frame(
+  Category = c("Below 5 Mi", "Between 5 and 10 Mi", "At least 10 Mi"),
+  Percentage_Average = round(c(below_5_avg, between_5_10_avg , at_least_10_avg)))
+percentage_t_distance_df
+
+
+
+# Convert Category to a factor with custom factor levels
+percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, levels = c("Below 5 Mi", "Between 5 and 10 Mi", "At least 10 Mi"))
+
+
+```
+
+```{r}
+# Create a bar plot using ggplot
+ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
+  geom_bar(stat = "identity", fill = "pink") +
+  labs(x = "Average Total Distance", y = "Percentage of Users", title = "55% of Users Average 5-10 Miles Daily",subtitle = "10,000 steps is approximately equal to covering 5 miles (or 8 kilometers)") +
+  geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
+  ylim(0, 100) +  theme_minimal() +theme(panel.grid = element_blank())
+
+```
+
+
+Do the same for:
+
+- sedentary minutes
+- calories
+
+- and a stack bar for types of minutes and distance types
+
+
+
+
+
+```{r}
+str(daily_activity_clean)
+```
+
+
+
+
 
 
 daily 
