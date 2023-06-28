@@ -213,7 +213,11 @@ cat("\n",
     sum(is.na(daily_sleep)),
     "\n",
     "Duplicate values:",
-    sum(duplicated(daily_sleep)))
+    sum(duplicated(daily_sleep)),
+  "\n",
+  "Unique Ids:",
+  n_distinct(daily_sleep$Id)
+    )
 ```
 
 Let us clean:
@@ -384,7 +388,11 @@ cat("\n",
     sum(is.na(minute_sleep)),
     "\n",
     "Duplicate values:",
-    sum(duplicated(minute_sleep)))
+    sum(duplicated(minute_sleep)),
+    "\n",
+  "Unique Ids:",
+  n_distinct(minute_sleep$Id))
+
 ```
 
 Let us clean:
@@ -759,7 +767,7 @@ ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_top_75$id), aes(
 
 ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_under_75$id), aes(x = activity_date)) + 
   geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
-  labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date For IDs withunder 75% of Entries")
+  labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date For IDs with under 75% of Entries")
 ```
 - Users with more than 75% of data consistently report activity dates, while those with less than 75% of data show a decline in reporting starting from the end of April. The decline in Activity Date seems to be primarily due to a lack of data reporting from some users during that period.
 
@@ -879,11 +887,9 @@ for (pair in correlated_pairs) {
 ```
 
 
-#### User Behavior for daily activity dataset
+### User Behavior for daily activity dataset
 
 #### Total steps
-
-
 
 ```{r}
 # Create a boxplot for total_steps
@@ -891,8 +897,9 @@ boxplot(daily_activity_clean$total_steps,
         main = "Boxplot of Total Steps",
         ylab = "Total Steps")
 
-# Calculate the median
+# Calculate the median and standard deviation
 median_value <- median(daily_activity_clean$total_steps)
+std_dev <- round(sd(daily_activity_clean$total_steps),2)
 
 # Identify outliers
 outliers <- boxplot.stats(daily_activity_clean$total_steps)$out
@@ -900,18 +907,19 @@ outliers <- boxplot.stats(daily_activity_clean$total_steps)$out
 # Count the number of outliers
 num_outliers <- length(outliers)
 
-# Create the legend label with median and outlier count
-legend_label <- paste("Median:", median_value, "\nOutliers:", num_outliers)
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", median_value, 
+                      "\nStandard Deviation:", std_dev, 
+                      "\nOutliers:", num_outliers)
 
-# Add the legend with median and outlier count
-legend("topright", legend = legend_label, pch = "", col = "black")
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.85)
+
 ```
 
-
-##### Percentage of Users by Step Goals Below 5,000, Between 5,000 and 10,000, At least 10,000
 ```{r}
 
-# Aggregate IDs by steps averages 
+# Steps averages by IDs
 steps_df <- daily_activity_clean %>%
   group_by(id) %>%
   summarise(average_steps = mean(total_steps), median_steps =median(total_steps))
@@ -959,9 +967,7 @@ ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
 ```
 
 
-##### Percentage of Users by Total Distance 
-
-
+#### Total Distance 
 
 ```{r}
 # Create a boxplot for total_distance
@@ -969,8 +975,9 @@ boxplot(daily_activity_clean$total_distance,
         main = "Boxplot of Total Distance",
         ylab = "Total Distance")
 
-# Calculate the median
+# Calculate the median and standard deviation
 median_value <- median(daily_activity_clean$total_distance)
+std_dev <- sd(daily_activity_clean$total_distance)
 
 # Identify outliers
 outliers <- boxplot.stats(daily_activity_clean$total_distance)$out
@@ -978,17 +985,20 @@ outliers <- boxplot.stats(daily_activity_clean$total_distance)$out
 # Count the number of outliers
 num_outliers <- length(outliers)
 
-# Create the legend label with median and outlier count
-legend_label <- paste("Median:", round(median_value, 2), "\nOutliers:", num_outliers)
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", round(median_value, 2), 
+                      "\nStandard Deviation:", round(std_dev, 2), 
+                      "\nOutliers:", num_outliers)
 
-# Add the legend with median and outlier count
-legend("topright", legend = legend_label, pch = "", col = "black")
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n")
 
 ```
 
+
 ```{r}
 
-# Aggregate IDs by steps averages 
+# Total distance by IDs
 t_distance_df <- daily_activity_clean %>%
   group_by(id) %>%
   summarise(average_t_distance = mean(total_distance ), median_t_distance =median(total_distance ))
@@ -1006,14 +1016,14 @@ below_5_avg <- sum(t_distance_df$average_t_distance < 5) / nrow(t_distance_df) *
 
 # Create a data frame for the distance categories
 percentage_t_distance_df<- data.frame(
-  Category = c("Below 5 Mi", "Between 5 and 10 Mi", "At least 10 Mi"),
+  Category = c("Below 5 km", "Between 5 and 10 km", "At least 10 km"),
   Percentage_Average = round(c(below_5_avg, between_5_10_avg , at_least_10_avg)))
 percentage_t_distance_df
 
 
 
 # Convert Category to a factor with custom factor levels
-percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, levels = c("Below 5 Mi", "Between 5 and 10 Mi", "At least 10 Mi"))
+percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, levels = c("Below 5 km", "Between 5 and 10 km", "At least 10 km"))
 
 
 ```
@@ -1022,11 +1032,221 @@ percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, l
 # Create a bar plot using ggplot
 ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "pink") +
-  labs(x = "Average Total Distance", y = "Percentage of Users", title = "55% of Users Average 5-10 Miles Daily",subtitle = "10,000 steps is approximately equal to covering 5 miles (or 8 kilometers)") +
+  labs(x = "Average Total Distance", y = "Percentage of Users", title = "55% of Users Average 5-10 Kilometers Daily",subtitle = "10,000 steps is approximately equal to covering 5 miles (or 8 kilometers)") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
   ylim(0, 100) +  theme_minimal() +theme(panel.grid = element_blank())
 
 ```
+
+
+#### Sedentary Minutes
+
+```{r}
+# Create a boxplot for sedentary_minutes
+boxplot(daily_activity_clean$sedentary_minutes,
+        main = "Boxplot of Sedentary Minutes",
+        ylab = "Sedentary Minutes")
+
+# Calculate the median and standard deviation
+median_value <- median(daily_activity_clean$sedentary_minutes)
+std_dev <- sd(daily_activity_clean$sedentary_minutes)
+
+# Identify outliers
+outliers <- boxplot.stats(daily_activity_clean$sedentary_minutes)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", round(median_value, 2),
+                      "\nStandard Deviation:", round(std_dev, 2),
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.80)
+
+
+```
+
+
+- These are high values for sedentary minutes. For instance, 1020 minutes is equivalent to 17 hours, and 1400 minutes is equivalent to 24 hours. After performing a quick search, it seems that the
+[Fitbit uses 1400](https://community.fitbit.com/t5/Other-Charge-Trackers/sedentary-minutes/td-p/3372621) as default for sedentary minutes when the device is not worn and it includes the sleeping time. 
+SedentaryMinutes is total minutes spent in sedentary activity according to the data dictionary. See meta data section. Therefore, we need to substract the times sleeping to obtain an more accurate estimate of daily sedentary minutes. 
+
+[Sleep time is not considered sedentary time, so it was removed to determine the waking day and to allow the proportion of the day spent sedentary to be calculated](https://www.mdpi.com/1660-4601/18/8/3914)
+
+
+```{r}
+# Check sedentary_minutes stats
+daily_activity_clean$sedentary_minutes %>% summary()
+
+```
+
+```{r}
+outliers
+```
+
+
+```{r}
+# Count entries where sedentary minutes equal 1440
+count_1440 <- sum(daily_activity_clean$sedentary_minutes == 1440)
+
+# Output the count
+count_1440
+
+```
+```{r}
+# Remove rows with sedentary minutes equal to the default value (1440) and outliers
+
+daily_activity_clean <- filter(daily_activity_clean, !(sedentary_minutes %in% c(0, 2, 13, 1440)))
+
+```
+
+
+
+```{r}
+
+
+# Rename the column
+daily_sleep_clean <- rename(daily_sleep_clean, activity_date = sleep_day)
+
+# Join the datasets
+joined_activity_sleep <- inner_join(daily_activity_clean, daily_sleep_clean, by = c("id", "activity_date"))
+
+
+# Check missing values and duplicates
+cat(
+  "\n",
+  "Missing values:",
+  sum(is.na(joined_activity_sleep )),
+  "\n",
+  "Duplicate values:",
+  sum(duplicated(joined_activity_sleep )),
+  "\n",
+  "Unique Ids:",
+  n_distinct(joined_activity_sleep $id)
+)
+
+```
+
+
+```{r}
+# Create a derived column for sedentary minutes that does not include sleep time
+joined_activity_sleep <- joined_activity_sleep %>%
+  mutate(
+    sedentary_min_awake = sedentary_minutes - total_minutes_asleep,
+    sedentary_hours_awake = sedentary_min_awake / 60,
+    sedentary_percentage_diff = (sedentary_minutes - sedentary_min_awake) / sedentary_minutes * 100
+  )
+
+```
+
+
+
+```{r}
+
+# Let us check the percentage difference of sedentary_minutes and the new column "sedentary_min_awake
+
+# Create a boxplot for sedentary_percentage_diff
+boxplot(joined_activity_sleep$sedentary_percentage_diff,
+        main = "Boxplot of Sedentary Percentage Difference",
+        ylab = "Sedentary Percentage Difference")
+
+# Calculate the median and standard deviation
+median_value <- median(joined_activity_sleep$sedentary_percentage_diff)
+std_dev <- sd(joined_activity_sleep$sedentary_percentage_diff)
+
+# Identify outliers
+outliers <- boxplot.stats(joined_activity_sleep$sedentary_percentage_diff)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", round(median_value, 2),
+                      "\nStandard Deviation:", round(std_dev, 2),
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.80)
+
+```
+- The sedentary percentage difference has a median value of 59.95%, indicating a significant distinction between sedentary_minutes and sedentary_min_awake. This suggest that the original column "sedentary_minutes" included the time asleep.
+
+
+
+
+
+
+```{r}
+# Create a boxplot for sedentary_min_awake
+boxplot(joined_activity_sleep$sedentary_min_awake,
+        main = "Boxplot of Sedentary Minutes Awake",
+        ylab = "Sedentary Minutes Awake")
+
+# Calculate the median and standard deviation
+median_value <- median(joined_activity_sleep$sedentary_min_awake)
+std_dev <- sd(joined_activity_sleep$sedentary_min_awake)
+
+# Identify outliers
+outliers <- boxplot.stats(joined_activity_sleep$sedentary_min_awake)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", round(median_value, 2),
+                      "\nStandard Deviation:", round(std_dev, 2),
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.80)
+
+```
+- Observation: There appears to be an inconsistency in the data. The sedentary_minutes value is smaller than the total_minutes_asleep value, which is unexpected. 
+
+
+```{r}
+# Count the number of cases where sedentary_minutes is smaller than total_minutes_asleep
+count <- sum(joined_activity_sleep$sedentary_minutes < joined_activity_sleep$total_minutes_asleep)
+
+# Print the count
+count
+
+
+```
+
+
+```{r}
+# Subset the dataset
+subset_data <- joined_activity_sleep[joined_activity_sleep$sedentary_minutes < joined_activity_sleep$total_minutes_asleep, ]
+
+# View the subsetted data
+subset_data
+
+```
+
+```{r}
+subset_data
+```
+
+
+```{r}
+# Check column names of the subsetted data
+subset_data %>%
+select(sedentary_minutes, total_minutes_asleep, sedentary_min_awake, calories,id, activity_date, total_steps, total_distance, very_active_minutes )
+```
+
+
+
+
+
+next
+
+- remove 1400 entries
+- create new column ofsedentary minus time asleep
+- Continue with assessment 
+- Remember convert minutes to hours to improve readeability 
 
 
 Do the same for:
@@ -1115,30 +1335,12 @@ file:///Users/vivianbarros/Desktop/Physical_Activity_Guidelines_2nd_edition.pdf
 
 #
 https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot 
-```{r}
-for (i in 3:length(daily_activity_clean)) {
-  hist(
-    daily_activity_clean[[i]],
-    freq = FALSE,
-    main = "Histogram and density",
-    xlab = colnames(daily_activity_clean[i])
-  )
-  dx <- density(daily_activity_clean[[i]])
-  lines(dx, lwd = 2, col = "red")
-}
-```
+
 
 
 
 https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot
-```{r}
-library(reshape2)
-library(ggplot2)
-d <- melt(daily_activity_clean[, -c(1:2)])
-ggplot(d, aes(x = value)) +
-  facet_wrap(~variable, scales = "free_x") +
-  geom_histogram()
-```
+
 
 
 
@@ -1152,6 +1354,13 @@ ggplot(d, aes(x = value)) +
 
 
 # Another source
+
+
+#paper
+https://dl.acm.org/doi/pdf/10.1145/3339825.3394926
+
+kaggle https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?page=2
+
 
 this is it:
 
