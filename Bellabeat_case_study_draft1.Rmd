@@ -1226,9 +1226,6 @@ subset_data
 
 ```
 
-```{r}
-subset_data
-```
 
 
 ```{r}
@@ -1238,14 +1235,133 @@ select(sedentary_minutes, total_minutes_asleep, sedentary_min_awake, calories,id
 ```
 
 
+```{r}
+dim(subset_data)
+```
+```{r}
+dim(joined_activity_sleep)
+```
+
+
+
+```{r}
+# Use anti_join() to return a new dataset that includes all rows from the first dataset except for the rows that have a match in the second dataset.
+ clean_subset<- anti_join(joined_activity_sleep, subset_data)
+dim(clean_subset)
+```
+
+
+```{r}
+# Create a boxplot for sedentary_min_awake
+boxplot(clean_subset$sedentary_min_awake,
+        main = "Boxplot of Sedentary Minutes Awake",
+        ylab = "Sedentary Minutes Awake")
+
+# Calculate the median and standard deviation
+median_value <- median(clean_subset$sedentary_min_awake)
+std_dev <- sd(clean_subset$sedentary_min_awake)
+
+# Identify outliers
+outliers <- boxplot.stats(clean_subset$sedentary_min_awake)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", round(median_value, 2),
+                      "\nStandard Deviation:", round(std_dev, 2),
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.80)
+
+```
+Observation: By eliminating negative values from "sedentary_min_awake," the resulting values now reflect a more realistic scenario.
+
+
+```{r}
+# Total sedentary minutes awake by IDs
+t_sedentary_df <- clean_subset %>%
+  group_by(id) %>%
+  summarise(average_sedentary_min_awake = mean(sedentary_min_awake),
+            median_sedentary_min_awake = median(sedentary_min_awake))
+
+t_sedentary_df
+
+```
+
+
+
+```{r}
+dataset <- t_sedentary_df
+column <- "average_sedentary_min_awake"
+new_categories <- c("Below 200 minutes", "Between 200 and 400 minutes", "At least 400 minutes")
+
+# Calculate percentages for the average column
+below_200_avg <- sum(dataset[[column]] < 200) / nrow(dataset) * 100
+between_200_400_avg <- sum(dataset[[column]] >= 200 & dataset[[column]] <= 400) / nrow(dataset) * 100
+at_least_400_avg <- sum(dataset[[column]] >= 400) / nrow(dataset) * 100
+
+# Create a data frame for the categories
+percentage_sedentary_awake_df <- data.frame(
+  Category = new_categories,
+  Percentage_Average = round(c(below_200_avg, between_200_400_avg, at_least_400_avg))
+)
+
+# Convert Category to a factor with custom factor levels
+percentage_sedentary_awake_df$Category <- factor(percentage_sedentary_awake_df$Category, levels = new_categories)
+
+percentage_sedentary_awake_df
+
+
+
+```
+
+```{r}
+# Create a bar plot using ggplot
+ggplot(percentage_sedentary_awake_df, aes(x = Category, y = Percentage_Average)) +
+  geom_bar(stat = "identity", fill = "gray") +
+  labs(x = "Average Total Sedentary Min Awake", y = "Percentage of Users", 
+       title = "48% of Users Have an Average of at Least 400 Daily Sedentary Minutes While Awake",
+       subtitle = "200 Minutes are 3 hours and 20 minutes; 400 min are 6 hours and 40 min") +
+  geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
+  ylim(0, 100) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), plot.title = element_text(size = 12), plot.subtitle = element_text(size = 10))
+
+```
+
+
+```{r}
+# Example dataframe
+df <- data.frame(sedentary_min_awake = c(200, 300, 400))
+
+# Function to convert minutes to hours and minutes with two digits for minutes
+convert_minutes <- function(minutes) {
+  hours <- minutes %/% 60  # Get the whole number of hours
+  remaining_minutes <- minutes %% 60  # Get the remaining minutes
+
+  formatted_minutes <- sprintf("%02d", remaining_minutes)  # Display minutes with two digits and leading zero if necessary
+
+  return(paste(hours, "hours", formatted_minutes, "minutes", sep = " "))
+}
+
+# Apply conversion to the sedentary_min_awake column
+df$converted_time <- sapply(df$sedentary_min_awake, convert_minutes)
+
+# View the updated dataframe
+print(df)
+
+```
+
+
+
 
 
 
 next
 
-- remove 1400 entries
-- create new column ofsedentary minus time asleep
-- Continue with assessment 
+
 - Remember convert minutes to hours to improve readeability 
 
 
@@ -1260,9 +1376,10 @@ Do the same for:
 
 
 
-```{r}
-str(daily_activity_clean)
-```
+
+
+
+
 
 
 
