@@ -1331,26 +1331,13 @@ ggplot(percentage_sedentary_awake_df, aes(x = Category, y = Percentage_Average))
 
 ```
 
+In a representative sample of U.S. adults, over two-thirds spent 6+ hours/day sitting, and more than half did not meet the recommended 150 min/week of physical activity. The study discovered that prolonged sitting for 6+ hours/day was associated with higher body fat percentages. While exceeding 150 min/week of physical activity was linked to lower body fat percentages, achieving recommended activity levels may not fully offset the increased body fat from prolonged sitting. 
+
+Jingwen Liao, Min Hu, Kellie Imm, Clifton J. Holmes, Jie Zhu, Chao Cao, Lin Yang. Association of daily sitting time and leisure-time physical activity with body fat among U.S. adults. Journal of Sport and Health Science, 2022. ISSN 2095-2546. https://doi.org/10.1016/j.jshs.2022.10.001. (https://www.sciencedirect.com/science/article/pii/S2095254622001016)
+
+
 
 ```{r}
-# Example dataframe
-df <- data.frame(sedentary_min_awake = c(200, 300, 400))
-
-# Function to convert minutes to hours and minutes with two digits for minutes
-convert_minutes <- function(minutes) {
-  hours <- minutes %/% 60  # Get the whole number of hours
-  remaining_minutes <- minutes %% 60  # Get the remaining minutes
-
-  formatted_minutes <- sprintf("%02d", remaining_minutes)  # Display minutes with two digits and leading zero if necessary
-
-  return(paste(hours, "hours", formatted_minutes, "minutes", sep = " "))
-}
-
-# Apply conversion to the sedentary_min_awake column
-df$converted_time <- sapply(df$sedentary_min_awake, convert_minutes)
-
-# View the updated dataframe
-print(df)
 
 ```
 
