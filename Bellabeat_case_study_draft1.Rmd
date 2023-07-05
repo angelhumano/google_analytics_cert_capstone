@@ -889,7 +889,7 @@ for (pair in correlated_pairs) {
 
 ### User Behavior for daily activity dataset
 
-#### Total steps
+#### Total steps: Total number of steps taken.
 
 ```{r}
 # Create a boxplot for total_steps
@@ -967,7 +967,7 @@ ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
 ```
 
 
-#### Total Distance 
+#### Total Distance: Total kilometers tracked.
 
 ```{r}
 # Create a boxplot for total_distance
@@ -1039,7 +1039,7 @@ ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
 ```
 
 
-#### Sedentary Minutes
+#### Sedentary Minutes: Total minutes spent in sedentary activity.
 
 ```{r}
 # Create a boxplot for sedentary_minutes
@@ -1331,15 +1331,107 @@ ggplot(percentage_sedentary_awake_df, aes(x = Category, y = Percentage_Average))
 
 ```
 
-In a representative sample of U.S. adults, over two-thirds spent 6+ hours/day sitting, and more than half did not meet the recommended 150 min/week of physical activity. The study discovered that prolonged sitting for 6+ hours/day was associated with higher body fat percentages. While exceeding 150 min/week of physical activity was linked to lower body fat percentages, achieving recommended activity levels may not fully offset the increased body fat from prolonged sitting. 
+In a representative sample of U.S. adults, over two-thirds spent 6 + hours/day sitting, and more than half did not meet the recommended 150 min/week of physical activity. The study discovered that prolonged sitting for 6+ hours/day was associated with higher body fat percentages. While exceeding 150 min/week of physical activity was linked to lower body fat percentages, achieving recommended activity levels may not fully offset the increased body fat from prolonged sitting. 
 
 Jingwen Liao, Min Hu, Kellie Imm, Clifton J. Holmes, Jie Zhu, Chao Cao, Lin Yang. Association of daily sitting time and leisure-time physical activity with body fat among U.S. adults. Journal of Sport and Health Science, 2022. ISSN 2095-2546. https://doi.org/10.1016/j.jshs.2022.10.001. (https://www.sciencedirect.com/science/article/pii/S2095254622001016)
 
 
 
+#### Calories:Total estimated energy expenditure (in kilocalories). 
 ```{r}
+# Create a boxplot for calories
+boxplot(daily_activity_clean$calories, 
+        main = "Boxplot of Calories",
+        ylab = "Calories")
+
+# Calculate the median and standard deviation
+median_value <- median(daily_activity_clean$calories)
+std_dev <- round(sd(daily_activity_clean$calories),2)
+
+# Identify outliers
+outliers <- boxplot.stats(daily_activity_clean$calories)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", median_value, 
+                      "\nStandard Deviation:", std_dev, 
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.85)
 
 ```
+
+
+```{r}
+outliers
+```
+
+```{r}
+# Calories averages by IDs
+calories_df <- daily_activity_clean %>%
+  group_by(id) %>%
+  summarise(average_calories = mean(calories), median_calories = median(calories))
+
+calories_df
+
+```
+
+
+
+
+```{r}
+# Calculate percentages for the average column
+below_1600_avg <- sum(calories_df$average_calories < 1600) / nrow(calories_df) * 100
+between_1600_2200_avg <- sum(calories_df$average_calories >= 1600 & calories_df$average_calories < 2200) / nrow(calories_df) * 100
+between_2200_3000_avg <- sum(calories_df$average_calories >= 2200 & calories_df$average_calories < 3000) / nrow(calories_df) * 100
+at_least_3000_avg <- sum(calories_df$average_calories >= 3000) / nrow(calories_df) * 100
+
+# Calculate percentages for the median column
+below_1600_med <- sum(calories_df$median_calories < 1600) / nrow(calories_df) * 100
+between_1600_2200_med <- sum(calories_df$median_calories >= 1600 & calories_df$median_calories < 2200) / nrow(calories_df) * 100
+between_2200_3000_med <- sum(calories_df$median_calories >= 2200 & calories_df$median_calories < 3000) / nrow(calories_df) * 100
+at_least_3000_med <- sum(calories_df$median_calories >= 3000) / nrow(calories_df) * 100
+
+# Create a data frame for the calories categories
+percentage_calories_df <- data.frame(
+  Category = c("Below 1,600", "Between 1,600 and 2,200", "Between 2,200 and 3,000", "At least 3,000"),
+  Percentage_Average = round(c(below_1600_avg, between_1600_2200_avg, between_2200_3000_avg, at_least_3000_avg)),
+  Percentage_Median = round(c(below_1600_med, between_1600_2200_med, between_2200_3000_med, at_least_3000_med))
+)
+
+# Convert Category to a factor with custom factor levels
+percentage_calories_df$Category <- factor(percentage_calories_df$Category, levels = c("Below 1,600", "Between 1,600 and 2,200", "Between 2,200 and 3,000", "At least 3,000"))
+
+percentage_calories_df
+
+```
+
+
+```{r}
+# Create a bar plot using ggplot
+ggplot(percentage_calories_df, aes(x = Category, y = Percentage_Average)) +
+  geom_bar(stat = "identity", fill = "red") +
+  labs(x = "Calorie Categories", y = "Percentage of Users", 
+       title = "42% of Users Have an Average Daily Calorie Expenditure Between 1,600 and 2,200.",
+       subtitle = "Percentage of users in each calorie category") +
+  geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
+  ylim(0, 100) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), 
+        plot.title = element_text(size = 12), 
+        plot.subtitle = element_text(size = 10))
+
+```
+
+
+"Females ages 19 through 30 require about 1,800 to 2,400 calories a day. Males in this age group have higher calorie needs of about 2,400 to 3,000 a day. Calorie needs for adults ages 31 through 59 are generally lower; most females require about 1,600 to 2,200 calories a day and males require about 2,200 to 3,000 calories a day." 
+
+U.S. Department of Agriculture and U.S. Department of Health and Human Services. Dietary Guidelines for Americans, 2020-2025. 9th Edition. December 2020. Available at DietaryGuidelines.gov/  
+
+
 
 
 
@@ -1349,15 +1441,8 @@ Jingwen Liao, Min Hu, Kellie Imm, Clifton J. Holmes, Jie Zhu, Chao Cao, Lin Yang
 next
 
 
-- Remember convert minutes to hours to improve readeability 
-
-
-Do the same for:
-
-- sedentary minutes
-- calories
-
-- and a stack bar for types of minutes and distance types
+- stack bar for types of minutes and distance types
+- Analyze sleep daily for user behavior
 
 
 
