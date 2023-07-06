@@ -1416,7 +1416,7 @@ ggplot(percentage_calories_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "red") +
   labs(x = "Calorie Categories", y = "Percentage of Users", 
        title = "42% of Users Have an Average Daily Calorie Expenditure Between 1,600 and 2,200.",
-       subtitle = "Percentage of users in each calorie category") +
+       subtitle = "Most females require 1,600 to 2,200 calories per day, as per the Dietary Guidelines for Americans, 2020-2025") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
   ylim(0, 100) +
   theme_minimal() +
@@ -1433,9 +1433,134 @@ U.S. Department of Agriculture and U.S. Department of Health and Human Services.
 
 
 
+#### Intensity Minutes: Time spent in one of four intensity categories.
+
+- VeryActiveMinutes: Total minutes spent in very active activity
+
+- FairlyActiveMinutes: Total minutes spent in moderate activity
+
+- LightlyActiveMinutes: Total minutes spent in light activity
+
+- SedentaryMinutes: Total minutes spent in sedentary activity
 
 
 
+```{r}
+activity_minutes_df <- daily_activity_clean %>%
+  group_by(id) %>%
+  summarise(
+    average_very_active_minutes = mean(very_active_minutes),
+    average_fairly_active_minutes = mean(fairly_active_minutes),
+    average_lightly_active_minutes = mean(lightly_active_minutes),
+    average_sedentary_minutes = mean(sedentary_minutes)
+  )
+
+activity_minutes_df
+
+
+```
+
+
+```{r fig.width=6, fig.height=8}
+
+# Define the custom order of legend items
+custom_order <- c( "Very Active", "Fairly Active", "Lightly Active", "Sedentary")
+
+# Create the stacked bar plot
+ggplot(activity_minutes_df, aes(y = id)) +
+  geom_bar(aes(x = average_sedentary_minutes, fill = "Sedentary"), stat = "identity", width = 0.5) +
+  geom_bar(aes(x = average_lightly_active_minutes, fill = "Lightly Active"), stat = "identity", width = 0.5) +
+  geom_bar(aes(x = average_fairly_active_minutes, fill = "Fairly Active"), stat = "identity", width = 0.5) +
+  geom_bar(aes(x = average_very_active_minutes, fill = "Very Active"), stat = "identity", width = 0.5) +
+  xlab("Minutes") +
+  ylab("ID") +
+  ggtitle("Average Activity Minutes by ID") +
+  scale_fill_manual(name = "", values = c("Very Active" = "red", "Fairly Active" = "orange", "Lightly Active" = "lightgreen", "Sedentary" = "lightblue"), breaks = custom_order) +
+  theme_minimal() +
+  theme(legend.position = "bottom", panel.grid = element_blank()) 
+
+  
+
+
+
+
+
+
+```
+
+
+
+```{r}
+# Calculate the average for each column
+averages <- colMeans(activity_minutes_df[, c("average_very_active_minutes",
+                                             "average_fairly_active_minutes",
+                                             "average_lightly_active_minutes",
+                                             "average_sedentary_minutes")])
+
+# Calculate the total average
+total_average <- sum(averages)
+
+# Calculate the proportions
+proportions <- averages / total_average
+
+# Create the new dataframe with modified row names
+overall_average_df<- data.frame(Average = averages,
+                     Percentage = proportions * 100)
+
+# Modify the row names
+row_names <- c("Very Active", "Fairly Active", "Lightly Active", "Sedentary")
+row.names(overall_average_df) <- row_names
+
+# Print the new dataframe
+overall_average_df
+
+
+```
+
+
+
+
+```{r  fig.width=10, fig.height=4}
+
+ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_average_df), Percentage), fill = row.names(overall_average_df))) +
+  geom_bar(stat = "identity", width = 0.7, show.legend = FALSE) +
+  geom_text(aes(label = paste0(round(Percentage), "%")), hjust = -0.2, color = "black", size = 4) +
+  ylab("Minutes Intensity") +
+  xlab("Percentage") +
+  ggtitle("Stacked Horizontal Bar Chart of Minutes Intensity Percentages") +
+  scale_fill_manual(values = c("Very Active" = "red", "Fairly Active" = "orange", "Lightly Active" = "lightgreen", "Sedentary" = "lightblue")) +
+ scale_x_continuous(labels = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none", panel.grid = element_blank(), axis.text.y = element_text(size = 10))
+
+
+```
+
+
+"Analyzing each individual's average calorie intake can provide insights into their individual dietary habits and patterns. By comparing the individual averages to the overall average, you can identify individuals who consume more or fewer calories compared to the group average. This comparison can help in understanding variations in calorie intake and potential factors influencing individual differences."
+
+
+
+```{r}
+# Define the custom order of legend items
+custom_order <- c("Very Active", "Fairly Active", "Lightly Active", "Sedentary")
+
+# Create a new dataframe with modified row names
+overall_average_df <- data.frame(Minutes_Intensity = row.names(overall_average_df),
+                                 Percentage = overall_average_df$Percentage)
+
+# Create the stacked horizontal bar chart
+ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(Minutes_Intensity, levels = custom_order))) +
+  geom_bar(stat = "identity", width = 0.7) +
+  xlab("Percentage") +
+  ylab("") +
+  ggtitle("Stacked Horizontal Bar Chart of Minutes Intensity Percentages") +
+  scale_fill_manual(name = "Minutes Intensity", values = c("Very Active" = "red", "Fairly Active" = "orange", "Lightly Active" = "lightgreen", "Sedentary" = "lightblue"), breaks = custom_order) +
+  theme_minimal() +
+  theme(legend.position = "bottom", panel.grid = element_blank())
+
+
+```
 
 
 next
