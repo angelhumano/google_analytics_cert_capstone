@@ -1520,6 +1520,7 @@ overall_average_df
 
 
 
+
 ```{r  fig.width=10, fig.height=4}
 
 ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_average_df), Percentage), fill = row.names(overall_average_df))) +
@@ -1527,7 +1528,7 @@ ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_ave
   geom_text(aes(label = paste0(round(Percentage), "%")), hjust = -0.2, color = "black", size = 4) +
   ylab("Minutes Intensity") +
   xlab("Percentage") +
-  ggtitle("Stacked Horizontal Bar Chart of Minutes Intensity Percentages") +
+  ggtitle("Users' Overall Average Intensity Minutes Consist Primarily of Sedentary and Lightly Active Time") +
   scale_fill_manual(values = c("Very Active" = "red", "Fairly Active" = "orange", "Lightly Active" = "lightgreen", "Sedentary" = "lightblue")) +
  scale_x_continuous(labels = NULL) +
   theme_minimal() +
@@ -1541,23 +1542,39 @@ ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_ave
 
 
 
-```{r}
+
+
+
+```{r fig.width=7, fig.height=3}
 # Define the custom order of legend items
+
 custom_order <- c("Very Active", "Fairly Active", "Lightly Active", "Sedentary")
 
-# Create a new dataframe with modified row names
-overall_average_df <- data.frame(Minutes_Intensity = row.names(overall_average_df),
-                                 Percentage = overall_average_df$Percentage)
 
 # Create the stacked horizontal bar chart
 ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(Minutes_Intensity, levels = custom_order))) +
   geom_bar(stat = "identity", width = 0.7) +
   xlab("Percentage") +
   ylab("") +
-  ggtitle("Stacked Horizontal Bar Chart of Minutes Intensity Percentages") +
-  scale_fill_manual(name = "Minutes Intensity", values = c("Very Active" = "red", "Fairly Active" = "orange", "Lightly Active" = "lightgreen", "Sedentary" = "lightblue"), breaks = custom_order) +
+  ggtitle("Users' Overall Average Intensity Minutes Consist Primarily of Sedentary and Lightly Active Time") +
+  scale_fill_manual(
+    name = "",
+    values = c(
+      "Very Active" = "red",
+      "Fairly Active" = "orange",
+      "Lightly Active" = "lightgreen",
+      "Sedentary" = "lightblue"
+    ),
+    breaks = custom_order
+  ) +
+  guides(fill = guide_legend(reverse = TRUE)) +  # Reverse the order of the legend
   theme_minimal() +
-  theme(legend.position = "bottom", panel.grid = element_blank())
+  theme(legend.position = "top", 
+        panel.grid = element_blank(),
+         axis.text.y = element_blank(),  # Remove the y-axis text
+         plot.title = element_text(size = 12, margin = margin(b = 20))) + # Adjust the title size and margin
+  geom_vline(xintercept = 97, color = "black", linetype = "dashed") +
+  annotate("text", x = 97, y = 1, label = "   97%", vjust = -5.5, hjust = 0.1)
 
 
 ```
