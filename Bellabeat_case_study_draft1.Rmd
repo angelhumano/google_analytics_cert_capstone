@@ -1580,64 +1580,54 @@ ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(Minu
 ```
 
 
-next
+These indicators provide insights into activity levels, sedentary behavior, and calorie burn. They can help track progress, set goals, and evaluate user behavior over time. Remember to consider the specific context and goals of your analysis to select and customize the most relevant KPIs for your use case. The context I will use is the guidelines for physical activity and diet for Americans:
 
-
-- stack bar for types of minutes and distance types
-- Analyze sleep daily for user behavior
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-daily 
-
-
-
-Average daily distance of the users: Calculate the mean of the total_distance variable across all IDs.
-Percentage of IDs that achieved >10000 steps: Count the number of IDs that have total_steps greater than 10000, divide it by the total number of IDs, and multiply by 100.
-
-Percentage of IDs above average distance: Count the number of IDs that have total_distance greater than the average distance, divide it by the total number of IDs, and multiply by 100.
-
-Percentage of IDs below average distance: Count the number of IDs that have total_distance less than the average distance, divide it by the total number of IDs, and multiply by 100.
-
-
-Average Daily Steps: Calculate the average number of steps taken per day by dividing the total_steps by the number of activity dates.
-
-Average Daily Distance: Calculate the average distance covered per day by dividing the total_distance by the number of activity dates.
-
-Average Daily Active Minutes: Calculate the average total active minutes per day by summing up very_active_minutes, fairly_active_minutes, and lightly_active_minutes, and dividing the result by the number of activity dates.
-
-Sedentary Time Percentage: Calculate the percentage of time spent in sedentary activities by dividing sedentary_minutes by the sum of sedentary_minutes, very_active_minutes, fairly_active_minutes, and lightly_active_minutes, and multiplying the result by 100.
-
-Very Active Time Percentage: Calculate the percentage of time spent in very active activities by dividing very_active_minutes by the sum of very_active_minutes, fairly_active_minutes, and lightly_active_minutes, and multiplying the result by 100.
-
-Distance Ratio: Calculate the ratio of total_distance to tracker_distance to assess the accuracy of the distance tracked by the device.
-
-Logged Activities Ratio: Calculate the ratio of logged_activities_distance to total_distance to evaluate the proportion of distance covered through logged activities.
-
-Average Calorie Burn: Calculate the average calories burned per day by dividing the total calories by the number of activity dates.
-
-These indicators provide insights into activity levels, sedentary behavior, accuracy of distance tracking, and calorie burn. They can help track progress, set goals, and evaluate user behavior over time. Remember to consider the specific context and goals of your analysis to select and customize the most relevant KPIs for your use case.
-
-##  EDA for hourly_activity_clean
-
-
+- U.S. Department of Health and Human Services. (2019). Physical Activity Guidelines for Americans (2nd ed.). Available at https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf  
+- U.S. Department of Agriculture and U.S. Department of Health and Human Services. Dietary Guidelines for Americans, 2020-2025. 9th Edition. December 2020. Available at DietaryGuidelines.gov/  
 
 
 ##  EDA for daily_sleep_clean
 
+```{r}
+str(daily_sleep_clean)
+```
+- activity_date (sleep_day): Date on which the sleep event started.
+- total_sleep_records: Number of recorded sleep periods for that day. Includes naps > 60min
+- total_minutes_asleep: Total number of minutes classified as being “asleep”.
+- total_time_in_bed: Total minutes spent in bed, including asleep, restless, and awake, that occurred during a defined sleep record.
 
+
+
+```{r}
+#Sanity check: Verify that the value of total_time_in_bed is greater than total_minutes_asleep, as we would expect.
+daily_sleep_clean[daily_sleep_clean$total_time_in_bed < daily_sleep_clean$total_minutes_asleep,]
+```
+
+
+
+To analyze sleep user behavior in the provided dataset, you can consider the following key performance indicators (KPIs):
+
+1. Sleep Efficiency: Calculate the percentage of time users spend asleep compared to the total time in bed. This can be computed as `(total_sleep_records_asleep / total_time_in_bed) * 100`. Higher sleep efficiency indicates more consolidated and restful sleep.
+
+2. Average Sleep Duration: Calculate the average duration of sleep for each user by dividing the total sleep records asleep by the total number of sleep records. This provides an indication of the typical length of sleep sessions.
+
+3. Sleep Quality: Assess sleep quality by considering factors such as wakefulness during the night, sleep disturbances, or the number of awakenings. You can evaluate sleep quality by examining patterns in the sleep records, identifying disruptions, or using subjective ratings if available.
+
+4. Sleep Latency: Measure the time it takes for users to fall asleep after getting into bed. This can be calculated as the average time from going to bed to the onset of sleep.
+
+5. Sleep Consistency: Analyze the consistency of sleep patterns by examining the regularity of sleep duration and bedtime. Irregular sleep patterns may indicate disrupted or inconsistent sleep routines.
+
+6. Sleep Architecture: Assess the distribution of sleep stages, such as deep sleep, light sleep, and REM sleep. This analysis requires additional sleep stage data beyond the variables provided in the dataset.
+
+7. Sleep Variability: Analyze the variation in sleep duration and bedtime across different days or weeks. Higher variability may indicate irregular sleep patterns or disrupted sleep schedules.
+
+These KPIs can provide insights into sleep behavior and patterns, helping to identify areas for improvement or potential sleep issues. Remember to consider the limitations of the dataset and the specific context of the sleep data being analyzed.
+
+
+##  EDA for hourly_activity_clean
+
+
+##  EDA for seconds_heartrate_clean
 
 ##  EDA for weight_logs_clean
 - Weight Reporting Behavior: Assess the reporting behavior of users using the IsManualReport variable. Calculate the percentage of manual weight reports compared to total weight reports to determine how actively users are providing weight updates. This can indicate user engagement and motivation to track their weight.
@@ -1648,8 +1638,6 @@ These indicators provide insights into activity levels, sedentary behavior, accu
 
 - Weight Trends: Analyze the trends in weight over time (Date) to understand if users are experiencing weight loss, gain, or stability. Plotting weight (WeightKg or WeightPounds) against time can reveal patterns, fluctuations, or significant changes in weight. You can also calculate descriptive statistics such as average weight, standard deviation, or rate of weight change to gain insights into user behavior.
 
-
-##  EDA for seconds_heartrate_clean
 
 
 # Insights and recommendations
@@ -1671,12 +1659,6 @@ https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-a
 
 
 https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot
-
-
-
-
-
-
 
 
 
