@@ -634,7 +634,7 @@ for (i in col_names) {
         size = 1
       ) +
       xlab(i) + ylab("Count") +
-      ggtitle(paste("Histogram with Density of", i))
+      ggtitle(paste("Histogram and Density Plot of", i))
   ))
 }
 
@@ -1521,6 +1521,8 @@ overall_average_df
 
 
 
+
+
 ```{r  fig.width=10, fig.height=4}
 
 ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_average_df), Percentage), fill = row.names(overall_average_df))) +
@@ -1552,7 +1554,7 @@ custom_order <- c("Very Active", "Fairly Active", "Lightly Active", "Sedentary")
 
 
 # Create the stacked horizontal bar chart
-ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(Minutes_Intensity, levels = custom_order))) +
+ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(row.names(overall_average_df), levels = custom_order))) +
   geom_bar(stat = "identity", width = 0.7) +
   xlab("Percentage") +
   ylab("") +
@@ -1592,7 +1594,7 @@ These indicators provide insights into activity levels, sedentary behavior, and 
 str(daily_sleep_clean)
 ```
 - activity_date (sleep_day): Date on which the sleep event started.
-- total_sleep_records: Number of recorded sleep periods for that day. Includes naps > 60min
+- total_sleep_records: Number of recorded sleep periods for that day. Includes naps > 60 min.
 - total_minutes_asleep: Total number of minutes classified as being “asleep”.
 - total_time_in_bed: Total minutes spent in bed, including asleep, restless, and awake, that occurred during a defined sleep record.
 
@@ -1602,6 +1604,97 @@ str(daily_sleep_clean)
 #Sanity check: Verify that the value of total_time_in_bed is greater than total_minutes_asleep, as we would expect.
 daily_sleep_clean[daily_sleep_clean$total_time_in_bed < daily_sleep_clean$total_minutes_asleep,]
 ```
+### Univariate analysis
+
+
+```{r fig.align='center'}
+
+numerical_cols <- daily_sleep_clean%>%
+  select_if(is.numeric)
+
+# plotting all numerical variables
+col_names <- colnames(numerical_cols )
+for (i in col_names) {
+  suppressWarnings(print(
+    ggplot(numerical_cols , aes(numerical_cols [[i]])) +
+      geom_histogram(
+        bins = 30,
+        color = "black",
+        fill = "gray",
+        aes(y = ..density..)
+      ) +
+      geom_density(
+        color = "blue",
+        size = 1
+      ) +
+      xlab(i) + ylab("Count") +
+      ggtitle(paste("Histogram with Density Plot of", i))
+  ))
+}
+```
+```{r}
+
+#library(scales)
+frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
+frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
+
+ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = paste(Freq, " (", percent(Percentage / 100), ")", sep = "")),
+            hjust = 0.5,  vjust = -0.4, color = "black") +
+  labs(x = "Total Sleep Records", y = "Frequency",
+       title = "Uncommon Napping: 89% of Sleep Records Indicate a Singular Sleep Period.",
+       subtitle = "Includes naps > 60 min.")+
+  theme_minimal() +
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(size = 12),
+        plot.subtitle = element_text(size = 10, margin = margin(b = 20)))
+
+
+
+
+
+```
+
+### Bivariate analysis
+
+
+#### Correlation between numerical variables
+
+
+```{r }
+# Correlation between numerical variables
+corr <- cor(select_if(daily_sleep_clean, is.numeric))
+
+ggcorrplot(corr,
+           hc.order = TRUE,
+           type = "lower",
+           lab = TRUE,
+           colors = c("firebrick", "white", "royalblue"),
+           lab_size = 4,
+           lab_col = "black",
+           title = "Correlation Between Numerical Variables")
+
+
+```
+
+#### Scatterplots of total_minutes_asleep vs total_time_in_bed
+
+```{r}
+
+ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in_bed)) +
+  geom_point()
+
+```
+
+
+
+next:
+do same as I did for steps for minutes as_sleep
+
+
+
+
 
 
 
