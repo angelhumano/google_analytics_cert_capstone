@@ -922,7 +922,7 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
 # Steps averages by IDs
 steps_df <- daily_activity_clean %>%
   group_by(id) %>%
-  summarise(average_steps = mean(total_steps), median_steps =median(total_steps))
+  summarise(average_steps = mean(total_steps), median_steps =median(total_steps), n = n())
 
 steps_df
 ```
@@ -1001,7 +1001,7 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n")
 # Total distance by IDs
 t_distance_df <- daily_activity_clean %>%
   group_by(id) %>%
-  summarise(average_t_distance = mean(total_distance ), median_t_distance =median(total_distance ))
+  summarise(average_t_distance = mean(total_distance ), median_t_distance =median(total_distance), n = n())
 
 t_distance_df
 ```
@@ -1284,7 +1284,7 @@ Observation: By eliminating negative values from "sedentary_min_awake," the resu
 t_sedentary_df <- clean_subset %>%
   group_by(id) %>%
   summarise(average_sedentary_min_awake = mean(sedentary_min_awake),
-            median_sedentary_min_awake = median(sedentary_min_awake))
+            median_sedentary_min_awake = median(sedentary_min_awake), n = n())
 
 t_sedentary_df
 
@@ -1632,29 +1632,7 @@ for (i in col_names) {
   ))
 }
 ```
-```{r}
 
-#library(scales)
-frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
-frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
-
-ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  geom_text(aes(label = paste(Freq, " (", percent(Percentage / 100), ")", sep = "")),
-            hjust = 0.5,  vjust = -0.4, color = "black") +
-  labs(x = "Total Sleep Records", y = "Frequency",
-       title = "Uncommon Napping: 89% of Sleep Records Indicate a Singular Sleep Period.",
-       subtitle = "Includes naps > 60 min.")+
-  theme_minimal() +
-  theme(panel.grid = element_blank(),
-        plot.title = element_text(size = 12),
-        plot.subtitle = element_text(size = 10, margin = margin(b = 20)))
-
-
-
-
-
-```
 
 ### Bivariate analysis
 
@@ -1687,13 +1665,159 @@ ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in
 
 ```
 
+### User Behavior for daily sleep dataset
+
+
+```{r}
+
+#library(scales)
+frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
+frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
+
+ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = paste(Freq, " (", percent(Percentage / 100), ")", sep = "")),
+            hjust = 0.5,  vjust = -0.4, color = "black") +
+  labs(x = "Total Sleep Records", y = "Frequency",
+       title = "Uncommon Napping: 89% of Sleep Records Indicate a Singular Sleep Period.",
+       subtitle = "Includes naps > 60 min.")+
+  theme_minimal() +
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(size = 12),
+        plot.subtitle = element_text(size = 10, margin = margin(b = 20)))
+
+
+
+```
+
+
+#### Total Minutes Asleep
+
+```{r}
+# Create a boxplot for total_minutes_asleep
+boxplot(daily_sleep_clean$total_minutes_asleep, 
+        main = "Boxplot of Total Minutes Asleep",
+        ylab = "Total Minutes Asleep")
+
+# Calculate the median and standard deviation
+median_value <- median(daily_sleep_clean$total_minutes_asleep)
+std_dev <- round(sd(daily_sleep_clean$total_minutes_asleep), 2)
+
+# Identify outliers
+outliers <- boxplot.stats(daily_sleep_clean$total_minutes_asleep)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", median_value, 
+                      "\nStandard Deviation:", std_dev, 
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.85)
+
+```
+```{r}
+# Sleep duration averages by IDs with standard deviation and count (n)
+sleep_df <- daily_sleep_clean %>%
+  group_by(id) %>%
+  summarise(average_sleep_minutes = mean(total_minutes_asleep),
+            standard_deviation_sleep_minutes = sd(total_minutes_asleep),
+            n = n())
+
+sleep_df
+
+
+
+```
+
+```{r}
+# Drop ID "2320127002" due to insufficient data for computing mean and standard deviation.
+sleep_df <- sleep_df %>% 
+filter(id != "2320127002")
+```
+
+
+
+```{r}
+sleep_df 
+```
+
+
+```{r}
+# Calculate percentages for the average column
+below_6_hours <- sum(sleep_df$average_sleep_minutes < 360) / nrow(sleep_df) * 100
+between_6_7_hours <- sum(sleep_df$average_sleep_minutes >= 360 & sleep_df$average_sleep_minutes < 420) / nrow(sleep_df) * 100
+at_least_7_hours <- sum(sleep_df$average_sleep_minutes >= 420) / nrow(sleep_df) * 100
+
+# Create a data frame for the sleep duration categories
+percentage_sleep_df <- data.frame(
+  Category = c("Below 6 hours", "Between 6 and 7 hours", "At least 7 hours"),
+  Percentage_Average = round(c(below_6_hours, between_6_7_hours, at_least_7_hours))
+)
+
+# Convert Category to a factor with custom factor levels
+percentage_sleep_df$Category <- factor(percentage_sleep_df$Category, levels = c("Below 6 hours", "Between 6 and 7 hours", "At least 7 hours"))
+
+percentage_sleep_df
+```
+
+```{r}
+
+
+ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
+  geom_bar(stat = "identity", fill = "purple") +
+  labs(x = "Average Sleep Duration", y = "Percentage of Users", 
+       title = "52% of Users Get Less Than 7 Hours of Sleep on Average Daily") +
+  geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
+  ylim(0, 100) +
+  theme_minimal() +
+  theme(panel.grid = element_blank(), plot.title = element_text(size = 12), plot.subtitle = element_text(size = 10))
+
+```
+
+# I need to create categories for variability
+
+
+
+
+```{r}
+# Option 2: Bar Plot with Error Bars
+ggplot(sleep_df, aes(x = id, y = average_sleep_minutes)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  geom_errorbar(aes(ymin = average_sleep_minutes - standard_deviation_sleep_minutes,
+                    ymax = average_sleep_minutes + standard_deviation_sleep_minutes),
+                width = 0.2, position = position_dodge(0.9), color = "black") +
+  labs(x = "ID", y = "Average Sleep Duration (minutes)",
+       title = "Sleep Consistency: Average Sleep Duration with Error Bars",
+       subtitle = "Error bars represent the standard deviation around the mean.") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+
+
 
 
 next:
+
+# I need to create categories for variability
+Create a sleep consistency score that combines factors like regularity of sleep duration and bedtime to get an overall measure of sleep pattern consistency.
+
+ Step 5: Create a sleep consistency score
+ You can define your own formula based on various factors like regularity of sleep duration, bedtime, etc.
+For example, you could use a weighted average of standard deviation, correlation, and other metrics.
+
+
 do same as I did for steps for minutes as_sleep
 
 
-
+Adult	18-60 years	7 or more hours per night
+ check for sleeo consistency
+Be consistent. Go to bed at the same time each night and get up at the same time each morning, including on the weekends.
 
 
 
