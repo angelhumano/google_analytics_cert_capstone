@@ -1777,25 +1777,163 @@ ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
 
 ```
 
-# I need to create categories for variability
 
 
 
 
 ```{r}
-# Option 2: Bar Plot with Error Bars
-ggplot(sleep_df, aes(x = id, y = average_sleep_minutes)) +
+#Error bars
+
+# Convert average_sleep_minutes and standard_deviation_sleep_minutes to hours
+sleep_df$average_sleep_hours <- sleep_df$average_sleep_minutes / 60
+sleep_df$standard_deviation_sleep_hours <- sleep_df$standard_deviation_sleep_minutes / 60
+
+
+# Create a bar plot for each 'id' with error bars representing standard deviation
+ggplot(sleep_df, aes(x = id, y = average_sleep_hours)) +
   geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-  geom_errorbar(aes(ymin = average_sleep_minutes - standard_deviation_sleep_minutes,
-                    ymax = average_sleep_minutes + standard_deviation_sleep_minutes),
+  geom_errorbar(aes(ymin = average_sleep_hours - standard_deviation_sleep_minutes / 60,
+                    ymax = average_sleep_hours + standard_deviation_sleep_minutes / 60),
                 width = 0.2, position = position_dodge(0.9), color = "black") +
-  labs(x = "ID", y = "Average Sleep Duration (minutes)",
+  labs(x = "ID", y = "Average Sleep Duration (hours)",
        title = "Sleep Consistency: Average Sleep Duration with Error Bars",
        subtitle = "Error bars represent the standard deviation around the mean.") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_hline(yintercept = 7, linetype = "dashed", color = "red") +
+  scale_y_continuous(breaks = seq(0, 12, 1))  # Adjust the range as needed
 
 ```
+
+```{r}
+sleep_df
+```
+
+
+```{r}
+
+
+
+# Step 1: Define the Threshold (e.g., using the 75th percentile)
+threshold <- quantile(sleep_df$standard_deviation_sleep_hours, 0.75)
+
+# Step 2: Filter the Data for Irregular Sleepers
+irregular_sleepers <- sleep_df[sleep_df$standard_deviation_sleep_hours > threshold, ]
+
+# Step 3: Analyze the Irregular Sleepers
+summary(irregular_sleepers$standard_deviation_sleep_hours)  # Summary statistics for the standard deviation of irregular sleepers
+# You can also plot histograms, box plots, or any other visualization to further analyze the sleep patterns of irregular sleepers.
+
+
+```
+
+
+
+```{r}
+irregular_sleepers 
+```
+
+
+do next: I want to get a sense of sleep consistency for the users. Give 1o best idea to do this 
+
+
+
+
+
+Step 5: Create a sleep consistency score
+ You can define your own formula based on various factors like regularity of sleep duration, bedtime, etc.
+For example, you could use a weighted average of standard deviation, correlation, and other metrics.
+
+
+
+Ideas to consider:
+
+- Correlation Analysis: Calculate the correlation between 'average_sleep_hours' and 'standard_deviation_sleep_hours' to see if there is any relationship between the average sleep duration and its consistency.
+
+- Sleep Consistency Index: Create a custom metric that combines both average sleep duration and standard deviation to create a Sleep Consistency Index for each user.
+
+- Group Comparison: Compare sleep consistency metrics between different groups (e.g., previous groups, users or different age groups) to identify potential differences.
+
+- Relationship with Average Sleep Duration: Explore how 'standard_deviation_sleep_hours' relates to 'average_sleep_hours.' Users with higher standard deviations and shorter average sleep durations might be experiencing more disrupted sleep.
+
+- Identify Irregular Sleepers: Users with higher values of 'standard_deviation_sleep_hours' likely have more irregular sleep patterns, which may be indicative of possible sleep disturbances or lifestyle factors affecting their sleep consistency.
+
+Percentiles: You can choose a specific percentile of the 'standard_deviation_sleep_hours' distribution as a threshold. For example, you can select the 75th percentile (as mentioned previously) to identify the top 25% of users with the highest variability.
+
+Z-Scores: You can standardize the 'standard_deviation_sleep_hours' using Z-scores and then choose a Z-score threshold to classify irregular sleepers. A Z-score greater than a certain value (e.g., Z-score > 1 or Z-score > 2) could be considered irregular.
+
+Expert Knowledge: If you have domain-specific knowledge or medical guidelines, you might set a threshold based on what is considered clinically significant for sleep variability.
+
+Data-Driven Approach: Alternatively, you can use clustering or machine learning techniques to group users based on sleep patterns and identify clusters that exhibit higher variability.
+
+The most appropriate threshold depends on the goals of your analysis and the specific questions you want to answer. You may also need to consider factors such as sample size, distribution characteristics, and the context of the data.
+
+Once you have chosen a threshold, you can use it to create a subset of irregular sleepers and analyze their sleep patterns separately. Remember that selecting the threshold requires careful consideration and validation to ensure it aligns with the objectives of your study and provides meaningful insights into sleep consistency.
+
+
+
+
+
+
+- The mean of 'standard_deviation_sleep_hours' can provide valuable insights into the sleep consistency of the users in the dataset. Here's what the mean of the standard deviation can tell you about the users:
+
+Average Sleep Variability: The mean of 'standard_deviation_sleep_hours' gives you an average measure of how much the users' sleep durations vary from their respective average sleep duration. A higher mean standard deviation implies more inconsistency in sleep patterns among users.
+
+Sleep Schedule Stability: Users with a higher mean standard deviation may have irregular sleep schedules, with varying sleep durations on different days, indicating potential issues with sleep consistency.
+
+Sleep Quality: In some cases, a higher mean standard deviation might indicate poor sleep quality, as unstable or fragmented sleep patterns can lead to less restorative sleep.
+
+Sleep Regularity: A lower mean standard deviation generally suggests that users have more consistent sleep patterns and adhere to a more regular sleep schedule.
+
+Health Indicators: Sleep consistency can be linked to overall health and well-being. Users with a lower mean standard deviation might experience better health outcomes, as consistent sleep is associated with improved physical and mental health.
+
+Potential Sleep Disorders: Users with high standard deviation values may have erratic sleep patterns, which could be indicative of sleep disorders or disturbances that require further investigation.
+
+Sleep Habits: Understanding the mean standard deviation can offer insights into sleep habits and behaviors. For example, users with high variability might have irregular bedtime routines or frequent disruptions during sleep.
+
+Stress Levels: Inconsistent sleep patterns can be associated with higher stress levels, so a higher mean standard deviation might hint at increased stress or anxiety levels among some users.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+
+# # Assuming sleep_df contains 'id', 'average_sleep_minutes', and 'standard_deviation_sleep_minutes'
+# 
+# # Calculate confidence intervals
+# sleep_df <- transform(sleep_df, 
+#                       lower_ci = average_sleep_minutes - 1.96 * standard_deviation_sleep_minutes / sqrt(n),
+#                       upper_ci = average_sleep_minutes + 1.96 * standard_deviation_sleep_minutes / sqrt(n))
+# 
+# # Plot the bar plot with confidence intervals
+# ggplot(sleep_df, aes(x = id, y = average_sleep_minutes)) +
+#   geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+#   geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci),
+#                 width = 0.2, position = position_dodge(0.9), color = "black") +
+#   labs(x = "ID", y = "Average Sleep Duration (minutes)",
+#        title = "Sleep Consistency: Average Sleep Duration with Confidence Intervals",
+#        subtitle = "Error bars represent the 95% confidence intervals around the mean.") +
+#   theme_minimal() +
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+
+
+
 
 
 
@@ -1915,3 +2053,5 @@ https://blog.minitab.com/en/3-things-a-histogram-can-tell-you
 Categorical, ordinal, interval, and ratio variables : https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm
 
 Add density line to histogram: https://r-coder.com/density-plot-r
+
+- Error bars vs CI: https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html
