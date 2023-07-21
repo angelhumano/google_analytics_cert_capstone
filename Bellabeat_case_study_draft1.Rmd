@@ -1779,8 +1779,7 @@ ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
 
 
 
-
-
+#### Sleep Duration Consistency
 ```{r}
 #Error bars
 
@@ -1811,27 +1810,199 @@ sleep_df
 
 
 ```{r}
+#Let us divide the users into irregular sleepers and regular sleepers. We will use the 75th percentile as the threshold to determine irregular sleepers. The rest will be considered regular sleepers.
 
 
-
-# Step 1: Define the Threshold (e.g., using the 75th percentile)
+# Define the Threshold (e.g., using the 75th percentile)
 threshold <- quantile(sleep_df$standard_deviation_sleep_hours, 0.75)
 
-# Step 2: Filter the Data for Irregular Sleepers
+# Filter the Data for Irregular Sleepers
 irregular_sleepers <- sleep_df[sleep_df$standard_deviation_sleep_hours > threshold, ]
 
-# Step 3: Analyze the Irregular Sleepers
-summary(irregular_sleepers$standard_deviation_sleep_hours)  # Summary statistics for the standard deviation of irregular sleepers
-# You can also plot histograms, box plots, or any other visualization to further analyze the sleep patterns of irregular sleepers.
+# Filter the Data for Regular Sleepers
+regular_sleepers <- sleep_df[!(sleep_df$standard_deviation_sleep_hours > threshold), ]
 
 
+
+
+
+```
+
+```{r warning=FALSE}
+
+# Combine the irregular and regular sleepers into a single data frame for plotting
+combined_data <- rbind(transform(irregular_sleepers, Group = "Irregular"),
+                       transform(regular_sleepers, Group = "Regular"))
+
+# Create the violin plot
+ggplot(combined_data, aes(x = Group, y = average_sleep_hours, fill = Group)) +
+  geom_boxplot(scale = "width", draw_quantiles = c(0.25, 0.5, 0.75), trim = FALSE) +
+  labs(x = "Sleep Group", y = "Average Sleep Hours", title = "Comparison of Average Sleep Hours between Irregular and Regular Sleepers") +
+  scale_fill_manual(values = c("red", "blue")) +
+  theme_minimal()
+
+```
+
+
+
+
+
+
+```{r}
+# Calculate the upper and lower bounds for outliers to remove them from regular sleepers
+outlier_bounds <- boxplot.stats(combined_data$average_sleep_hours)$out
+
+# Filter out the outliers
+filtered_data <- combined_data[!(combined_data$average_sleep_hours %in% outlier_bounds), ]
+
+
+# Create the violin plot
+ggplot(filtered_data , aes(x = Group, y = average_sleep_hours, fill = Group)) +
+  geom_violin(scale = "width", draw_quantiles = c(0.25, 0.5, 0.75), trim = FALSE) +
+  geom_boxplot(width = 0.1, fill = "white", color = "black", outlier.shape = NA) +
+  labs(x = "Sleep Group", y = "Average Sleep Hours", title = "Comparison of Average Sleep Hours Between Irregular and Regular Sleepers") +
+  scale_fill_manual(values = c("red", "blue")) +
+  theme_minimal()
+
+
+```
+
+
+```{r}
+# Create the violin plot
+ggplot(filtered_data , aes(x = Group, y = standard_deviation_sleep_hours, fill = Group)) +
+  geom_violin(scale = "width", draw_quantiles = c(0.25, 0.5, 0.75), trim = FALSE) +
+  geom_boxplot(width = 0.1, fill = "white", color = "black", outlier.shape = NA) +
+  labs(x = "Sleep Group", y = "Standard Deviation Sleep Hours", title = "Comparison of SD Sleep Hours between Irregular and Regular Sleepers") +
+  scale_fill_manual(values = c("red", "blue")) +
+  theme_minimal()
+```
+
+
+```{r}
+# Define the weights for average sleep duration and standard deviation (you can adjust these based on your preferences)
+weight_average_sleep_hours <- 0.7
+weight_standard_deviation <- 0.3
+
+# Calculate the Sleep Consistency Index
+sleepdf$Sleep_Consistency_Index <- (weight_average_sleep_hours * sleepdf$average_sleep_hours) +
+                                  (weight_standard_deviation * (1 / sleepdf$standard_deviation_sleep_hours))
+
+# Print the Sleep Consistency Index for each user
+print(sleepdf$Sleep_Consistency_Index)
+
+```
+
+
+
+
+
+```{r}
+filtered_data
+```
+
+next: Redo 
+
+##working here
+
+```{r}
+# Calculate sleep duration averages and standard deviations in hours
+sleep_df <- daily_sleep_clean %>%
+  group_by(id) %>%
+  summarise(n = n(),
+            average_sleep_hours = mean(total_minutes_asleep) / 60,       # Convert minutes to hours
+            average_time_in_bed_hours = mean(total_time_in_bed) / 60,   
+            standard_deviation_sleep_hours = sd(total_minutes_asleep) / 60,     
+            standard_deviation_time_in_bed_hours = sd(total_time_in_bed) / 60,    
+           ) %>%
+  mutate(time_difference_hours = average_time_in_bed_hours - average_sleep_hours,  # Calculate the time difference in hours
+         awake_in_bed = time_difference_hours)  # Rename column "awake_in_bed"
+
+sleep_df
+
+
+```
+
+
+```{r}
+# Drop ID "2320127002" due to insufficient data for computing mean and standard deviation.
+sleep_df <- sleep_df %>% 
+filter(id != "2320127002")
+dim(sleep_df)
 ```
 
 
 
 ```{r}
-irregular_sleepers 
+# Create a boxplot for average_sleep_hours
+boxplot(sleep_df$average_sleep_hours,
+        main = "Boxplot of Average Sleep Hours",
+        ylab = "Average Sleep Hours")
+
+# Calculate the median and standard deviation
+median_value <- median(sleep_df$average_sleep_hours)
+std_dev <- round(sd(sleep_df$average_sleep_hours), 2)
+
+# Identify outliers
+outliers <- boxplot.stats(sleep_df$average_sleep_hours)$out
+
+# Count the number of outliers
+num_outliers <- length(outliers)
+
+# Create the legend label with median, standard deviation, and outlier count
+legend_label <- paste("Median:", median_value,
+                      "\nStandard Deviation:", std_dev,
+                      "\nOutliers:", num_outliers)
+
+# Add the legend with median, standard deviation, and outlier count
+legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.85)
+
 ```
+
+#next: understand this function 
+
+
+```{r}
+# Function to create boxplot and add legend
+create_boxplot_and_legend <- function(column_name) {
+  boxplot(sleep_df[[column_name]],
+          main = paste("Boxplot of", column_name),
+          ylab = column_name)
+  
+  median_value <- median(sleep_df[[column_name]])
+  std_dev <- round(sd(sleep_df[[column_name]]), 2)
+  outliers <- boxplot.stats(sleep_df[[column_name]])$out
+  num_outliers <- length(outliers)
+  
+  legend_label <- paste("Median:", median_value,
+                        "\nStandard Deviation:", std_dev,
+                        "\nOutliers:", num_outliers)
+  
+  legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.85)
+}
+
+# Columns to loop through
+columns_to_analyze <- c("average_sleep_hours", "awake_in_bed")
+
+# Loop through the columns and create boxplots with legends
+for (col in columns_to_analyze) {
+  create_boxplot_and_legend(col)
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 do next: I want to get a sense of sleep consistency for the users. Give 1o best idea to do this 
@@ -1840,9 +2011,10 @@ do next: I want to get a sense of sleep consistency for the users. Give 1o best 
 
 
 
-Step 5: Create a sleep consistency score
- You can define your own formula based on various factors like regularity of sleep duration, bedtime, etc.
-For example, you could use a weighted average of standard deviation, correlation, and other metrics.
+
+
+
+
 
 
 
