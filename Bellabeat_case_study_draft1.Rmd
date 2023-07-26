@@ -14,13 +14,12 @@ output:
 
 # Import libraries 
 ```{r warning=FALSE, message=FALSE}
-library(tidyverse)
-library(caret)
-library(skimr)
-library(janitor)
-library(lubridate) # working with dates
-library(RColorBrewer) # color palette
-library(ggcorrplot) # Visualization of a correlation matrix using ggplot2
+library(tidyverse) # includes ggplot2
+library(skimr) #  provides a compact and informative summary of your data frame or dataset
+library(janitor) # set of utility functions for data cleaning and data frame tidying tasks
+library(RColorBrewer) # Color palettes for data visualization
+library(ggcorrplot) # Visualize correlation matrices using ggplot2
+library(scales) # formatting and transforming data for visualizations
 
 
 # display.brewer.all(colorblindFriendly = TRUE)
@@ -34,47 +33,47 @@ library(ggcorrplot) # Visualization of a correlation matrix using ggplot2
 rm(list = ls())
 
 daily_activity <-
-  read_csv("dailyActivity_merged.csv",
+  read_csv("original_data/dailyActivity_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 
-daily_sleep <- read_csv("sleepDay_merged.csv",
+daily_sleep <- read_csv("original_data/sleepDay_merged.csv",
   trim_ws = TRUE,
   show_col_types = FALSE
 )
 
 hourly_calories <-
-  read_csv("hourlyCalories_merged.csv",
+  read_csv("original_data/hourlyCalories_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 
 hourly_intensities <-
-  read_csv("hourlyIntensities_merged.csv",
+  read_csv("original_data/hourlyIntensities_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 hourly_steps <-
-  read_csv("hourlySteps_merged.csv",
+  read_csv("original_data/hourlySteps_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 
 minute_sleep <-
-  read_csv("minuteSleep_merged.csv",
+  read_csv("original_data/minuteSleep_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 
 weight_logs <-
-  read_csv("weightLogInfo_merged.csv",
+  read_csv("original_data/weightLogInfo_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 
 seconds_heartrate <-
-  read_csv("heartrate_seconds_merged.csv",
+  read_csv("original_data/heartrate_seconds_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
@@ -1665,7 +1664,7 @@ ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in
 
 ```{r fig.align='center' }
 
-library(scales)
+
 frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
 frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
 
@@ -1757,6 +1756,16 @@ percentage_sleep_df$Category <- factor(percentage_sleep_df$Category, levels = c(
 
 percentage_sleep_df
 ```
+
+
+
+```{r}
+str(percentage_sleep_df)
+```
+
+
+
+
 
 ```{r fig.align='center' }
 
@@ -1991,23 +2000,45 @@ Summary: Regular sleepers get more sleep on average, have a more consistent slee
 ```{r}
 str(minute_sleep_clean)
 ```
-Classic Sleep Log (1 minute)
+This data seems to come from the Classic Sleep Log (1 minute)
 
 Value indicating the sleep state.
 1 = asleep, 2 = restless, 3 = awake
-logId integer The unique log id in Fitbit’s system for the
+
 
 For more detail check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 
 
+```{r}
+# Add labels to the velue column
+minute_sleep_clean$value <- factor(minute_sleep_clean$value, levels = c("1", "2", "3"), labels = c("asleep", "restless", "awake"))
+```
 
 
+```{r}
+minute_sleep_clean %>% summary()
+```
 
+```{r}
 
+# Assuming "value" column represents total sleep records
+frequency_table <- as.data.frame(table(minute_sleep_clean$value))
+frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
 
+ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_text(aes(label = paste(Freq, " (", percent(Percentage / 100), ")", sep = "")),
+            hjust = 0.5,  vjust = -0.4, color = "black") +
+  labs(x = "Total Sleep Records", y = "Frequency",
+       title = "Uncommon Napping: 89% of Sleep Records Indicate a Singular Sleep Period.",
+       subtitle = "Includes naps > 60 min.") +
+  theme_minimal() +
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(size = 12),
+        plot.subtitle = element_text(size = 10, margin = margin(b = 20)))
 
-
+```
 
 
 
@@ -2097,3 +2128,36 @@ Categorical, ordinal, interval, and ratio variables : https://www.graphpad.com/g
 Add density line to histogram: https://r-coder.com/density-plot-r
 
 - Error bars vs CI: https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html
+
+
+
+
+
+
+
+
+--------------------- showing notebook in github
+
+
+convert to jupyter notbook
+option: https://medium.datadriveninvestor.com/transforming-your-rmd-to-ipynb-file-r-markdown-to-python-jupyter-b1306646f50b 
+
+
+
+Hey all,
+
+Sorry if I'm misunderstanding here, but I have been knitting the .Rmd notebook to a .md file within RStudio, and it seems to display very well in GitHub. You can see an example in my repo to see if I'm on track with this thread.
+
+The links below give the explanation. Short Version:
+
+change "output=html_document" to "output=github_document"
+
+
+
+
+
+knit the document
+push the .md file to GitHub instead of the .Rmd
+be sure to push the '_files' folder to include any images
+https://rmarkdown.rstudio.com/github_document_format.html
+https://gist.github.com/JoshuaTPierce/b919168421b40e06481080eb53c3fb2f
