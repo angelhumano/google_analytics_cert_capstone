@@ -16,6 +16,7 @@ output:
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse) # includes ggplot2
 library(skimr) #  provides a compact and informative summary of your data frame or dataset
+library(lubridate)
 library(janitor) # set of utility functions for data cleaning and data frame tidying tasks
 library(RColorBrewer) # Color palettes for data visualization
 library(ggcorrplot) # Visualize correlation matrices using ggplot2
@@ -2027,12 +2028,12 @@ frequency_table <- as.data.frame(table(minute_sleep_clean$value))
 frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
 
 ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_bar(stat = "identity", fill = "#008080") +
   geom_text(aes(label = paste(Freq, " (", percent(Percentage / 100), ")", sep = "")),
             hjust = 0.5,  vjust = -0.4, color = "black") +
-  labs(x = "Total Sleep Records", y = "Frequency",
-       title = "Uncommon Napping: 89% of Sleep Records Indicate a Singular Sleep Period.",
-       subtitle = "Includes naps > 60 min.") +
+  labs(x = "Total Minutes Records", y = "Frequency",
+       title = "User Sleep States: 91% of Minutes Spent Asleep with Minimal Interruptions:",
+       subtitle = "Restlessness: 7.4% | Awake: 1.1%") +
   theme_minimal() +
   theme(panel.grid = element_blank(),
         plot.title = element_text(size = 12),
@@ -2044,6 +2045,8 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 
 
+
+# work with the hourly dataset:
 
 
 
