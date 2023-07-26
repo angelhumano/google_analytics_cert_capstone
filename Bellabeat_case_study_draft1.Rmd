@@ -1,6 +1,8 @@
 ---
 title: "Bellabeat Case study draft1"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 # Prepare and Preprocess Phase
 
@@ -587,14 +589,7 @@ cat("\n",
 
 ```
 
-# Analyze Phase 
-
-
-
-
-
-
-# Exploratory Data Analysis
+# Analyze Phase: Exploratory Data Analysis
 
 
 
@@ -678,7 +673,7 @@ select_if(daily_activity_clean, negate(is.numeric))
 ```
 
 
-```{r}
+```{r fig.align='center'}
 # Check counts by id
 ggplot(data=daily_activity_clean) + 
   geom_bar(mapping = aes (x= reorder(id, id,length)))+
@@ -703,7 +698,7 @@ count_max_ratio <- daily_activity_clean %>%
 
 
 
-```{r}
+```{r fig.align='center'}
 
 # Create bar graph with percentage of entries compared to maximum
 ggplot(count_max_ratio, aes(x = reorder(id, percent_of_max), y = percent_of_max)) +
@@ -741,7 +736,7 @@ daily_activity_clean$activity_date %>% summary()
 ```
 
 
-```{r}
+```{r fig.align='center' }
 ggplot(data=daily_activity_clean , aes(x = activity_date)) + 
   geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
   labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date") 
@@ -756,14 +751,14 @@ Observations:
 
 
 
-```{r}
+```{r fig.align='center' }
 # Investigate if the missing activity data coincides with the absence of entries for certain user IDs.
 
 ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_top_75$id), aes(x = activity_date)) + 
   geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
   labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date For IDs with Above 75% of Entries")
 ```
-```{r}
+```{r fig.align='center' }
 
 ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_under_75$id), aes(x = activity_date)) + 
   geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
@@ -779,7 +774,7 @@ ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_under_75$id), ae
 #### Correlation between numerical variables
 
 
-```{r fig.width=8, fig.height=8}
+```{r fig.align='center', fig.width=8, fig.height=8}
 corr <- cor(select_if(daily_activity_clean, is.numeric))
 
 ggcorrplot(corr,
@@ -891,7 +886,7 @@ for (pair in correlated_pairs) {
 
 #### Total steps: Total number of steps taken.
 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for total_steps
 boxplot(daily_activity_clean$total_steps, 
         main = "Boxplot of Total Steps",
@@ -952,7 +947,7 @@ percentage_steps_df
 
 
 
-```{r}
+```{r fig.align='center' }
 # Convert Category to a factor with custom factor levels
 percentage_steps_df$Category <- factor(percentage_steps_df$Category, levels = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"))
 
@@ -969,7 +964,7 @@ ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
 
 #### Total Distance: Total kilometers tracked.
 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for total_distance
 boxplot(daily_activity_clean$total_distance, 
         main = "Boxplot of Total Distance",
@@ -1028,7 +1023,7 @@ percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, l
 
 ```
 
-```{r}
+```{r fig.align='center' }
 # Create a bar plot using ggplot
 ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "pink") +
@@ -1041,7 +1036,7 @@ ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
 
 #### Sedentary Minutes: Total minutes spent in sedentary activity.
 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for sedentary_minutes
 boxplot(daily_activity_clean$sedentary_minutes,
         main = "Boxplot of Sedentary Minutes",
@@ -1143,7 +1138,7 @@ joined_activity_sleep <- joined_activity_sleep %>%
 
 
 
-```{r}
+```{r fig.align='center' }
 
 # Let us check the percentage difference of sedentary_minutes and the new column "sedentary_min_awake
 
@@ -1178,7 +1173,7 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
 
 
 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for sedentary_min_awake
 boxplot(joined_activity_sleep$sedentary_min_awake,
         main = "Boxplot of Sedentary Minutes Awake",
@@ -1251,7 +1246,7 @@ dim(clean_subset)
 ```
 
 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for sedentary_min_awake
 boxplot(clean_subset$sedentary_min_awake,
         main = "Boxplot of Sedentary Minutes Awake",
@@ -1317,7 +1312,7 @@ percentage_sedentary_awake_df
 
 ```
 
-```{r}
+```{r fig.align='center' }
 # Create a bar plot using ggplot
 ggplot(percentage_sedentary_awake_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "gray") +
@@ -1338,7 +1333,7 @@ Jingwen Liao, Min Hu, Kellie Imm, Clifton J. Holmes, Jie Zhu, Chao Cao, Lin Yang
 
 
 #### Calories:Total estimated energy expenditure (in kilocalories). 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for calories
 boxplot(daily_activity_clean$calories, 
         main = "Boxplot of Calories",
@@ -1410,7 +1405,7 @@ percentage_calories_df
 ```
 
 
-```{r}
+```{r fig.align='center' }
 # Create a bar plot using ggplot
 ggplot(percentage_calories_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "red") +
@@ -1461,7 +1456,7 @@ activity_minutes_df
 ```
 
 
-```{r fig.width=6, fig.height=8}
+```{r fig.align='center', fig.width=6, fig.height=8}
 
 # Define the custom order of legend items
 custom_order <- c( "Very Active", "Fairly Active", "Lightly Active", "Sedentary")
@@ -1523,7 +1518,7 @@ overall_average_df
 
 
 
-```{r  fig.width=10, fig.height=4}
+```{r fig.align='center',  fig.width=10, fig.height=4}
 
 ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_average_df), Percentage), fill = row.names(overall_average_df))) +
   geom_bar(stat = "identity", width = 0.7, show.legend = FALSE) +
@@ -1547,7 +1542,7 @@ ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_ave
 
 
 
-```{r fig.width=7, fig.height=3}
+```{r fig.align='center', fig.width=7, fig.height=3}
 # Define the custom order of legend items
 
 custom_order <- c("Very Active", "Fairly Active", "Lightly Active", "Sedentary")
@@ -1640,7 +1635,7 @@ for (i in col_names) {
 #### Correlation between numerical variables
 
 
-```{r }
+```{r fig.align='center' }
 # Correlation between numerical variables
 corr <- cor(select_if(daily_sleep_clean, is.numeric))
 
@@ -1658,7 +1653,7 @@ ggcorrplot(corr,
 
 #### Scatterplots of total_minutes_asleep vs total_time_in_bed
 
-```{r}
+```{r fig.align='center' }
 
 ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in_bed)) +
   geom_point()
@@ -1668,9 +1663,9 @@ ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in
 ### User Behavior for daily sleep dataset
 
 
-```{r}
+```{r fig.align='center' }
 
-#library(scales)
+library(scales)
 frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
 frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
 
@@ -1693,7 +1688,7 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 #### Total Minutes Asleep
 
-```{r}
+```{r fig.align='center' }
 # Create a boxplot for total_minutes_asleep
 boxplot(daily_sleep_clean$total_minutes_asleep, 
         main = "Boxplot of Total Minutes Asleep",
@@ -1763,7 +1758,7 @@ percentage_sleep_df$Category <- factor(percentage_sleep_df$Category, levels = c(
 percentage_sleep_df
 ```
 
-```{r}
+```{r fig.align='center' }
 
 
 ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
@@ -1780,7 +1775,7 @@ ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
 
 
 #### Sleep Duration Consistency
-```{r}
+```{r fig.align='center' }
 #Error bars
 
 # Convert average_sleep_minutes and standard_deviation_sleep_minutes to hours
@@ -1838,13 +1833,8 @@ dim(sleep_df)
 
 
 
-#next: understand this function 
 
-
-
-
-
-```{r}
+```{r fig.align='center' }
 create_boxplots_in_one_output <- function(data_frame, columns_to_analyze, decimal_places = 2) {
   num_columns <- length(columns_to_analyze)
   num_rows <- ceiling(num_columns / 2)
@@ -1880,7 +1870,7 @@ create_boxplots_in_one_output(sleep_df, columns_to_analyze, decimal_places = 2)
 ```
 
 
-```{r}
+```{r fig.align='center' }
 # Columns to analyze
 columns_to_analyze <- c("standard_deviation_sleep_hours", "sd_awake_in_bed_hours")
 
@@ -1914,7 +1904,7 @@ sleep_df
 
 
 
-```{r}
+```{r fig.align='center' }
 # Check if outliers were removed
 columns_to_analyze <- c("average_sleep_hours", "average_awake_in_bed_hours", "standard_deviation_sleep_hours")
 
@@ -1959,7 +1949,7 @@ sleep_df
 
 
 
-```{r}
+```{r fig.align='center' }
 
 color_options <- c("#E69F00", "#0072B2") # Blue: "#0072B2", Orange: "#E69F00"
 
@@ -1977,7 +1967,7 @@ create_violin_plot <- function(data, x_axis_col, y_axis_col) {
 ```
 
 
-```{r}
+```{r fig.align='center' }
 # Call the function to create the violin plots for each column
 for (col in c("average_sleep_hours", "standard_deviation_sleep_hours", "average_awake_in_bed_hours","sd_awake_in_bed_hours")) {
   plot <- create_violin_plot(sleep_df, "sleeper_type", col)
@@ -1997,66 +1987,17 @@ Summary: Regular sleepers get more sleep on average, have a more consistent slee
 
 
 
-
-
-
-
-
-- The mean of 'standard_deviation_sleep_hours' can provide valuable insights into the sleep consistency of the users in the dataset. Here's what the mean of the standard deviation can tell you about the users:
-
-Average Sleep Variability: The mean of 'standard_deviation_sleep_hours' gives you an average measure of how much the users' sleep durations vary from their respective average sleep duration. A higher mean standard deviation implies more inconsistency in sleep patterns among users.
-
-Sleep Schedule Stability: Users with a higher mean standard deviation may have irregular sleep schedules, with varying sleep durations on different days, indicating potential issues with sleep consistency.
-
-Sleep Quality: In some cases, a higher mean standard deviation might indicate poor sleep quality, as unstable or fragmented sleep patterns can lead to less restorative sleep.
-
-Sleep Regularity: A lower mean standard deviation generally suggests that users have more consistent sleep patterns and adhere to a more regular sleep schedule.
-
-Health Indicators: Sleep consistency can be linked to overall health and well-being. Users with a lower mean standard deviation might experience better health outcomes, as consistent sleep is associated with improved physical and mental health.
-
-Potential Sleep Disorders: Users with high standard deviation values may have erratic sleep patterns, which could be indicative of sleep disorders or disturbances that require further investigation.
-
-Sleep Habits: Understanding the mean standard deviation can offer insights into sleep habits and behaviors. For example, users with high variability might have irregular bedtime routines or frequent disruptions during sleep.
-
-Stress Levels: Inconsistent sleep patterns can be associated with higher stress levels, so a higher mean standard deviation might hint at increased stress or anxiety levels among some users.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### EDA minute_sleep_clean
 ```{r}
-
-
-# # Assuming sleep_df contains 'id', 'average_sleep_minutes', and 'standard_deviation_sleep_minutes'
-# 
-# # Calculate confidence intervals
-# sleep_df <- transform(sleep_df, 
-#                       lower_ci = average_sleep_minutes - 1.96 * standard_deviation_sleep_minutes / sqrt(n),
-#                       upper_ci = average_sleep_minutes + 1.96 * standard_deviation_sleep_minutes / sqrt(n))
-# 
-# # Plot the bar plot with confidence intervals
-# ggplot(sleep_df, aes(x = id, y = average_sleep_minutes)) +
-#   geom_bar(stat = "identity", fill = "skyblue", color = "black") +
-#   geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci),
-#                 width = 0.2, position = position_dodge(0.9), color = "black") +
-#   labs(x = "ID", y = "Average Sleep Duration (minutes)",
-#        title = "Sleep Consistency: Average Sleep Duration with Confidence Intervals",
-#        subtitle = "Error bars represent the 95% confidence intervals around the mean.") +
-#   theme_minimal() +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
+str(minute_sleep_clean)
 ```
+Classic Sleep Log (1 minute)
+
+Value indicating the sleep state.
+1 = asleep, 2 = restless, 3 = awake
+logId integer The unique log id in Fitbit’s system for the
+
+For more detail check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 
 
@@ -2067,43 +2008,17 @@ Stress Levels: Inconsistent sleep patterns can be associated with higher stress 
 
 
 
-next:
-
-# I need to create categories for variability
-Create a sleep consistency score that combines factors like regularity of sleep duration and bedtime to get an overall measure of sleep pattern consistency.
-
- Step 5: Create a sleep consistency score
- You can define your own formula based on various factors like regularity of sleep duration, bedtime, etc.
-For example, you could use a weighted average of standard deviation, correlation, and other metrics.
-
-
-do same as I did for steps for minutes as_sleep
-
-
-Adult	18-60 years	7 or more hours per night
- check for sleeo consistency
-Be consistent. Go to bed at the same time each night and get up at the same time each morning, including on the weekends.
 
 
 
 
-To analyze sleep user behavior in the provided dataset, you can consider the following key performance indicators (KPIs):
 
-1. Sleep Efficiency: Calculate the percentage of time users spend asleep compared to the total time in bed. This can be computed as `(total_sleep_records_asleep / total_time_in_bed) * 100`. Higher sleep efficiency indicates more consolidated and restful sleep.
 
-2. Average Sleep Duration: Calculate the average duration of sleep for each user by dividing the total sleep records asleep by the total number of sleep records. This provides an indication of the typical length of sleep sessions.
 
-3. Sleep Quality: Assess sleep quality by considering factors such as wakefulness during the night, sleep disturbances, or the number of awakenings. You can evaluate sleep quality by examining patterns in the sleep records, identifying disruptions, or using subjective ratings if available.
 
-4. Sleep Latency: Measure the time it takes for users to fall asleep after getting into bed. This can be calculated as the average time from going to bed to the onset of sleep.
 
-5. Sleep Consistency: Analyze the consistency of sleep patterns by examining the regularity of sleep duration and bedtime. Irregular sleep patterns may indicate disrupted or inconsistent sleep routines.
 
-6. Sleep Architecture: Assess the distribution of sleep stages, such as deep sleep, light sleep, and REM sleep. This analysis requires additional sleep stage data beyond the variables provided in the dataset.
 
-7. Sleep Variability: Analyze the variation in sleep duration and bedtime across different days or weeks. Higher variability may indicate irregular sleep patterns or disrupted sleep schedules.
-
-These KPIs can provide insights into sleep behavior and patterns, helping to identify areas for improvement or potential sleep issues. Remember to consider the limitations of the dataset and the specific context of the sleep data being analyzed.
 
 
 ##  EDA for hourly_activity_clean
