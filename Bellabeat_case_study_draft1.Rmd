@@ -2046,7 +2046,7 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 
 
-# work with the hourly dataset:
+# work with the hourly dataset:then heartrate
 
 
 
