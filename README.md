@@ -50,5 +50,6 @@ others understand results
 • Solve problems
 • Make decisions
 • Create something new 
+[Link to Bellabeat_case_study_draft1.pdf](Bellabeat_case_study_draft1.pdf)
 
 
