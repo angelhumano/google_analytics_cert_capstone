@@ -1,14 +1,42 @@
-# Google Data Analytics Certificate Capstone 
+# Google Data Analytics Certificate Capstone (Bellabeat Case Study)
 By Gabriel Fernandez
 
+## Introduction
 
-## 1. Ask 
+Welcome to my Google Analytics Certificate Capstone Project, centered around the Bellabeat case study (Case Study 2: How can a wellness company play it smart?). My objective is to analyze smart device fitness data for Bellabeat, a high-tech manufacturer of health-focused products for women, with a specific focus on the Bellabeat app.
+
+Through this case study, I will gain valuable insights into how consumers are using the Bellabeat app by performing data analysis. By following the data analysis process steps—Ask, Prepare, Process, Analyze, Share, and Act—I aim to unlock growth opportunities and provide high-level recommendations to guide Bellabeat's marketing strategy.
+
+### Business Problem
+
+Bellabeat, a successful small company, has the potential to become a major player in the global smart device market. Urška Sršen, the visionary co-founder and Chief Creative Officer, believes that analyzing smart device data can lead to new growth avenues. As a part of the marketing analytics team, I have been entrusted with the task of discovering valuable insights to shape Bellabeat's marketing approach.
+
+### Stakeholders
+
+- Urška Sršen: Co-founder and Chief Creative Officer of Bellabeat.
+- Sando Mur: Co-founder of Bellabeat and a member of the executive team.
+- Bellabeat Marketing Analytics Team: I am a junior data analyst, part of this team responsible for collecting, analyzing, and reporting data to support Bellabeat's marketing strategy.
+
+### Data Analysis Process
+
+I will follow a systematic data analysis process that I learned in the Google Analytics Certificate:
+
+Ask: Formulating pertinent questions to guide my analysis.
+Prepare: Gathering and organizing relevant data for analysis.
+Process: Cleaning and transforming data for accuracy.
+Analyze: Extracting valuable insights from the data.
+Share: Presenting my findings to the Bellabeat executive team.
+Act: Offering high-level recommendations for Bellabeat's marketing strategy.
+
+
+
+## Ask 
 • Ask effective questions
 • Define the problem
 • Use structured thinking
 • Communicate with others
 
-## 2. Prepare
+## Prepare
 • Understand how data is
 generated and collected
 • Identify and use different data
@@ -17,7 +45,7 @@ formats, types, and structures
 credible
 • Organize and protect data
 
-## 3. Process 
+## Process 
 • Create and transform data 
 • Maintain data integrity
 • Test data
@@ -25,7 +53,7 @@ credible
 • Verify and report on 4
 cleaning results
 
-## 4. Analyze
+## Analyze
 
 • Use tools to format and transform
 data
@@ -36,7 +64,7 @@ conclusions
 recommendations
 • Make data-driven decisions
 
-## 5. Share 
+## Share 
 
 • Understand visualization
 • Create effective visuals
@@ -45,11 +73,14 @@ recommendations
 • Communicate to help 
 others understand results
 
-## 6. Act
+## Act (Recommendations)
 • Apply your insights
 • Solve problems
 • Make decisions
 • Create something new 
 [Link to Bellabeat_case_study_draft1.pdf](Bellabeat_case_study_draft1.pdf)
 
+## Limitations
+
+## Challenges
 
