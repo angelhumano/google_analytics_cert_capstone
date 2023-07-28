@@ -7,7 +7,7 @@ Welcome to my Google Analytics Certificate Capstone Project, centered around the
 
 Through this case study, I will gain valuable insights into how consumers are using the Bellabeat app by performing data analysis. By following the data analysis process steps—Ask, Prepare, Process, Analyze, Share, and Act— I aim to unlock growth opportunities and provide high-level recommendations to guide Bellabeat's marketing strategy.
 
-In this case study, I chose to use **R(RStudio and R Markdown)** for its versatility in completing all phases of data analysis and effectively documenting my findings. The Certificate program also introduced me to other valuable tools, including Spreadsheets, SQL, and Tableau.
+In this case study, I chose to use **R(RStudio and R Markdown)** for its versatility in completing all phases of data analysis and effectively documenting my findings. This certificate program also introduced me to other valuable tools, including Spreadsheets, SQL, and Tableau.
 
 Visit the [Bellabeat website](https://bellabeat.com/) to learn the company that inspired this case study.
 
