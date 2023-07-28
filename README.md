@@ -7,6 +7,9 @@ Welcome to my Google Analytics Certificate Capstone Project, centered around the
 
 Through this case study, I will gain valuable insights into how consumers are using the Bellabeat app by performing data analysis. By following the data analysis process steps—Ask, Prepare, Process, Analyze, Share, and Act—I aim to unlock growth opportunities and provide high-level recommendations to guide Bellabeat's marketing strategy.
 
+Visit the [Bellabeat website](https://bellabeat.com/) to learn more about their products and services.
+
+
 ### Business Problem
 
 Bellabeat, a successful small company, has the potential to become a major player in the global smart device market. Urška Sršen, the visionary co-founder and Chief Creative Officer, believes that analyzing smart device data can lead to new growth avenues. As a part of the marketing analytics team, I have been entrusted with the task of discovering valuable insights to shape Bellabeat's marketing approach.
