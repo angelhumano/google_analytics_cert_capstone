@@ -7,7 +7,7 @@ Welcome to my Google Analytics Certificate Capstone Project, centered around the
 
 Through this case study, I will gain valuable insights into how consumers are using the Bellabeat app by performing data analysis. By following the data analysis process steps—Ask, Prepare, Process, Analyze, Share, and Act—I aim to unlock growth opportunities and provide high-level recommendations to guide Bellabeat's marketing strategy.
 
-Visit the [Bellabeat website](https://bellabeat.com/) to learn more about their products and services.
+Visit the [Bellabeat website](https://bellabeat.com/) to learn the company that inspired this case study.
 
 
 ### Business Problem
@@ -24,12 +24,12 @@ Bellabeat, a successful small company, has the potential to become a major playe
 
 I will follow a systematic data analysis process that I learned in the Google Analytics Certificate:
 
-Ask: Formulating pertinent questions to guide my analysis.
-Prepare: Gathering and organizing relevant data for analysis.
-Process: Cleaning and transforming data for accuracy.
-Analyze: Extracting valuable insights from the data.
-Share: Presenting my findings to the Bellabeat executive team.
-Act: Offering high-level recommendations for Bellabeat's marketing strategy.
+- Ask: Formulating pertinent questions to guide my analysis.
+- Prepare: Gathering and organizing relevant data for analysis.
+- Process: Cleaning and transforming data for accuracy.
+- Analyze: Extracting valuable insights from the data.
+- Share: Presenting my findings to the Bellabeat executive team.
+- Act: Offering high-level recommendations for Bellabeat's marketing strategy.
 
 
 
