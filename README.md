@@ -12,7 +12,7 @@ In this case study, I chose to use **R(RStudio and R Markdown)** for its versati
 Visit the [Bellabeat website](https://bellabeat.com/) to learn the company that inspired this case study.
 
 
-### Business Problem
+### Business problem
 
 Bellabeat, a successful small company, has the potential to become a major player in the global smart device market. Urška Sršen, the visionary co-founder and Chief Creative Officer, believes that analyzing smart device data can lead to new growth avenues. As a part of the marketing analytics team, I have been tasked with analyzing smart device usage data for the Bellabeat app to guide marketing strategy based on user behavior insights.
 
@@ -24,15 +24,8 @@ Bellabeat offers smart wellness products and services, including:
 - Spring: A water bottle that monitors daily water intake to ensure proper hydration.
 - Bellabeat Membership: A subscription-based program offering personalized guidance on nutrition, activity, sleep, health, beauty, and mindfulness.
 
-### Stakeholders
 
-- Urška Sršen: Co-founder and Chief Creative Officer of Bellabeat.
-- Sando Mur: Co-founder of Bellabeat and a member of the executive team.
-- Bellabeat Marketing Analytics Team: I am a junior data analyst, part of this team responsible for collecting, analyzing, and reporting data to support Bellabeat's marketing strategy.
-
-
-
-### Data Analysis Process
+### Data analysis process
 
 I will follow a systematic data analysis process that I learned in the Google Analytics Certificate:
 
@@ -44,20 +37,43 @@ I will follow a systematic data analysis process that I learned in the Google An
 - Act: Offering high-level recommendations for Bellabeat's marketing strategy.
 
 
+## Deliverables for each phase
+1. A clear summary of the business task 
+2. A description of all data sources used 
+3. Documentation of any cleaning or manipulation of data 
+4. A summary of your analysis 
+5. Supporting visualizations and key findings 
+6. Your top high-level content recommendations based on your analysis
 
 ## Ask 
-Objective: • Ask effective questions • Define the problem • Use structured thinking• Communicate with others
+**Objective:** • Ask effective questions • Define the problem • Use structured thinking• Communicate with others
 
-###Guiding questions 
+#### Guiding questions 
 
-- What is Bellabeat Mission?
-"Bellabeat empowers women to reconnect with themselves, unleash their inner strengths and be what they were meant to be.
+What is Bellabeat Mission?
 
-- Who are the stakeholders:
+Bellabeat empowers women to reconnect with themselves, unleash their inner strengths and be what they were meant to be.
+
+Who are the stakeholders?
 
 - Urška Sršen: Bellabeat’s cofounder and Chief Creative Officer 
 - Sando Mur: Mathematician and Bellabeat’s cofounder; key member of the Bellabeat executive team 
 - Bellabeat marketing analytics team: A team of data analysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat’s marketing strategy. As a junior data analyst on this team for six months, I've been learning about Bellabeat's mission and business goals and how I can assist in achieving them.
+
+What is the problem you are trying to solve? 
+
+- Analyze smart device usage data (in the market) in order to gain insight into how people are already using their smart devices.
+- Analysis of Bellabeat’s available consumer data would reveal more opportunities for growth.
+
+How can your insights drive business decisions? 
+
+- Trends can inform Bellabeat marketing strategy
+- Usage can inspire product modification
+- Insights could unlock new growth opportunities for the company
+
+#### Deliverable 1: Business task (The question or problem data analysis resolves for a business)
+
+Analyze smart device usage data to gain insight into how people are already using their smart devices to help guide future marketing strategies for Bellabeat App.
 
 ## Prepare
 • Understand how data is
