@@ -46,10 +46,18 @@ I will follow a systematic data analysis process that I learned in the Google An
 
 
 ## Ask 
-• Ask effective questions
-• Define the problem
-• Use structured thinking
-• Communicate with others
+Objective: • Ask effective questions • Define the problem • Use structured thinking• Communicate with others
+
+###Guiding questions 
+
+- What is Bellabeat Mission?
+"Bellabeat empowers women to reconnect with themselves, unleash their inner strengths and be what they were meant to be.
+
+- Who are the stakeholders:
+
+- Urška Sršen: Bellabeat’s cofounder and Chief Creative Officer 
+- Sando Mur: Mathematician and Bellabeat’s cofounder; key member of the Bellabeat executive team 
+- Bellabeat marketing analytics team: A team of data analysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat’s marketing strategy. As a junior data analyst on this team for six months, I've been learning about Bellabeat's mission and business goals and how I can assist in achieving them.
 
 ## Prepare
 • Understand how data is
