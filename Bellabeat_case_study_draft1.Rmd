@@ -3,6 +3,7 @@ title: "Bellabeat Case study draft1"
 output:
   pdf_document: default
   html_notebook: default
+df_print: paged
 ---
 # Prepare and Preprocess Phase
 
@@ -2057,8 +2058,23 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 ##  EDA for hourly_activity_clean
 
+```{r}
+str(hourly_activity_clean)
+```
+
+
+
+- summarize by hour
+- AM and PM optional
+
+
+
+
+
 
 ##  EDA for seconds_heartrate_clean
+
+- average heart rate for each user
 
 ##  EDA for weight_logs_clean
 - Weight Reporting Behavior: Assess the reporting behavior of users using the IsManualReport variable. Calculate the percentage of manual weight reports compared to total weight reports to determine how actively users are providing weight updates. This can indicate user engagement and motivation to track their weight.
@@ -2107,18 +2123,23 @@ kaggle https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?page=2
 
 
 this is it:
-
+physical innactivity. Plot a barplot with percentages.
 https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity
 
 
-
-https://www.bls.gov/tus/data/datafiles-0321.htm
-
+information about physical activity guidlines (sex and age):
 
 https://www.cdc.gov/nchs/products/databriefs/db443.htm
+Elgaddal N, Kramarow EA, Reuben C. Physical activity among adults aged 18 and over: United States, 2020. NCHS Data Brief, no 443. Hyattsville, MD: National Center for Health Statistics. 2022. DOI: https://dx.doi.org/10.15620/cdc:120213 
 
 
-https://www.cdc.gov/nchs/products/databriefs/db443.htm
+
+
+
+
+
+
+
 
 # Reference:
 - EDA: https://rpubs.com/jovial/r 
