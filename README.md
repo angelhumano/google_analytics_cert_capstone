@@ -60,11 +60,11 @@ Who are the stakeholders?
 - Sando Mur: Mathematician and Bellabeat’s cofounder; key member of the Bellabeat executive team 
 - Bellabeat marketing analytics team: A team of data analysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat’s marketing strategy. As a junior data analyst on this team for six months, I've been learning about Bellabeat's mission and business goals and how I can assist in achieving them.
 
-What is the problem you are trying to solve? 
+What is the problem that I am trying to solve? 
 
-- Analyze smart device usage data (in the market) in order to gain insight into how people are already using their smart devices.
-- Analysis of Bellabeat’s available consumer data would reveal more opportunities for growth.
-
+- Analyze smart device usage data (in the market) in order to gain insight into how people are already using their smart devices
+- Discover insights to unlock growth opportunities
+  
 How can your insights drive business decisions? 
 
 - Trends can inform Bellabeat marketing strategy
