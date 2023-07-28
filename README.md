@@ -119,6 +119,11 @@ others understand results
 • Create something new 
 [Link to Bellabeat_case_study_draft1.pdf](Bellabeat_case_study_draft1.pdf)
 
+
+
+test image: ![Example Image](images/example.png)
+
+
 ## Limitations
 
 ## Challenges
