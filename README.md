@@ -121,7 +121,7 @@ others understand results
 
 
 
-test image: ![Example Image](images/example.png)
+test image: ![Example Image](images/overall_prevalence_inactivity_2017_2020.png)
 
 
 ## Limitations
