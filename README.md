@@ -3,22 +3,32 @@ By Gabriel Fernandez
 
 ## Introduction
 
-Welcome to my Google Analytics Certificate Capstone Project, centered around the Bellabeat case study (Case Study 2: How can a wellness company play it smart?). My objective is to analyze smart device fitness data for Bellabeat, a high-tech manufacturer of health-focused products for women, with a specific focus on the Bellabeat app.
+Welcome to my Google Analytics Certificate Capstone Project, centered around the Bellabeat case study (Case Study 2: How can a wellness company play it smart?). My objective is to analyze smart device fitness data for Bellabeat, a high-tech manufacturer of health-focused products for women, with a specific focus on the Bellabeat app.  
 
-Through this case study, I will gain valuable insights into how consumers are using the Bellabeat app by performing data analysis. By following the data analysis process steps—Ask, Prepare, Process, Analyze, Share, and Act—I aim to unlock growth opportunities and provide high-level recommendations to guide Bellabeat's marketing strategy.
+Through this case study, I will gain valuable insights into how consumers are using the Bellabeat app by performing data analysis. By following the data analysis process steps—Ask, Prepare, Process, Analyze, Share, and Act— I aim to unlock growth opportunities and provide high-level recommendations to guide Bellabeat's marketing strategy.
 
 Visit the [Bellabeat website](https://bellabeat.com/) to learn the company that inspired this case study.
 
 
 ### Business Problem
 
-Bellabeat, a successful small company, has the potential to become a major player in the global smart device market. Urška Sršen, the visionary co-founder and Chief Creative Officer, believes that analyzing smart device data can lead to new growth avenues. As a part of the marketing analytics team, I have been entrusted with the task of discovering valuable insights to shape Bellabeat's marketing approach.
+Bellabeat, a successful small company, has the potential to become a major player in the global smart device market. Urška Sršen, the visionary co-founder and Chief Creative Officer, believes that analyzing smart device data can lead to new growth avenues. As a part of the marketing analytics team, I have been tasked with analyzing smart device usage data for the Bellabeat app to guide marketing strategy based on user behavior insights.
+
+Bellabeat offers smart wellness products and services, including:
+
+- **Bellabeat App**: Tracks activity, sleep, stress, menstrual cycle, and mindfulness habits, providing insights for a healthier lifestyle.
+- Leaf: A versatile wellness tracker worn as a bracelet, necklace, or clip, monitoring activity, sleep, and stress.
+- Time: A smart wellness watch tracking activity, sleep, and stress, providing daily insights.
+- Spring: A water bottle that monitors daily water intake to ensure proper hydration.
+- Bellabeat Membership: A subscription-based program offering personalized guidance on nutrition, activity, sleep, health, beauty, and mindfulness.
 
 ### Stakeholders
 
 - Urška Sršen: Co-founder and Chief Creative Officer of Bellabeat.
 - Sando Mur: Co-founder of Bellabeat and a member of the executive team.
 - Bellabeat Marketing Analytics Team: I am a junior data analyst, part of this team responsible for collecting, analyzing, and reporting data to support Bellabeat's marketing strategy.
+
+
 
 ### Data Analysis Process
 
