@@ -539,7 +539,7 @@ weight_logs_clean <-
 
 
 # Change NA to 0 in the column "fat"
-weight_logs_clean$fat[is.na(weight_logs$fat)] <- 0
+weight_logs_clean$fat[is.na(weight_logs_clean$fat)] <- 0
 
 # Check clean daily_activity data set
 glimpse(weight_logs_clean)
@@ -555,7 +555,43 @@ cat("\n",
     "Duplicate values:",
     sum(duplicated(weight_logs_clean)))
 
+
 ```
+
+
+
+## Distribution of ids across data sets
+
+
+```{r}
+# Loop through each  data set and print th number o funiqu ids
+datasets <- c(
+    "daily_activity_clean",
+    "daily_sleep_clean",
+    "hourly_activity_clean",
+    "minute_sleep_clean",
+    "seconds_heartrate_clean",
+    "weight_logs_clean"
+)
+
+
+results_df <- data.frame(Dataset = character(0), distinct_IDs = integer(0))
+
+for (dataset_name in datasets) {
+    dataset <- get(dataset_name)  # Retrieve the dataset by its name
+    distinct_ids <- length(unique(dataset$id))  # Calculate the number of distinct IDs
+    
+    result_row <- data.frame(Dataset = dataset_name, distinct_IDs = distinct_ids)
+    results_df <- bind_rows(results_df, result_row)
+}
+
+sorted_results <- results_df %>% arrange(- distinct_IDs )
+
+print(sorted_results)
+
+```
+Differences in the number of unique IDs between the data sets can imply discrepancies in data collection methods, data incompleteness, or differing levels of user engagement.
+
 
 
 # Export clean data sets
@@ -2045,17 +2081,6 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 
 
-
-
-# work with the hourly dataset:then heartrate
-
-
-
-
-
-
-
-
 ##  EDA for hourly_activity_clean
 
 ```{r}
@@ -2127,7 +2152,7 @@ print(step_total_avg_plot)
 
 
 
-```{r}
+```{r }
 
 # Group by id, hour, and am_pm and summarize the columns
 summary_data <- hourly_df %>%
@@ -2144,13 +2169,10 @@ summary_data <- hourly_df %>%
     observations_count = n()
   )
 
-# Print the summarized data
-print(summary_data)
+
 
 ```
-```{r}
-str(hourly_df)
-```
+
 
 
 
@@ -2240,18 +2262,177 @@ Overall, these insights can help you understand how users engage in physical act
 
 ##  EDA for seconds_heartrate_clean
 
-- average heart rate for each user
+
+```{r}
+str(seconds_heartrate_clean)
+```
+
+```{r}
+seconds_heartrate_clean %>% summary()
+```
+```{r}
+n_distinct(seconds_heartrate_clean$id)
+```
+
+
+
+
+```{r}
+
+
+# Group by 'id' and calculate the average heart rate for each user
+average_heart_rate <- seconds_heartrate_clean %>%
+  group_by(id) %>%
+  summarise(average_heart_rate = mean(heart_rate, na.rm = TRUE))
+
+# Bar Plot with smaller bars and custom breaks on the heart rate axis
+bar_plot <- ggplot(average_heart_rate, aes(x = id, y = average_heart_rate)) +
+  geom_bar(stat = "identity", fill = "#ADD8E6", width = 0.8) +  # Adjust the width here (e.g., 0.5 for smaller bars)
+  labs(x = "User ID", y = "Average Heart Rate", title = "Average Heart Rate for Each User") +
+  theme_minimal() + coord_flip() +
+  scale_y_continuous(breaks = seq(0, 100, 10), limits = c(0, 100))+ # Set custom breaks and limits for the y-axis 
+  geom_hline(yintercept = 60, linetype = "dashed", color = "green") +
+  geom_hline(yintercept = 100, linetype = "dashed", color = "green") 
+
+# Display the bar plot
+print(bar_plot)
+
+
+```
 
 ##  EDA for weight_logs_clean
+
+
+```{r}
+str(weight_logs_clean)
+```
+
+- Fat:Body fat percentage recorded.
+
+- BMI: Measure of body mass index based on the height and weight in the participant’s Fitbit.com profile.
+
+- isManualReport: If the data for this weigh-in was done manually (TRUE), or if data was measured and synced directly to Fitbit.com from a connected scale (FALSE).
+
+
+For more detail check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+
+
+
+
+```{r}
+weight_logs_clean %>% summary()
+```
+
+```{r}
+# Create boxplots for "bmi" and "weight_pounds"
+
+columns_to_analyze <- c("bmi", "weight_pounds")
+
+# Call the function to create boxplots 
+create_boxplots_in_one_output(weight_logs_clean, columns_to_analyze, decimal_places = 2)
+
+```
+
+
+```{r}
+
+entry_count <- weight_logs_clean %>%
+  group_by(id, is_manual_report) %>%
+  summarize(entry_count = n(), .groups = "keep") %>%
+  arrange (- entry_count)
+
+print(entry_count)
+
+
+```
+
+
+```{r}
+# Check users that reported fat percentage
+weight_logs_clean %>% filter(fat != 0)
+```
+
+
+
+```{r}
+average_bmi_weight <- weight_logs_clean %>%
+  group_by(is_manual_report) %>%
+  summarize(mean_bmi = mean(bmi, na.rm = TRUE),
+            mean_weight_pounds = mean(weight_pounds, na.rm = TRUE),
+            entry_count = n(), 
+            .groups = "keep") 
+
+print(average_bmi_weight)
+
+```
+
+
+
+```{r}
+
+
+create_custom_box_plot(weight_logs_clean , x_axis_col = "is_manual_report", y_axis_col = "weight_pounds", orientation = "hor", colors = custom_colors)
+```
+
+```{r}
+# Use the remove_outliers function we created previously to remove the outliers
+
+columns_with_outliers <- c("weight_pounds", "bmi")
+
+
+# Loop through each column and remove outliers
+for (col in columns_with_outliers) {
+  weight_logs_clean <- remove_outliers(weight_logs_clean, col)
+}
+
+```
+
+
+```{r}
+dim(weight_logs_clean)
+```
+
+
+
+
+
+```{r}
+create_custom_box_plot(weight_logs_clean , x_axis_col = "is_manual_report", y_axis_col = "weight_pounds", orientation = "hor", colors = custom_colors)
+```
+Observations:
+
+- Only two users reported fat percentage
+- It appears that users that log their weight data manually have a lower median weight than users that synced their weight from other devices.
+- Users that that log their weight data manuall had more entries
+
+
+
+
+
+
+# Calculate the total average
+total_average <- sum(averages)
+
+# Calculate the proportions
+proportions <- averages / total_average
+
+# Create the new dataframe with modified row names
+overall_average_df<- data.frame(Average = averages,
+                     Percentage = proportions * 100)
+
+
+
 - Weight Reporting Behavior: Assess the reporting behavior of users using the IsManualReport variable. Calculate the percentage of manual weight reports compared to total weight reports to determine how actively users are providing weight updates. This can indicate user engagement and motivation to track their weight.
 
-- Data Completeness: Analyze the completeness and quality of data using variables such as LogId. Assess if there are missing or erroneous data points that may impact the analysis. Exclude or handle such data points appropriately to ensure accurate insights.
+
 
 - BMI distribution (percentage above normal BMI)
 
 - Weight Trends: Analyze the trends in weight over time (Date) to understand if users are experiencing weight loss, gain, or stability. Plotting weight (WeightKg or WeightPounds) against time can reveal patterns, fluctuations, or significant changes in weight. You can also calculate descriptive statistics such as average weight, standard deviation, or rate of weight change to gain insights into user behavior.
 
 
+
+User Engagement: The difference in distinct IDs across datasets could reflect different levels of user engagement with different types of data. For example, the "weight_logs_clean" dataset having fewer distinct IDs might indicate that fewer users are actively logging their weight data compared to other types of data.
 
 # Insights and recommendations
 
@@ -2279,13 +2460,14 @@ https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-a
 
 
 
-# Another source
+# Another source:
+https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?search=data
 
 
 #paper
 https://dl.acm.org/doi/pdf/10.1145/3339825.3394926
 
-kaggle https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?page=2
+
 
 
 this is it:
