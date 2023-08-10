@@ -1,9 +1,12 @@
 ---
-title: "test"
-author: "student"
-date: "2023-08-10"
+title: "Google Data Analytics Certificate Capstone (Bellabeat Case Study)"
+author: "Gabriel Fernandez"
 output:
-  pdf_document: default
+  github_document: default
+  
+toc: yes
+urlcolor: blue
+
 
 ---
 
