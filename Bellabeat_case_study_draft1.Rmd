@@ -1,22 +1,35 @@
 ---
-title: "Bellabeat Case study draft1"
+title: "Google Data Analytics Certificate Capstone (Bellabeat Case Study)"
+author: "Gabriel Fernandez"
 output:
+  html_notebook: 
+  df_print: paged
   pdf_document: default
-  html_notebook: default
-df_print: paged
+  github_document: default
+  
+toc: yes
+urlcolor: blue
 ---
-# Prepare and Preprocess Phase
 
 
-# Meta data 
+```{r }
+# Set default options for code chunks
+knitr::opts_chunk$set(
+  echo = TRUE,          # Display R code and its output
+  comment=NA,           # Suppress code comments in output
+  warning = FALSE,      # Suppress warning messages
+  fig.align='center',   # Align figures in the center
+  eval = TRUE           # Evaluate R code
+)
 
- [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+```
 
+# Prepare and preprocess phase
 
-# Import libraries 
 ```{r warning=FALSE, message=FALSE}
+# Import libraries 
 library(tidyverse) # includes ggplot2
-library(skimr) #  provides a compact and informative summary of your data frame or dataset
+library(skimr) #  provides a compact and informative summary of your dataframe or dataset
 library(lubridate)
 library(janitor) # set of utility functions for data cleaning and data frame tidying tasks
 library(RColorBrewer) # Color palettes for data visualization
@@ -27,8 +40,14 @@ library(scales) # formatting and transforming data for visualizations
 # display.brewer.all(colorblindFriendly = TRUE)
 ```
 
+## Load datasets 
 
-# Load datasets 
+- [Datasets:](https://www.kaggle.com/datasets/arashnic/fitbit)
+
+These datasets originate from a survey distributed on Amazon Mechanical Turk from 03.12.2016 to 05.12.2016. They include personal tracker data from 30 Fitbit users, covering physical activity, heart rate, and sleep monitoring, with differentiation based on Fitbit types and user behavior.
+
+- Metadata: [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+
 
 ```{r}
 # Clean environment
@@ -68,28 +87,29 @@ minute_sleep <-
     show_col_types = FALSE
   )
 
-weight_logs <-
-  read_csv("original_data/weightLogInfo_merged.csv",
-    trim_ws = TRUE,
-    show_col_types = FALSE
-  )
-
 seconds_heartrate <-
   read_csv("original_data/heartrate_seconds_merged.csv",
     trim_ws = TRUE,
     show_col_types = FALSE
   )
 
+weight_logs <-
+  read_csv("original_data/weightLogInfo_merged.csv",
+    trim_ws = TRUE,
+    show_col_types = FALSE
+  )
+
 # Remove trailing spaces (trim_ws = TRUE)
 ```
+dataset
 
 
+## Clean datasets
 
-# Clean data sets
+### Clean the daily_activity dataset
 
-## Clean the daily_activity data set
 ```{r}
-# Check daily_activity data set before cleaning
+# Check daily_activity dataset before cleaning
 glimpse(daily_activity)
 
 # Check missing values and duplicates
@@ -107,12 +127,15 @@ cat(
 ```
 
 Let us clean:
-- Change column names to lower case because R is case sensitive
-- Change "Id" from double to a character because the number represents a category
-- Change "ActivityDate" from char to date 
+
+- Change column names to lower case because R is case sensitive.
+
+- Change "Id" from double to a character because the number represents a category.
+
+- Change "ActivityDate" from char to date.
 
 ```{r}
-# Clean daily_activity data set
+# Clean daily_activity dataset
 
 daily_activity <-
   # Clean column names
@@ -124,7 +147,7 @@ daily_activity <-
   # Remove duplicate rows
   distinct()
 
-# Check daily_activity data set after cleaning
+# Check daily_activity dataset after cleaning
 glimpse(daily_activity)
 
 # Check missing values and duplicates after cleaning
@@ -139,21 +162,20 @@ cat("\n",
 
 
 ```{r}
-# Let us print summary statistic to have a better idea of the data set
+# Let us print summary statistics to have a better idea of the dataset
 daily_activity %>%
   summary()
 ```
 
-This summary helps us explore quickly each attribute. We notice that some attributes have minimum value of zero (total_step, total_distance, calories). 
-Let us explore this observation.
+- This summary helps us explore each attribute quickly. We notice that some attributes have a minimum value of zero (total_step, total_distance, calories). Let us explore this observation.
 
 
 ```{r}
 # Check where total_steps is zero
 filter(daily_activity, total_steps == 0)
 ```
-We found 77 observations where total_steps is zero. We should delete these observations so that they do not affect our the mean and median.
-If total_step is zero that means that the person did not wear the Fitbit.
+
+- We found 77 observations where total_steps is zero. We should delete these observations so they do not affect our mean and median. If the total_step is zero, the person did not wear the Fitbit.
 
 ```{r}
 # Check where calories is zero
@@ -164,8 +186,8 @@ filter(daily_activity, calories == 0)
 # Check where total_distance is zero
 filter(daily_activity, total_distance == 0)
 ```
- From our inspection above, we can see that we just need to delete the entries where total_steps is zero and will take take care of the rest.
 
+- From our inspection above, we can see that we just need to delete the entries where total_steps is zero and will take take care of the rest.
 
 ```{r}
 daily_activity_clean <-
@@ -174,7 +196,6 @@ daily_activity_clean <-
          total_distance != 0,
          calories != 0)
 daily_activity_clean
-
 ```
 
 
@@ -196,18 +217,18 @@ cat("\n\n\n",
     "\t\t vs",
     "\n\n\n")
 
-
 cat("After deleting the entries\n\n")
 select(daily_activity_clean, total_steps, total_distance, calories) %>%
   summary()
 ```
-We can see that the observation we removed affected our mean and median.
+
+- We can see that the observation we removed affected our mean and median.
 
 
+### Clean the daily_sleep dataset
 
-## Clean the daily_sleep data set
 ```{r}
-# Check daily_sleep data set before cleaning
+# Check daily_sleep dataset before cleaning
 glimpse(daily_sleep)
 
 # Check missing values and duplicates
@@ -226,16 +247,17 @@ cat("\n",
 Let us clean:
 
 - Change column names to lower case because R is case sensitive
+
 - Change "Id" from double to a character because the number represents a category
+
 - Change "SleepDay" from char to date. Since the time component of this column is the
-  same for each observation"12:00:00 AM", we can remove it. This will helps us merged this 
-  data set with daily_activity later
+same for each observation"12:00:00 AM", we can remove it. This will helps us merged this 
+dataset with daily_activity later
+  
 - Delete duplicates (3 observations are duplicates)
 
-
-
 ```{r}
-# Clean daily_sleep data set
+# Clean daily_sleep dataset
 
 daily_sleep_clean <-
   # Clean column names
@@ -247,7 +269,7 @@ daily_sleep_clean <-
   # Remove duplicate rows
   distinct()
 
-# Check clean daily_sleep data set
+# Check clean daily_sleep dataset
 glimpse(daily_sleep_clean)
 
 # Check missing values and duplicates after cleaning
@@ -259,13 +281,10 @@ cat("\n",
     sum(duplicated(daily_sleep_clean)))
 ```
 
-
-
-## Clean the hourly data sets (hourly_calories, hourly_intensities, and hourly_steps)
-
+### Clean the hourly datasets (hourly_calories, hourly_intensities, and hourly_steps)
 
 ```{r}
-# Check hourly_calories data set before cleaning
+# Check hourly_calories dataset before cleaning
 glimpse(hourly_calories)
 
 # Check missing values and duplicates
@@ -278,7 +297,7 @@ cat("\n",
 ```
 
 ```{r}
-# Check hourly_intensities data set before cleaning
+# Check hourly_intensities dataset before cleaning
 glimpse(hourly_intensities)
 
 # Check missing values and duplicates
@@ -290,10 +309,8 @@ cat("\n",
     sum(duplicated(hourly_intensities)))
 ```
 
-
-
 ```{r}
-# Check hourly_steps data set before cleaning
+# Check hourly_steps dataset before cleaning
 glimpse(hourly_steps)
 
 # Check missing values and duplicates
@@ -305,13 +322,12 @@ cat("\n",
     sum(duplicated(hourly_steps)))
 ```
 
-### Join hourly data sets to create a hourly_actitvity data set
-These data sets shared the same Id and Activity_hour, let us join them into a new data set (hourly_activity) before we clean them.
+### Join hourly datasets to create a hourly_actitvity dataset
 
-
+- These datasets shared the same Id and Activity_hour, let us join them into a new dataset (hourly_activity) before we clean them.
 
 ```{r}
-# Join the hourly data sets (hourly_calories, hourly_intensities, and hourly_steps)
+# Join the hourly datasets (hourly_calories, hourly_intensities, and hourly_steps)
 
 hourly_activity <-
   inner_join(hourly_calories,
@@ -323,9 +339,8 @@ hourly_activity <-
 ```
 
 
-
 ```{r}
-# Check hourly_activity data set before cleaning
+# Check hourly_activity dataset before cleaning
 glimpse(hourly_activity)
 
 # Check missing values and duplicates
@@ -339,16 +354,18 @@ cat("\n",
 
 Let us clean:
 
-- Change column names to lower case because R is case sensitive
-- Change "Id" from double to a character because the number represents a category
-- Change "ActivityHour" from char to datetime
+- Change column names to lower case because R is case sensitive.
+
+- Change "Id" from double to a character because the number represents a category.
+
+- Change "ActivityHour" from char to datetime.
+
 
 Note:The default timezone is UTC.
 
 
-
 ```{r}
-# Clean hourly_activity data set
+# Clean hourly_activity dataset
 
 hourly_activity_clean <-
   # Clean column names
@@ -360,9 +377,8 @@ hourly_activity_clean <-
   # Remove duplicate rows
   distinct()
 
-# Check clean daily_activity data set
+# Check clean daily_activity dataset
 glimpse(hourly_activity_clean)
-
 
 # Check missing values and duplicates after cleaning
 cat("\n",
@@ -375,14 +391,10 @@ cat("\n",
 # as_datetime() converts with default timezone = "UTC"
 ```
 
-
-
-
-
-## Clean the minute_sleep data set
+### Clean the minute_sleep dataset
 
 ```{r}
-# Check minute_sleep data set before cleaning
+# Check minute_sleep dataset before cleaning
 glimpse(minute_sleep)
 
 # Check missing values and duplicates
@@ -400,16 +412,19 @@ cat("\n",
 
 Let us clean:
 
-- Change column names to lower case because R is case sensitive
-- Change "Id" from double to a character because the number represents a category
-- Change "date" from char to datetime
-- Change "value" from double to factor. Value indicates the sleep state: 1 = asleep, 2 = restless, 3 = awake. See: 
- [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
- - Remove duplicate values: 543
+- Change column names to lower case because R is case sensitive.
+
+- Change "Id" from double to a character because the number represents a category.
+
+- Change "date" from char to datetime.
+
+- Change "value" from double to factor. Value indicates the sleep state: 1 = asleep, 2 = restless, 3 = awake. For for details see: [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+
+ - Remove duplicate values: 543.
 
 
 ```{r}
-# Clean minute_sleep data set
+# Clean minute_sleep dataset
 
 minute_sleep_clean <-
   # Clean column names
@@ -422,7 +437,7 @@ minute_sleep_clean <-
   # Remove duplicate rows
   distinct()
 
-# Check clean daily_activity data set
+# Check clean daily_activity dataset
 glimpse(minute_sleep_clean)
 
 
@@ -435,9 +450,7 @@ cat("\n",
     sum(duplicated(minute_sleep_clean)))
 ```
 
-
-## Clean the seconds_heartrate data set
-
+### Clean the seconds_heartrate dataset
 
 ```{r}
 # Check seconds_heartrate set before cleaning
@@ -454,15 +467,18 @@ cat(
 
 Let us clean:
 
-- Change column names to lower case because R is case sensitive
-- Change "Id" from double to a character because the number represents a category
-- Change "Time" from char to datetime and rename it date_time
-- Rename "Value" to heart_rate
- [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+- Change column names to lower case because R is case sensitive.
 
+- Change "Id" from double to a character because the number represents a category.
+
+- Change "Time" from char to datetime and rename it date_time.
+
+- Rename "Value" to heart_rate. 
+
+For more details see: [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 ```{r}
-# Clean seconds_heartrate data set
+# Clean seconds_heartrate dataset
 
 seconds_heartrate_clean <-
   # Clean column names
@@ -477,7 +493,7 @@ seconds_heartrate_clean <-
   # Remove duplicate rows
   distinct()
 
-# Check clean daily_activity data set
+# Check clean daily_activity dataset
 glimpse(seconds_heartrate_clean)
 
 
@@ -494,10 +510,7 @@ cat("\n",
 # as_datetime() converts with default timezone = "UTC"
 ```
 
-
-
-## Clean the weight_logs data set
-
+### Clean the weight_logs dataset
 
 ```{r}
 # Check weight_logs set before cleaning
@@ -515,14 +528,18 @@ cat("\n",
 
 
 Let us clean:
-- Change column names to lower case because R is case sensitive
-- Change "Id" from double to a character because the number represents a category
-- Change "Date" from char to datetime and rename it date_time
-- Change NA to 0 in the column "fat"
+
+- Change column names to lower case because R is case sensitive.
+
+- Change "Id" from double to a character because the number represents a category.
+
+- Change "Date" from char to datetime and rename it date_time.
+
+- Change NA to 0 in the column "fat."
 
 
 ```{r}
-# Clean  weight_logs data set
+# Clean  weight_logs dataset
 
 weight_logs_clean <-
   # Clean column names
@@ -536,15 +553,11 @@ weight_logs_clean <-
   # Remove duplicate rows
   distinct()
 
-
-
 # Change NA to 0 in the column "fat"
 weight_logs_clean$fat[is.na(weight_logs_clean$fat)] <- 0
 
-# Check clean daily_activity data set
+# Check clean daily_activity dataset
 glimpse(weight_logs_clean)
-
-
 
 # Check missing values and duplicates after cleaning
 
@@ -558,13 +571,10 @@ cat("\n",
 
 ```
 
-
-
-## Distribution of ids across data sets
-
+## Distribution of ids across datasets
 
 ```{r}
-# Loop through each  data set and print th number o funiqu ids
+# Loop through each  dataset and print th number o funiqu ids
 datasets <- c(
     "daily_activity_clean",
     "daily_sleep_clean",
@@ -573,7 +583,6 @@ datasets <- c(
     "seconds_heartrate_clean",
     "weight_logs_clean"
 )
-
 
 results_df <- data.frame(Dataset = character(0), distinct_IDs = integer(0))
 
@@ -590,11 +599,12 @@ sorted_results <- results_df %>% arrange(- distinct_IDs )
 print(sorted_results)
 
 ```
-Differences in the number of unique IDs between the data sets can imply discrepancies in data collection methods, data incompleteness, or differing levels of user engagement.
+
+- Differences in the number of unique IDs between the datasets can imply discrepancies in data collection methods, data incompleteness, or differing levels of user engagement.
 
 
 
-# Export clean data sets
+## Export clean datasets
 
 ```{r}
 # To uncomment the following code, select all the lines and press shift + control + c on Mac
@@ -626,18 +636,17 @@ Differences in the number of unique IDs between the data sets can imply discrepa
 
 ```
 
-# Analyze Phase: Exploratory Data Analysis
-
-
+# Analyze phase: Exploratory data analysis 
 
 ##  EDA for daily_activity_clean
+
 ```{r}
 str(daily_activity_clean)
 ```
+
 ### Univariate analysis for daily_activity_clean
 
-
-### Numerical variables
+#### Numerical variables
 ```{r}
 # Subset numeric columns 
 num_df <- select_if(daily_activity_clean, is.numeric)
@@ -645,10 +654,9 @@ num_df <- select_if(daily_activity_clean, is.numeric)
 # Identify numeric columns
 colnames(num_df)
 
-
 ```
 
-```{r fig.align='center'}
+```{r }
 
 # plotting all numerical variables
 col_names <- colnames(num_df)
@@ -675,32 +683,31 @@ for (i in col_names) {
 
 ```
 
-
-
-
 Observations:
 
-- Many variables show a right-skewed distribution: a larger number of data values are located on the left side of the curve
+- Many variables show a right-skewed distribution: a larger number of data values are located on the left side of the curve.
 
-- The variables total_steps, total_distance, tracker_distance have a similar distribution. We can explore their correlations later
+- The variables total_steps, total_distance, tracker_distance have a similar distribution. We can explore their correlations later.
 
-- Since the distributions are not normal. The median is a better indicator of central tendency for the numerical variables in these data set
+- Since the distributions are not normal. The median is a better indicator of central tendency for the numerical variables in these dataset.
 
-- **The variable logged_activities_distance and sedentary_active_distance might not provide useful information since most of the data points are zero. It seems that the users are not logging the distance frequently**
+- **The variable "logged_activities_distance" and "sedentary_active_distance" might not provide useful information since most of the data points are zero. It seems that the users are not logging the distance frequently.**
 
--  The following variables seem related. We will explore them further in the bivariate analysis section:
+- The following variables seem related. We will explore them further in the bivariate analysis section:
 
-sedentary_minutes; sedentary_active_distance 
-lightly_active_minutes; light_active_distance  
-fairly_active_minutes; moderately_active_distance
-very_active_minutes; very_active_distance   
+    - sedentary_minutes; sedentary_active_distance 
+    
+    - lightly_active_minutes; light_active_distance
+    
+    - fairly_active_minutes; moderately_active_distance
+    
+    - very_active_minutes; very_active_distance   
 
 - The variables calories and sedentary_minutes exhibit a multimodal distribution, indicating the presence of subpopulations within the data. In this dataset, gender could be a potential variable that would result in a bimodal distribution when examining histograms of calories and sedentary minutes. Unfortunately, the gender of the users is not provided, limiting our ability to confirm this hypothesis.
 
 
 
-
-### Categorical variables
+#### Categorical variables
 
 ```{r}
 # Subset numeric columns 
@@ -709,8 +716,7 @@ select_if(daily_activity_clean, negate(is.numeric))
 
 ```
 
-
-```{r fig.align='center'}
+```{r }
 # Check counts by id
 ggplot(data=daily_activity_clean) + 
   geom_bar(mapping = aes (x= reorder(id, id,length)))+
@@ -722,7 +728,6 @@ ggplot(data=daily_activity_clean) +
 #reorder(id, id, length) takes the id variable, uses itself to determine the order, and uses the length() function to calculate the values used for ordering. Essentially, this reorders the levels of the id variable based on the length of their names.
 ```
 
-
 ```{r}
 count_max_ratio <- daily_activity_clean %>%
   count(id) %>%
@@ -733,9 +738,7 @@ count_max_ratio <- daily_activity_clean %>%
 
 ```
 
-
-
-```{r fig.align='center'}
+```{r }
 
 # Create bar graph with percentage of entries compared to maximum
 ggplot(count_max_ratio, aes(x = reorder(id, percent_of_max), y = percent_of_max)) +
@@ -766,12 +769,9 @@ percent_of_max_under_75 <- filter(count_max_ratio, percent_of_max < 75)
 percent_of_max_under_75 
 ```
 
-
-
 ```{r}
 daily_activity_clean$activity_date %>% summary()
 ```
-
 
 ```{r fig.align='center' }
 ggplot(data=daily_activity_clean , aes(x = activity_date)) + 
@@ -780,11 +780,7 @@ ggplot(data=daily_activity_clean , aes(x = activity_date)) +
 
 ```
 
-
-
-Observations:
-
-- It appears that there is missing activity data towards the end of the available period, specifically in the beginning of May
+- It appears that there is missing activity data towards the end of the available period, specifically in the beginning of May.
 
 
 
@@ -865,7 +861,6 @@ print(sorted_cor_data)
 
 ```
 
-
 - Total_distance, tracker_distance, and total steps are highly correlated, so we will retain only total distance and total steps as they provide similar information.
 
 - The following minute and distance types are correlated. Which indicates that they report different aspects of the same activity, this is time or distance:
@@ -884,9 +879,7 @@ print(sorted_cor_data)
 
 #### Scatterplots of selected highly correlated variables pairs (>0.60)
 
-
-
-```{r fig.align='center'}
+```{r }
 
 # List of correlated variable pairs
 correlated_pairs <- list(c("total_steps", "total_distance"), 
@@ -918,12 +911,11 @@ for (pair in correlated_pairs) {
 }
 ```
 
-
-### User Behavior for daily activity dataset
+### User Behavior for the daily activity dataset
 
 #### Total steps: Total number of steps taken.
 
-```{r fig.align='center' }
+```{r }
 # Create a boxplot for total_steps
 boxplot(daily_activity_clean$total_steps, 
         main = "Boxplot of Total Steps",
@@ -979,11 +971,6 @@ percentage_steps_df
 
 ```
 
-
-
-
-
-
 ```{r fig.align='center' }
 # Convert Category to a factor with custom factor levels
 percentage_steps_df$Category <- factor(percentage_steps_df$Category, levels = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"))
@@ -997,7 +984,6 @@ ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
 
 
 ```
-
 
 #### Total Distance: Total kilometers tracked.
 
@@ -1027,7 +1013,6 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n")
 
 ```
 
-
 ```{r}
 
 # Total distance by IDs
@@ -1038,21 +1023,17 @@ t_distance_df <- daily_activity_clean %>%
 t_distance_df
 ```
 
-
 ```{r}
 # Calculate percentages for the average column
 at_least_10_avg<- sum(t_distance_df$average_t_distance>= 10) / nrow(t_distance_df) * 100
 between_5_10_avg <- sum(t_distance_df$average_t_distance >= 5 & t_distance_df$average_t_distance < 10) / nrow(t_distance_df) * 100
 below_5_avg <- sum(t_distance_df$average_t_distance < 5) / nrow(t_distance_df) * 100
 
-
 # Create a data frame for the distance categories
 percentage_t_distance_df<- data.frame(
   Category = c("Below 5 km", "Between 5 and 10 km", "At least 10 km"),
   Percentage_Average = round(c(below_5_avg, between_5_10_avg , at_least_10_avg)))
 percentage_t_distance_df
-
-
 
 # Convert Category to a factor with custom factor levels
 percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, levels = c("Below 5 km", "Between 5 and 10 km", "At least 10 km"))
@@ -1118,7 +1099,6 @@ daily_activity_clean$sedentary_minutes %>% summary()
 outliers
 ```
 
-
 ```{r}
 # Count entries where sedentary minutes equal 1440
 count_1440 <- sum(daily_activity_clean$sedentary_minutes == 1440)
@@ -1127,14 +1107,13 @@ count_1440 <- sum(daily_activity_clean$sedentary_minutes == 1440)
 count_1440
 
 ```
+
 ```{r}
 # Remove rows with sedentary minutes equal to the default value (1440) and outliers
 
 daily_activity_clean <- filter(daily_activity_clean, !(sedentary_minutes %in% c(0, 2, 13, 1440)))
 
 ```
-
-
 
 ```{r}
 
@@ -1173,9 +1152,7 @@ joined_activity_sleep <- joined_activity_sleep %>%
 
 ```
 
-
-
-```{r fig.align='center' }
+```{r }
 
 # Let us check the percentage difference of sedentary_minutes and the new column "sedentary_min_awake
 
@@ -1203,14 +1180,10 @@ legend_label <- paste("Median:", round(median_value, 2),
 legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.80)
 
 ```
+
 - The sedentary percentage difference has a median value of 59.95%, indicating a significant distinction between sedentary_minutes and sedentary_min_awake. This suggest that the original column "sedentary_minutes" included the time asleep.
 
-
-
-
-
-
-```{r fig.align='center' }
+```{r }
 # Create a boxplot for sedentary_min_awake
 boxplot(joined_activity_sleep$sedentary_min_awake,
         main = "Boxplot of Sedentary Minutes Awake",
@@ -1253,19 +1226,16 @@ count
 # Subset the dataset
 subset_data <- joined_activity_sleep[joined_activity_sleep$sedentary_minutes < joined_activity_sleep$total_minutes_asleep, ]
 
-# View the subsetted data
+# View the subset data
 subset_data
 
 ```
 
-
-
 ```{r}
-# Check column names of the subsetted data
+# Check column names of the subset data
 subset_data %>%
 select(sedentary_minutes, total_minutes_asleep, sedentary_min_awake, calories,id, activity_date, total_steps, total_distance, very_active_minutes )
 ```
-
 
 ```{r}
 dim(subset_data)
@@ -1274,14 +1244,11 @@ dim(subset_data)
 dim(joined_activity_sleep)
 ```
 
-
-
 ```{r}
 # Use anti_join() to return a new dataset that includes all rows from the first dataset except for the rows that have a match in the second dataset.
  clean_subset<- anti_join(joined_activity_sleep, subset_data)
 dim(clean_subset)
 ```
-
 
 ```{r fig.align='center' }
 # Create a boxplot for sedentary_min_awake
@@ -1308,7 +1275,10 @@ legend_label <- paste("Median:", round(median_value, 2),
 legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", cex = 0.80)
 
 ```
-Observation: By eliminating negative values from "sedentary_min_awake," the resulting values now reflect a more realistic scenario.
+
+Observation: 
+
+-  By eliminating negative values from "sedentary_min_awake," the resulting values now reflect a more realistic scenario.
 
 
 ```{r}
@@ -1321,8 +1291,6 @@ t_sedentary_df <- clean_subset %>%
 t_sedentary_df
 
 ```
-
-
 
 ```{r}
 dataset <- t_sedentary_df
@@ -1367,9 +1335,8 @@ In a representative sample of U.S. adults, over two-thirds spent 6 + hours/day s
 
 Jingwen Liao, Min Hu, Kellie Imm, Clifton J. Holmes, Jie Zhu, Chao Cao, Lin Yang. Association of daily sitting time and leisure-time physical activity with body fat among U.S. adults. Journal of Sport and Health Science, 2022. ISSN 2095-2546. https://doi.org/10.1016/j.jshs.2022.10.001. (https://www.sciencedirect.com/science/article/pii/S2095254622001016)
 
-
-
 #### Calories:Total estimated energy expenditure (in kilocalories). 
+
 ```{r fig.align='center' }
 # Create a boxplot for calories
 boxplot(daily_activity_clean$calories, 
@@ -1396,7 +1363,6 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
 
 ```
 
-
 ```{r}
 outliers
 ```
@@ -1410,9 +1376,6 @@ calories_df <- daily_activity_clean %>%
 calories_df
 
 ```
-
-
-
 
 ```{r}
 # Calculate percentages for the average column
@@ -1441,8 +1404,7 @@ percentage_calories_df
 
 ```
 
-
-```{r fig.align='center' }
+```{r }
 # Create a bar plot using ggplot
 ggplot(percentage_calories_df, aes(x = Category, y = Percentage_Average)) +
   geom_bar(stat = "identity", fill = "red") +
@@ -1476,7 +1438,6 @@ U.S. Department of Agriculture and U.S. Department of Health and Human Services.
 - SedentaryMinutes: Total minutes spent in sedentary activity
 
 
-
 ```{r}
 activity_minutes_df <- daily_activity_clean %>%
   group_by(id) %>%
@@ -1492,8 +1453,7 @@ activity_minutes_df
 
 ```
 
-
-```{r fig.align='center', fig.width=6, fig.height=8}
+```{r fig.width=6, fig.height=8}
 
 # Define the custom order of legend items
 custom_order <- c( "Very Active", "Fairly Active", "Lightly Active", "Sedentary")
@@ -1519,8 +1479,6 @@ ggplot(activity_minutes_df, aes(y = id)) +
 
 
 ```
-
-
 
 ```{r}
 # Calculate the average for each column
@@ -1549,12 +1507,6 @@ overall_average_df
 
 ```
 
-
-
-
-
-
-
 ```{r fig.align='center',  fig.width=10, fig.height=4}
 
 ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_average_df), Percentage), fill = row.names(overall_average_df))) +
@@ -1573,10 +1525,6 @@ ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_ave
 
 
 "Analyzing each individual's average calorie intake can provide insights into their individual dietary habits and patterns. By comparing the individual averages to the overall average, you can identify individuals who consume more or fewer calories compared to the group average. This comparison can help in understanding variations in calorie intake and potential factors influencing individual differences."
-
-
-
-
 
 
 ```{r fig.align='center', fig.width=7, fig.height=3}
@@ -1613,7 +1561,6 @@ ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(row.
 
 ```
 
-
 These indicators provide insights into activity levels, sedentary behavior, and calorie burn. They can help track progress, set goals, and evaluate user behavior over time. Remember to consider the specific context and goals of your analysis to select and customize the most relevant KPIs for your use case. The context I will use is the guidelines for physical activity and diet for Americans:
 
 - U.S. Department of Health and Human Services. (2019). Physical Activity Guidelines for Americans (2nd ed.). Available at https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf  
@@ -1626,8 +1573,11 @@ These indicators provide insights into activity levels, sedentary behavior, and 
 str(daily_sleep_clean)
 ```
 - activity_date (sleep_day): Date on which the sleep event started.
+
 - total_sleep_records: Number of recorded sleep periods for that day. Includes naps > 60 min.
+
 - total_minutes_asleep: Total number of minutes classified as being “asleep”.
+
 - total_time_in_bed: Total minutes spent in bed, including asleep, restless, and awake, that occurred during a defined sleep record.
 
 
@@ -1636,8 +1586,8 @@ str(daily_sleep_clean)
 #Sanity check: Verify that the value of total_time_in_bed is greater than total_minutes_asleep, as we would expect.
 daily_sleep_clean[daily_sleep_clean$total_time_in_bed < daily_sleep_clean$total_minutes_asleep,]
 ```
-### Univariate analysis
 
+### Univariate analysis
 
 ```{r fig.align='center'}
 
@@ -1668,9 +1618,7 @@ for (i in col_names) {
 
 ### Bivariate analysis
 
-
 #### Correlation between numerical variables
-
 
 ```{r fig.align='center' }
 # Correlation between numerical variables
@@ -1700,7 +1648,7 @@ ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in
 ### User Behavior for daily sleep dataset
 
 
-```{r fig.align='center' }
+```{r  }
 
 
 frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
@@ -1722,8 +1670,7 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 ```
 
-
-#### Total Minutes Asleep
+#### Total minutes asleep
 
 ```{r fig.align='center' }
 # Create a boxplot for total_minutes_asleep
@@ -1770,12 +1717,9 @@ sleep_df <- sleep_df %>%
 filter(id != "2320127002")
 ```
 
-
-
 ```{r}
 sleep_df 
 ```
-
 
 ```{r}
 # Calculate percentages for the average column
@@ -1795,15 +1739,9 @@ percentage_sleep_df$Category <- factor(percentage_sleep_df$Category, levels = c(
 percentage_sleep_df
 ```
 
-
-
 ```{r}
 str(percentage_sleep_df)
 ```
-
-
-
-
 
 ```{r fig.align='center' }
 
@@ -1819,10 +1757,9 @@ ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
 
 ```
 
+#### Sleep duration consistency
 
-
-#### Sleep Duration Consistency
-```{r fig.align='center' }
+```{r }
 #Error bars
 
 # Convert average_sleep_minutes and standard_deviation_sleep_minutes to hours
@@ -1846,9 +1783,6 @@ ggplot(sleep_df, aes(x = id, y = average_sleep_hours)) +
 
 ```
 
-
-
-
 ```{r}
 # Calculate sleep duration averages and standard deviations in hours
 sleep_df <- daily_sleep_clean %>%
@@ -1870,16 +1804,12 @@ sleep_df
 
 ```
 
-
 ```{r}
 # Drop ID "2320127002" due to insufficient data for computing mean and standard deviation.
 sleep_df <- sleep_df %>% 
 filter(id != "2320127002")
 dim(sleep_df)
 ```
-
-
-
 
 ```{r fig.align='center' }
 create_boxplots_in_one_output <- function(data_frame, columns_to_analyze, decimal_places = 2) {
@@ -1916,7 +1846,6 @@ create_boxplots_in_one_output(sleep_df, columns_to_analyze, decimal_places = 2)
 
 ```
 
-
 ```{r fig.align='center' }
 # Columns to analyze
 columns_to_analyze <- c("standard_deviation_sleep_hours", "sd_awake_in_bed_hours")
@@ -1924,7 +1853,6 @@ columns_to_analyze <- c("standard_deviation_sleep_hours", "sd_awake_in_bed_hours
 # Call the function
 create_boxplots_in_one_output(sleep_df, columns_to_analyze, decimal_places = 2)
 ```
-
 
 ```{r}
 #Columns with outliers to remove
@@ -1944,14 +1872,11 @@ for (col in columns_with_outliers) {
 
 ```
 
-
 ```{r}
 sleep_df
 ```
 
-
-
-```{r fig.align='center' }
+```{r }
 # Check if outliers were removed
 columns_to_analyze <- c("average_sleep_hours", "average_awake_in_bed_hours", "standard_deviation_sleep_hours")
 
@@ -1959,7 +1884,6 @@ columns_to_analyze <- c("average_sleep_hours", "average_awake_in_bed_hours", "st
 # Call the function to create boxplots in one output
 create_boxplots_in_one_output(sleep_df, columns_to_analyze, decimal_places = 2)
 ```
-
 
 ```{r}
 #Let us divide the users into irregular sleepers and regular sleepers. We will use the 75th percentile as the threshold to determine irregular sleepers. The rest will be considered regular sleepers.
@@ -1973,14 +1897,9 @@ sleep_df$sleeper_type <- ifelse(sleep_df$standard_deviation_sleep_hours > thresh
 
 ```
 
-
-
-
 ```{r}
 sleep_df
 ```
-
-
 
 ```{r}
 # sleep_type counts
@@ -1992,11 +1911,7 @@ table(sleep_df$sleeper_type)
 sleep_df
 ```
 
-
-
-
-
-```{r fig.align='center' }
+```{r }
 
 color_options <- c("#E69F00", "#0072B2") # Blue: "#0072B2", Orange: "#E69F00"
 
@@ -2013,7 +1928,6 @@ create_violin_plot <- function(data, x_axis_col, y_axis_col) {
 
 ```
 
-
 ```{r fig.align='center' }
 # Call the function to create the violin plots for each column
 for (col in c("average_sleep_hours", "standard_deviation_sleep_hours", "average_awake_in_bed_hours","sd_awake_in_bed_hours")) {
@@ -2022,6 +1936,7 @@ for (col in c("average_sleep_hours", "standard_deviation_sleep_hours", "average_
 }
 
 ```
+
 Observations:
 
 - Regular sleepers tend to have higher median average sleep hours compared to irregular sleepers.This suggests that individuals classified as regular sleepers are likely getting more sleep on average than those categorized as irregular sleepers.
@@ -2032,9 +1947,8 @@ Observations:
 
 Summary: Regular sleepers get more sleep on average, have a more consistent sleep duration, and slightly higher median awake-in-bed duration than irregular sleepers.
 
+## EDA minute_sleep_clean
 
-
-#### EDA minute_sleep_clean
 ```{r}
 str(minute_sleep_clean)
 ```
@@ -2046,13 +1960,10 @@ Value indicating the sleep state.
 
 For more detail check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
-
-
 ```{r}
 # Add labels to the velue column
 minute_sleep_clean$value <- factor(minute_sleep_clean$value, levels = c("1", "2", "3"), labels = c("asleep", "restless", "awake"))
 ```
-
 
 ```{r}
 minute_sleep_clean %>% summary()
@@ -2075,11 +1986,7 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
   theme(panel.grid = element_blank(),
         plot.title = element_text(size = 12),
         plot.subtitle = element_text(size = 10, margin = margin(b = 20)))
-
 ```
-
-
-
 
 ##  EDA for hourly_activity_clean
 
@@ -2107,9 +2014,7 @@ hourly_df$am_pm <- ifelse(format(hourly_df$activity_hour, "%p") == "AM", "am", "
 
 #Add a column for the hour
 hourly_df$hour <- format(hourly_df$activity_hour, "%H")
-
 ```
-
 
 ```{r fig.align='center' }
 # Define colors for AM and PM
@@ -2146,12 +2051,6 @@ print(total_intensity_plot)
 print(step_total_avg_plot)
 ```
 
-
-
-
-
-
-
 ```{r }
 
 # Group by id, hour, and am_pm and summarize the columns
@@ -2168,15 +2067,9 @@ summary_data <- hourly_df %>%
     step_total_avg = mean(step_total),
     observations_count = n()
   )
-
-
-
 ```
 
-
-
-
-```{r fig.align='center'}
+```{r }
 
 
 # Define colors for AM and PM
@@ -2198,7 +2091,6 @@ generate_bar_plot <- function(data, y_var, y_label, limit_factor) {
     coord_cartesian(ylim = c(0, y_limit))
 }
 
-
 # Assuming your dataset is named 'summary_data'
 data <- summary_data
 
@@ -2211,7 +2103,6 @@ steps_plot <- generate_bar_plot(data, "step_total", "Steps Taken", limit_factor 
 print(calories_plot)
 print(total_intensity_plot)
 print(steps_plot)
-
 ```
 
 
@@ -2238,24 +2129,11 @@ for (col in c("calories", "total_intensity", "step_total")) {
   print(plot)
 }
 
-
 ```
 
-With the code provided, you can gain several insights into user behavior and activity patterns based on the "hourly_df" dataset. Some of the insights you can obtain are:
 
-Hourly Activity Patterns: You can observe how user activity varies throughout the day. The calories_avg, total_intensity_avg, and average_intensity_avg columns will give you the average calorie burn, total intensity, and average intensity for each hour, respectively. This can help identify peak activity hours and periods of lower activity.
-
-Variability in Activity: The calories_max, calories_min, total_intensity_max, and total_intensity_min columns will provide information about the maximum and minimum values of calorie burn and total intensity recorded during each hour. This can help you understand the range of activity levels and how much the activity varies from hour to hour.
-
-Average Steps per Hour: The step_total_avg column will give you the average number of steps taken during each hour. This can help you identify the typical step count during different times of the day.
-
-Observations Count: The observations_count column will show the number of data points (observations) available for each "id," "hour," and "am_pm" group. This can help you assess the data density and identify hours with more or fewer data points, which may influence the reliability of the insights.
 
 AM vs. PM Activity: The "am_pm" column indicates whether the activity occurred during the morning (AM) or afternoon/evening (PM). You can compare the activity patterns between these two periods and explore any differences in user behavior during these times.
-
-Individual User Insights: By grouping the data by "id," you can also gain insights into each individual user's activity patterns. You can assess their average calorie burn, intensity, and steps during various hours.
-
-Overall, these insights can help you understand how users engage in physical activity throughout the day, identify peak activity hours, and detect any patterns or trends in their behavior. This information can be valuable for designing personalized fitness plans, optimizing activity programs, and making data-driven decisions to improve health and well-being.
 
 
 
@@ -2278,8 +2156,6 @@ n_distinct(seconds_heartrate_clean$id)
 
 
 ```{r}
-
-
 # Group by 'id' and calculate the average heart rate for each user
 average_heart_rate <- seconds_heartrate_clean %>%
   group_by(id) %>%
@@ -2296,12 +2172,9 @@ bar_plot <- ggplot(average_heart_rate, aes(x = id, y = average_heart_rate)) +
 
 # Display the bar plot
 print(bar_plot)
-
-
 ```
 
 ##  EDA for weight_logs_clean
-
 
 ```{r}
 str(weight_logs_clean)
@@ -2347,25 +2220,38 @@ print(entry_count)
 ```
 
 
+
+
 ```{r}
 # Check users that reported fat percentage
 weight_logs_clean %>% filter(fat != 0)
 ```
 
+Observation:
+- Only two users reported fat percentage
 
 
 ```{r}
+
+
+# Calculate total entries
+total_entries <- sum(entry_count$entry_count)
+
+
 average_bmi_weight <- weight_logs_clean %>%
   group_by(is_manual_report) %>%
   summarize(mean_bmi = mean(bmi, na.rm = TRUE),
             mean_weight_pounds = mean(weight_pounds, na.rm = TRUE),
-            entry_count = n(), 
+            entry_count = n(),
+            entry_count_percentage = round((n()/total_entries)*100,2),
             .groups = "keep") 
 
 print(average_bmi_weight)
 
 ```
 
+Observation:
+- 61% of users log their weight manually, while 39% sync their weight from other devices
 
 
 ```{r}
@@ -2384,75 +2270,38 @@ columns_with_outliers <- c("weight_pounds", "bmi")
 for (col in columns_with_outliers) {
   weight_logs_clean <- remove_outliers(weight_logs_clean, col)
 }
-
 ```
-
 
 ```{r}
 dim(weight_logs_clean)
 ```
 
-
-
-
-
 ```{r}
 create_custom_box_plot(weight_logs_clean , x_axis_col = "is_manual_report", y_axis_col = "weight_pounds", orientation = "hor", colors = custom_colors)
 ```
+
 Observations:
 
-- Only two users reported fat percentage
-- It appears that users that log their weight data manually have a lower median weight than users that synced their weight from other devices.
-- Users that that log their weight data manuall had more entries
+- It appears that users who log their weight data manually have a lower median weight than users who sync their weight from other devices.
+
+- The previous observation should be viewed as exploratory and could benefit from additional data. The weight log dataset only has 68 entries; more data would be needed to evaluate these hunches.
+
+- The lack of completeness in the weight log dataset could indicate a lack of user engagement.
 
 
 
 
+### next
 
 
-# Calculate the total average
-total_average <- sum(averages)
-
-# Calculate the proportions
-proportions <- averages / total_average
-
-# Create the new dataframe with modified row names
-overall_average_df<- data.frame(Average = averages,
-                     Percentage = proportions * 100)
-
-
-
-- Weight Reporting Behavior: Assess the reporting behavior of users using the IsManualReport variable. Calculate the percentage of manual weight reports compared to total weight reports to determine how actively users are providing weight updates. This can indicate user engagement and motivation to track their weight.
-
-
-
-- BMI distribution (percentage above normal BMI)
-
-- Weight Trends: Analyze the trends in weight over time (Date) to understand if users are experiencing weight loss, gain, or stability. Plotting weight (WeightKg or WeightPounds) against time can reveal patterns, fluctuations, or significant changes in weight. You can also calculate descriptive statistics such as average weight, standard deviation, or rate of weight change to gain insights into user behavior.
-
-
-
-User Engagement: The difference in distinct IDs across datasets could reflect different levels of user engagement with different types of data. For example, the "weight_logs_clean" dataset having fewer distinct IDs might indicate that fewer users are actively logging their weight data compared to other types of data.
-
-# Insights and recommendations
-
-https://www.cdc.gov/mmwr/volumes/68/wr/mm6823a1.htm
-
-file:///Users/vivianbarros/Desktop/Physical_Activity_Guidelines_2nd_edition.pdf
-
-
-
-# Appendix 
-
-
-
-#
-https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot 
-
-
-
-
-https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot
+- Revise notebook
+-Check for grammar
+- Organize references and check headings and formatting
+- Write final recommendations
+_ Write limitations
+- Work on report and final recommendations
+- Check knit and convert to jupyternotebook
+- 
 
 
 
@@ -2460,29 +2309,10 @@ https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-a
 
 
 
-# Another source:
-https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?search=data
-
-
-#paper
-https://dl.acm.org/doi/pdf/10.1145/3339825.3394926
 
 
 
-
-this is it:
-physical innactivity. Plot a barplot with percentages.
-https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity
-
-
-information about physical activity guidlines (sex and age):
-
-https://www.cdc.gov/nchs/products/databriefs/db443.htm
-Elgaddal N, Kramarow EA, Reuben C. Physical activity among adults aged 18 and over: United States, 2020. NCHS Data Brief, no 443. Hyattsville, MD: National Center for Health Statistics. 2022. DOI: https://dx.doi.org/10.15620/cdc:120213 
-
-
-
-
+rmd2jupyter("Bellabeat_case_study_draft1.Rmd")
 
 
 
@@ -2502,9 +2332,46 @@ Add density line to histogram: https://r-coder.com/density-plot-r
 - Error bars vs CI: https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html
 
 
+ 1. Plotting histograms with ggplot2:[1.0](https://appsilon.com/ggplot2-histograms/), 
+
+
+# Insights and recommendations
+
+https://www.cdc.gov/mmwr/volumes/68/wr/mm6823a1.htm
 
 
 
+
+
+https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot 
+
+
+
+
+https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot
+
+
+# Another source:
+https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?search=data
+
+
+#paper
+https://dl.acm.org/doi/pdf/10.1145/3339825.3394926
+
+
+
+
+
+
+this is it:
+physical innactivity. Plot a barplot with percentages.
+https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity
+
+
+information about physical activity guidlines (sex and age):
+
+https://www.cdc.gov/nchs/products/databriefs/db443.htm
+Elgaddal N, Kramarow EA, Reuben C. Physical activity among adults aged 18 and over: United States, 2020. NCHS Data Brief, no 443. Hyattsville, MD: National Center for Health Statistics. 2022. DOI: https://dx.doi.org/10.15620/cdc:120213 
 
 
 

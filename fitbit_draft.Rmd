@@ -34,7 +34,7 @@ library(lubridate) #working with dates
 
 ```{r}
 
-df <- read_csv("dailyActivity_merged.csv", trim_ws = TRUE, show_col_types = FALSE)
+df <- read_csv("original_data/dailyActivity_merged.csv", trim_ws = TRUE, show_col_types = FALSE)
 
 ```
 
