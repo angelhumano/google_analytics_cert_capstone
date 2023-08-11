@@ -170,7 +170,7 @@ daily_activity %>%
 
 ```{r}
 # Check where total_steps is zero
-filter(daily_activity, total_steps == 0)
+filter(daily_activity, total_steps == 0) 
 ```
 
 - We found 77 observations where total_steps is zero. We should delete these observations so they do not affect our mean and median. If the total_step is zero, the person did not wear the Fitbit.

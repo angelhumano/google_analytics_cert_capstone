@@ -252,7 +252,7 @@ daily_activity %>%
 
 ``` r
 # Check where total_steps is zero
-filter(daily_activity, total_steps == 0)
+filter(daily_activity, total_steps == 0) 
 ```
 
 <div data-pagedtable="false">
