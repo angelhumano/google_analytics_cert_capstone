@@ -2,9 +2,8 @@
 title: "Google Data Analytics Certificate Capstone (Bellabeat Case Study)"
 author: "Gabriel Fernandez"
 output:
-  github_document: 
-   df_print: paged
-  
+  github_document: default
+
 toc: yes
 urlcolor: blue
 ---
@@ -99,8 +98,6 @@ weight_logs <-
 
 # Remove trailing spaces (trim_ws = TRUE)
 ```
-dataset
-
 
 ## Clean datasets
 
