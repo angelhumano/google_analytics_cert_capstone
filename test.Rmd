@@ -2,13 +2,13 @@
 title: "Google Data Analytics Certificate Capstone (Bellabeat Case Study)"
 author: "Gabriel Fernandez"
 output:
-  github_document: default
+  github_document
   
-toc: yes
+    
 urlcolor: blue
-
-
 ---
+
+
 
 ```{r}
 # Set default options for code chunks
@@ -58,7 +58,7 @@ Let us clean:
 - Change "ActivityDate" from char to date.
 
 
-
+# heading 1
 ```{r }
 weight_logs <-
   read_csv("original_data/weightLogInfo_merged.csv",
@@ -67,7 +67,7 @@ weight_logs <-
   )
 ```
 
-
+## Heading 2
 
 ```{r}
 glimpse(weight_logs)

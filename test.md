@@ -2,8 +2,6 @@ Google Data Analytics Certificate Capstone (Bellabeat Case Study)
 ================
 Gabriel Fernandez
 
-true
-
 ``` r
 # Set default options for code chunks
 knitr::opts_chunk$set(
@@ -45,6 +43,8 @@ Let us clean:
 
 - Change “ActivityDate” from char to date.
 
+# heading 1
+
 ``` r
 weight_logs <-
   read_csv("original_data/weightLogInfo_merged.csv",
@@ -52,6 +52,8 @@ weight_logs <-
     show_col_types = FALSE
   )
 ```
+
+## Heading 2
 
 ``` r
 glimpse(weight_logs)
