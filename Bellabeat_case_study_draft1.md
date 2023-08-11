@@ -2,7 +2,7 @@ Google Data Analytics Certificate Capstone (Bellabeat Case Study)
 ================
 Gabriel Fernandez
 
-true
+
 
 ``` r
 # Set default options for code chunks
