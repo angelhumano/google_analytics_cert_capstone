@@ -12,6 +12,11 @@ In this case study, I chose to use **R(RStudio and R Markdown)** for its versati
 Visit the [Bellabeat website](https://bellabeat.com/) to learn the company that inspired this case study.
 
 
+## Project in brief
+- mention problem
+- tools
+- insights
+
 ### Business problem
 
 Bellabeat, a successful small company, has the potential to become a major player in the global smart device market. Urška Sršen, the visionary co-founder and Chief Creative Officer, believes that analyzing smart device data can lead to new growth avenues. As a part of the marketing analytics team, I have been tasked with analyzing smart device usage data for the Bellabeat app to guide marketing strategy based on user behavior insights.
