@@ -42,13 +42,10 @@ I will follow a systematic data analysis process that I learned in the Google An
 - Act: Offering high-level recommendations for Bellabeat's marketing strategy.
 
 
-
 ![Example Image](images/data_analysis_process.png)
 
+See original source :[Google Data Analytics Professional Certificate by Coursera](https://www.coursera.org/learn/foundations-data/supplement/Yo3Cn/the-data-analysis-process-and-this-program)
 
-Here is an image of the data analysis process[^1].
-
-[^1]: Image credit: [Google Data Analytics Professional Certificate by Coursera](https://www.coursera.org/learn/foundations-data/supplement/Yo3Cn/the-data-analysis-process-and-this-program)
 
 
 
@@ -63,7 +60,7 @@ Here is an image of the data analysis process[^1].
 6. Your top high-level content recommendations based on your analysis
 
 ## Ask 
-**Objective:** • Ask effective questions • Define the problem • Use structured thinking• Communicate with others
+
 
 #### Guiding questions 
 
@@ -93,52 +90,24 @@ How can your insights drive business decisions?
 Analyze smart device usage data to gain insight into how people already use their smart devices to help guide future marketing strategies for Bellabeat App.
 
 ## Prepare
-• Understand how data is
-generated and collected
-• Identify and use different data
-formats, types, and structures
-• Make sure data is unbiased and
-credible
-• Organize and protect data
+
 
 ## Process 
-• Create and transform data 
-• Maintain data integrity
-• Test data
-• Clean data
-• Verify and report on 4
-cleaning results
+
 
 ## Analyze
 
-• Use tools to format and transform
-data
-• Sort and filter data
-• Identify patterns and draw
-conclusions
-• Make predictions and
-recommendations
-• Make data-driven decisions
+
 
 ## Share 
 
-• Understand visualization
-• Create effective visuals
-• Bring data to life
-• Use data storytelling
-• Communicate to help 
-others understand results
 
 ## Act (Recommendations)
-• Apply your insights
-• Solve problems
-• Make decisions
-• Create something new 
+
+
 [Link to Bellabeat_case_study_draft1.pdf](Bellabeat_case_study_draft1.pdf)
 
 
-
-test image: ![Example Image](images/overall_prevalence_inactivity_2017_2020.png)
 
 
 ## Limitations
