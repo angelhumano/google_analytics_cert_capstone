@@ -42,6 +42,18 @@ I will follow a systematic data analysis process that I learned in the Google An
 - Act: Offering high-level recommendations for Bellabeat's marketing strategy.
 
 
+
+![Example Image](images/data_analysis_process.png)
+
+
+Here is an image of the data analysis process[^1].
+
+[^1]: Image credit: [Google Data Analytics Professional Certificate by Coursera](https://www.coursera.org/learn/foundations-data/supplement/Yo3Cn/the-data-analysis-process-and-this-program)
+
+
+
+
+
 ## Deliverables for each phase
 1. A clear summary of the business task 
 2. A description of all data sources used 
