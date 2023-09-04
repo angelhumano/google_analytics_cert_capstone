@@ -2,9 +2,8 @@
 title: "Google Data Analytics Certificate Capstone (Bellabeat Case Study)"
 author: "Gabriel Fernandez"
 output:
-  github_document: default
+  github_document
 
-toc: yes
 urlcolor: blue
 ---
 
