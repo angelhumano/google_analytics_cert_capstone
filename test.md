@@ -85,37 +85,51 @@ glimpse(weight_logs)
     $ IsManualReport <lgl> TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, …
     $ LogId          <dbl> 1.462234e+12, 1.462320e+12, 1.460510e+12, 1.461283e+12,…
 
-Observations:
+# References
 
-- Many variables show a right-skewed distribution: a larger number of
-  data values are located on the left side of the curve.
+### Guidelines and research articles
 
-- The variables total_steps, total_distance, tracker_distance have a
-  similar distribution. We can explore their correlations later.
+- 1.  Handling sedentary time: [A Comparison of Sedentary Behavior as
+      Measured by the Fitbit and ActivPAL in College
+      Students](https://www.mdpi.com/1660-4601/18/8/3914)
 
-- Since the distributions are not normal. The median is a better
-  indicator of central tendency for the numerical variables in these
-  dataset.
+- 2.  Danger of prolong sitting(sedentary time): [Association of daily
+      sitting time and leisure-time physical activity with body fat
+      among U.S. adults. Journal of Sport and Health
+      Science](https://www.sciencedirect.com/science/article/pii/S2095254622001016)
 
-- **The variable “logged_activities_distance” and
-  “sedentary_active_distance” might not provide useful information since
-  most of the data points are zero. It seems that the users are not
-  logging the distance frequently.**
+- 3.  [Dietary Guidelines for Americans,
+      2020-2025](https://www.dietaryguidelines.gov/)
 
-- The following variables seem related. We will explore them further in
-  the bivariate analysis section:
+- 4.  [Physical Activity Guidelines for Americans (2nd
+      ed.)](https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
 
-  - sedentary_minutes; sedentary_active_distance
+### Links
 
-  - lightly_active_minutes; light_active_distance
+- [Projects Datasets:](https://www.kaggle.com/datasets/arashnic/fitbit)
 
-  - fairly_active_minutes; moderately_active_distance
+- [EDA guide](https://rpubs.com/jovial/r)
 
-  - very_active_minutes; very_active_distance
+- Metadata: [Fitbit data
+  dictionary](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
-- The variables calories and sedentary_minutes exhibit a multimodal
-  distribution, indicating the presence of subpopulations within the
-  data. In this dataset, gender could be a potential variable that would
-  result in a bimodal distribution when examining histograms of calories
-  and sedentary minutes. Unfortunately, the gender of the users is not
-  provided, limiting our ability to confirm this hypothesis.
+- [Plotting histograms with
+  ggplot2](https://appsilon.com/ggplot2-histograms/)
+
+- [Histograms article](https://statisticsbyjim.com/basics/histograms/)
+
+- [Error bars vs
+  CI](https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html)
+
+- [Add density line to histogram](https://r-coder.com/density-plot-r)
+
+- [Categorical, ordinal, interval,
+  variables](https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm)
+
+### Appendix: Interesting sites for further investigation
+
+- [Adult Physical Inactivity Prevalence Maps by
+  Race/Ethnicity](https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity)
+
+- [Physical activity among adults aged 18 and over : United States,
+  2020](https://stacks.cdc.gov/view/cdc/120213)

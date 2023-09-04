@@ -2887,53 +2887,6 @@ hourly_df$hour <- format(hourly_df$activity_hour, "%H")
 ```
 
 ``` r
-# Define colors for AM and PM
-color_palette <- c("#FFA500", "#ADD8E6")  # Orange for AM, Light Blue for PM
-
-# Custom function to generate the boxplot with dynamically set y-axis limits
-generate_boxplot <- function(data, y_var, y_label, limit_factor) {
-  y_limit <- quantile(data[[y_var]], 0.95) * limit_factor
-  
-  ggplot(data, aes(x = hour, y = get(y_var), fill = am_pm)) +
-    geom_boxplot(position = position_dodge(0.9), outlier.shape = NA) +
-    scale_fill_manual(values = color_palette) +
-    labs(title = paste("Median", y_label, "by Hour"),
-         x = "Hour",
-         y = paste("Median", y_label)) +
-    guides(fill = guide_legend(title = NULL)) +  # Remove legend title
-    theme_minimal() +
-    theme(panel.grid.major.x = element_blank()) +
-    coord_cartesian(ylim = c(0, y_limit))
-}
-
-# Assuming your dataset is named 'hourly_df1'
-data <- hourly_df
-
-# Create the plots with dynamically adjusted y-axis limits
-# Adjust the limit_factor as needed (e.g., 1.1, 1.2, etc.)
-calories_plot <- generate_boxplot(data, "calories", "Calorie Burn", limit_factor = 1.4)
-total_intensity_plot <- generate_boxplot(data, "total_intensity", "Total Intensity", limit_factor = 1.3)
-step_total_avg_plot <- generate_boxplot(data, "step_total", "Total Steps", limit_factor = 1.3)
-
-# Print the plots
-print(calories_plot)
-```
-
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-115-1.png" style="display: block; margin: auto;" />
-
-``` r
-print(total_intensity_plot)
-```
-
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-115-2.png" style="display: block; margin: auto;" />
-
-``` r
-print(step_total_avg_plot)
-```
-
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-115-3.png" style="display: block; margin: auto;" />
-
-``` r
 # Group by id, hour, and am_pm and summarize the columns
 summary_data <- hourly_df %>%
   group_by(id, hour, am_pm) %>%
@@ -2982,22 +2935,34 @@ total_intensity_plot <- generate_bar_plot(data, "total_intensity", "Total Intens
 steps_plot <- generate_bar_plot(data, "step_total", "Steps Taken", limit_factor = 1.1)
 
 # Print the plots
-print(calories_plot)
-```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-117-1.png" style="display: block; margin: auto;" />
-
-``` r
 print(total_intensity_plot)
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-117-2.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-116-1.png" style="display: block; margin: auto;" />
 
 ``` r
 print(steps_plot)
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-117-3.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-116-2.png" style="display: block; margin: auto;" />
+
+``` r
+print(calories_plot)
+```
+
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-116-3.png" style="display: block; margin: auto;" />
+Observations:
+
+- Intensity: On average, users engage more actively at 5:00 AM, 8:00 AM,
+  5:00 PM, and 7:00 PM.
+
+- Step Count: On average, users record more steps at 8:00 AM and 7:00
+  PM.
+
+- These observations suggest that user activity may be influenced by
+  their daily routines and responsibilities, with higher activity levels
+  before or after typical workday hours.
 
 ``` r
 # Function to create a box plot with customizable orientation and colors for a given y-axis column
@@ -3023,7 +2988,7 @@ for (col in c("calories", "total_intensity", "step_total")) {
 }
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-118-1.png" style="display: block; margin: auto;" /><img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-118-2.png" style="display: block; margin: auto;" /><img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-118-3.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-117-1.png" style="display: block; margin: auto;" /><img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-117-2.png" style="display: block; margin: auto;" /><img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-117-3.png" style="display: block; margin: auto;" />
 
 AM vs. PM Activity: The “am_pm” column indicates whether the activity
 occurred during the morning (AM) or afternoon/evening (PM). You can
@@ -3078,7 +3043,14 @@ bar_plot <- ggplot(average_heart_rate, aes(x = id, y = average_heart_rate)) +
 print(bar_plot)
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-122-1.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-121-1.png" style="display: block; margin: auto;" />
+Observations:
+
+- Users’ average heart rate is within the normal range. Nothing
+  remarkable here.
+- We could suggest adding a feature to the app that sends notifications
+  to users whose average resting heart rate falls outside the normal
+  range.
 
 ## EDA for weight_logs_clean
 
@@ -3143,7 +3115,7 @@ columns_to_analyze <- c("bmi", "weight_pounds")
 create_boxplots_in_one_output(weight_logs_clean, columns_to_analyze, decimal_places = 2)
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-125-1.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-124-1.png" style="display: block; margin: auto;" />
 
 ``` r
 entry_count <- weight_logs_clean %>%
@@ -3212,7 +3184,7 @@ their weight from other devices
 create_custom_box_plot(weight_logs_clean , x_axis_col = "is_manual_report", y_axis_col = "weight_pounds", orientation = "hor", colors = custom_colors)
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-129-1.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-128-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # Use the remove_outliers function we created previously to remove the outliers
@@ -3236,7 +3208,7 @@ dim(weight_logs_clean)
 create_custom_box_plot(weight_logs_clean , x_axis_col = "is_manual_report", y_axis_col = "weight_pounds", orientation = "hor", colors = custom_colors)
 ```
 
-<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-132-1.png" style="display: block; margin: auto;" />
+<img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-131-1.png" style="display: block; margin: auto;" />
 
 Observations:
 
@@ -3256,8 +3228,6 @@ Observations:
 - Organize references and check headings and formatting
 - Write final recommendations \_ Write limitations
 - Work on report and final recommendations
-- Check knit and convert to jupyternotebook
-- 
 
 convert from rmarkdown to github
 
@@ -3270,16 +3240,13 @@ convert from rmarkdown to github
 - Histograms: <https://statisticsbyjim.com/basics/histograms/>
   <https://blog.minitab.com/en/3-things-a-histogram-can-tell-you>
 
-Categorical, ordinal, interval, and ratio variables :
-<https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm>
-
-Add density line to histogram: <https://r-coder.com/density-plot-r>
-
-- Error bars vs CI:
-  <https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html>
-
-1.  Plotting histograms with
-    ggplot2:[1.0](https://appsilon.com/ggplot2-histograms/),
+<https://blog.minitab.com/en/3-things-a-histogram-can-tell-you>) -
+[Plotting histograms with
+ggplot2](https://appsilon.com/ggplot2-histograms/), - [Error bars vs
+CI](https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html) -
+[Add density line to histogram](https://r-coder.com/density-plot-r) -
+[Categorical, ordinal, interval, a
+variables](https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm)
 
 # Insights and recommendations
 
