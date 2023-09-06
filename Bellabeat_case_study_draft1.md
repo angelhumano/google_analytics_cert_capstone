@@ -1625,14 +1625,17 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
   uses
   1400](https://community.fitbit.com/t5/Other-Charge-Trackers/sedentary-minutes/td-p/3372621)
   as default for sedentary minutes when the device is not worn and it
-  includes the sleeping time. SedentaryMinutes is total minutes spent in
-  sedentary activity according to the data dictionary. See meta data
-  section. Therefore, we need to substract the times sleeping to obtain
-  an more accurate estimate of daily sedentary minutes.
+  includes the sleeping time.
 
-[Sleep time is not considered sedentary time, so it was removed to
+SedentaryMinutes is total minutes spent in sedentary activity according
+to the data dictionary. See meta data section. Therefore, we need to
+substract the times sleeping to obtain an more accurate estimate of
+daily sedentary minutes.
+
+“Sleep time is not considered sedentary time, so it was removed to
 determine the waking day and to allow the proportion of the day spent
-sedentary to be calculated](https://www.mdpi.com/1660-4601/18/8/3914)
+sedentary to be calculated.”
+[1](https://www.mdpi.com/1660-4601/18/8/3914)
 
 ``` r
 # Check sedentary_minutes stats
@@ -1964,14 +1967,8 @@ sitting for 6+ hours/day was associated with higher body fat
 percentages. While exceeding 150 min/week of physical activity was
 linked to lower body fat percentages, achieving recommended activity
 levels may not fully offset the increased body fat from prolonged
-sitting.
-
-Jingwen Liao, Min Hu, Kellie Imm, Clifton J. Holmes, Jie Zhu, Chao Cao,
-Lin Yang. Association of daily sitting time and leisure-time physical
-activity with body fat among U.S. adults. Journal of Sport and Health
-Science, 2022. ISSN 2095-2546.
-<https://doi.org/10.1016/j.jshs.2022.10.001>.
-(<https://www.sciencedirect.com/science/article/pii/S2095254622001016>)
+sitting
+[2](https://www.sciencedirect.com/science/article/pii/S2095254622001016).
 
 #### Calories:Total estimated energy expenditure (in kilocalories).
 
@@ -2085,11 +2082,8 @@ ggplot(percentage_calories_df, aes(x = Category, y = Percentage_Average)) +
 Males in this age group have higher calorie needs of about 2,400 to
 3,000 a day. Calorie needs for adults ages 31 through 59 are generally
 lower; most females require about 1,600 to 2,200 calories a day and
-males require about 2,200 to 3,000 calories a day.”
-
-U.S. Department of Agriculture and U.S. Department of Health and Human
-Services. Dietary Guidelines for Americans, 2020-2025. 9th Edition.
-December 2020. Available at DietaryGuidelines.gov/
+males require about 2,200 to 3,000 calories a
+day.”[3](https://www.dietaryguidelines.gov/)
 
 #### Intensity Minutes: Time spent in one of four intensity categories.
 
@@ -2197,13 +2191,6 @@ ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_ave
 
 <img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-80-1.png" style="display: block; margin: auto;" />
 
-“Analyzing each individual’s average calorie intake can provide insights
-into their individual dietary habits and patterns. By comparing the
-individual averages to the overall average, you can identify individuals
-who consume more or fewer calories compared to the group average. This
-comparison can help in understanding variations in calorie intake and
-potential factors influencing individual differences.”
-
 ``` r
 # Define the custom order of legend items
 
@@ -2238,19 +2225,21 @@ ggplot(overall_average_df, aes(x = Percentage, y = factor(1), fill = factor(row.
 
 <img src="Bellabeat_case_study_draft1_files/figure-gfm/unnamed-chunk-81-1.png" style="display: block; margin: auto;" />
 
-These indicators provide insights into activity levels, sedentary
-behavior, and calorie burn. They can help track progress, set goals, and
-evaluate user behavior over time. Remember to consider the specific
-context and goals of your analysis to select and customize the most
-relevant KPIs for your use case. The context I will use is the
-guidelines for physical activity and diet for Americans:
+Observations:
 
-- U.S. Department of Health and Human Services. (2019). Physical
-  Activity Guidelines for Americans (2nd ed.). Available at
-  <https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf>  
-- U.S. Department of Agriculture and U.S. Department of Health and Human
-  Services. Dietary Guidelines for Americans, 2020-2025. 9th Edition.
-  December 2020. Available at DietaryGuidelines.gov/
+- Users’ overall average intensity minutes consist primarily of
+  sedentary and lightly active time, comprising 97%.
+
+- We can use average user activity pattern to develop indicators to
+  provide insights into activity levels. They can help track progress,
+  set goals, and evaluate user behavior over time.
+
+- This is a concern since the Physical Activity Guidelines for Americans
+  recommend 150 minutes of moderate-intensity or 75 minutes of
+  vigorous-intensity aerobic activity weekly, along with
+  muscle-strengthening exercises for adults. Additionally, it’s advised
+  to reduce sedentary time and break up long periods of
+  inactivity.[4](https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
 
 ## EDA for daily_sleep_clean
 
@@ -3222,74 +3211,51 @@ Observations:
 - The lack of completeness in the weight log dataset could indicate a
   lack of user engagement.
 
-### next
+# References
 
-- Revise notebook -Check for grammar
-- Organize references and check headings and formatting
-- Write final recommendations \_ Write limitations
-- Work on report and final recommendations
+### Guidelines and research articles
 
-convert from rmarkdown to github
+- 1.  Handling sedentary time: [A Comparison of Sedentary Behavior as
+      Measured by the Fitbit and ActivPAL in College
+      Students](https://www.mdpi.com/1660-4601/18/8/3914)
 
-<https://mbounthavong.com/blog/2022/7/30/hosting-a-r-markdown-html-file-on-a-github-page>
+- 2.  Danger of prolong sitting(sedentary time): [Association of daily
+      sitting time and leisure-time physical activity with body fat
+      among U.S. adults. Journal of Sport and Health
+      Science](https://www.sciencedirect.com/science/article/pii/S2095254622001016)
 
-# Reference:
+- 3.  [Dietary Guidelines for Americans,
+      2020-2025](https://www.dietaryguidelines.gov/)
 
-- EDA: <https://rpubs.com/jovial/r>
+- 4.  [Physical Activity Guidelines for Americans (2nd
+      ed.)](https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
 
-- Histograms: <https://statisticsbyjim.com/basics/histograms/>
-  <https://blog.minitab.com/en/3-things-a-histogram-can-tell-you>
+### Links
 
-<https://blog.minitab.com/en/3-things-a-histogram-can-tell-you>) -
-[Plotting histograms with
-ggplot2](https://appsilon.com/ggplot2-histograms/), - [Error bars vs
-CI](https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html) -
-[Add density line to histogram](https://r-coder.com/density-plot-r) -
-[Categorical, ordinal, interval, a
-variables](https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm)
+- [Projects Datasets:](https://www.kaggle.com/datasets/arashnic/fitbit)
 
-# Insights and recommendations
+- [EDA guide](https://rpubs.com/jovial/r)
 
-<https://www.cdc.gov/mmwr/volumes/68/wr/mm6823a1.htm>
+- Metadata: [Fitbit data
+  dictionary](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
-<https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot>
+- [Plotting histograms with
+  ggplot2](https://appsilon.com/ggplot2-histograms/)
 
-<https://stackoverflow.com/questions/13035834/plot-every-column-in-a-data-frame-as-a-histogram-on-one-page-using-ggplot>
+- [Histograms article](https://statisticsbyjim.com/basics/histograms/)
 
-# Another source:
+- [Error bars vs
+  CI](https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html)
 
-<https://www.kaggle.com/datasets/arashnic/fitbit/discussion/313589?search=data>
+- [Add density line to histogram](https://r-coder.com/density-plot-r)
 
-\#paper <https://dl.acm.org/doi/pdf/10.1145/3339825.3394926>
+- [Categorical, ordinal, interval,
+  variables](https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm)
 
-this is it: physical innactivity. Plot a barplot with percentages.
-<https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity>
+### Appendix: Interesting sites for further investigation
 
-information about physical activity guidlines (sex and age):
+- [Adult Physical Inactivity Prevalence Maps by
+  Race/Ethnicity](https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity)
 
-<https://www.cdc.gov/nchs/products/databriefs/db443.htm> Elgaddal N,
-Kramarow EA, Reuben C. Physical activity among adults aged 18 and over:
-United States, 2020. NCHS Data Brief, no 443. Hyattsville, MD: National
-Center for Health Statistics. 2022. DOI:
-<https://dx.doi.org/10.15620/cdc:120213>
-
-——————— showing notebook in github
-
-convert to jupyter notbook option:
-<https://medium.datadriveninvestor.com/transforming-your-rmd-to-ipynb-file-r-markdown-to-python-jupyter-b1306646f50b>
-
-Hey all,
-
-Sorry if I’m misunderstanding here, but I have been knitting the .Rmd
-notebook to a .md file within RStudio, and it seems to display very well
-in GitHub. You can see an example in my repo to see if I’m on track with
-this thread.
-
-The links below give the explanation. Short Version:
-
-change “output=html_document” to “output=github_document”
-
-knit the document push the .md file to GitHub instead of the .Rmd be
-sure to push the ’\_files’ folder to include any images
-<https://rmarkdown.rstudio.com/github_document_format.html>
-<https://gist.github.com/JoshuaTPierce/b919168421b40e06481080eb53c3fb2f>
+- [Physical activity among adults aged 18 and over : United States,
+  2020](https://stacks.cdc.gov/view/cdc/120213)

@@ -133,3 +133,8 @@ glimpse(weight_logs)
 
 - [Physical activity among adults aged 18 and over : United States,
   2020](https://stacks.cdc.gov/view/cdc/120213)
+
+“Sleep time is not considered sedentary time, so it was removed to
+determine the waking day and to allow the proportion of the day spent
+sedentary to be calculated.” [\[Reference
+1\]](https://www.mdpi.com/1660-4601/18/8/3914)
