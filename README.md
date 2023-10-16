@@ -87,7 +87,7 @@ How can your insights drive business decisions?
 
 #### Deliverable 1: Business task (The question or problem data analysis resolves for a business)
 
-Analyze smart device usage data to gain insight into how people already use their smart devices to help guide future marketing strategies for Bellabeat App.
+Analyze smart device usage data to gain insight into how people already use their smart devices to help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
 ## Prepare
 
