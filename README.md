@@ -72,33 +72,45 @@ Analyze smart device usage data to gain insight into how people already use thei
 
 ### Deliverable 2: Data source description
 
-Data: Introducing the Fitbit Fitness Tracker Data
+**Data**: Introducing the Fitbit Fitness Tracker Data
 
 Fitbit Fitness Tracker Data, collected via Amazon Mechanical Turk from 30 users in late 2016, offers minute-level physical activity, heart rate, and sleep monitoring. It is accessible on Kaggle.
 
 Access the data: [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit)
 Contributor: Kaggle user [Möbius](https://www.kaggle.com/arashnic), a Data Scientist specializing in Healthcare.
 
-Bias and credibility concerns: The data collection method through Amazon Mechanical Turk introduces potential biases, including sampling, selection, demographic, and incentive-driven biases. These biases may affect the generalizability of findings.
+**Bias and credibility concerns**
 
-Data quality checks (ROCCC):
+The data collection method through Amazon Mechanical Turk introduces potential biases, including sampling, selection, demographic, and incentive-driven biases. These biases may affect the generalizability of findings.
 
-Reliable (Moderate): The data is moderately reliable; while it's user-friendly, concerns about generalizability exist.
-Original (No): The data is not original, as it was collected from a third-party source through Amazon Mechanical Turk.
-Comprehensible (Moderate): The comprehensibility is moderate due to variations in participant numbers, potentially impacting insights.
-Current (Outdated): The data is outdated, from 2016, which may affect the relevance of the findings.
-Cited (Yes): The data source is properly cited, ensuring transparency and attribution.
+**Data quality checks (ROCCC)**
 
-Licensing, privacy, security, and  accessibility:
 
-Licensing: The data is under CC0 1.0 Universal Public Domain Dedication, allowing unrestricted use for commercial purposes.
-Privacy: No personally identifiable information is present in the data.
-Security: I practiced this step, storing the original data in a password-protected MySQL database.
-Accessibility: The data is accessible on Kaggle for ease of access and sharing within the data analysis community.
+| Data Quality Check  | Assessment                                                                                   |
+|---------------------|----------------------------------------------------------------------------------------------|
+| Reliable            | Moderate; user-friendly but concerns about generalizability exist.                        |
+| Original            | No; data collected from a third-party source through Amazon Mechanical Turk.               |
+| Comprehensible      | Moderate; comprehensibility is affected by variations in participant numbers.              |
+| Current             | Outdated; the data is from 2016, potentially affecting the relevance of findings.          |
+| Cited               | Yes; data source is properly cited, ensuring transparency and attribution.                  |
 
-Data integrity verification: Data integrity was ensured through exploratory data analysis and cleaning processes, including column standardization, data type conversion, duplicate removal, zero-value observation removal, and comprehensive data assessment. See the guiding questions for this phase for more details.
 
-Relevance to analysis:
+**Licensing, privacy, security, and  accessibility**
+
+| Data Aspect    | Assessment                                                       |
+|----------------|-------------------------------------------------------------------|
+| Licensing      | The data is under CC0 1.0 Universal Public Domain Dedication, allowing unrestricted use for commercial purposes. |
+| Privacy        | No personally identifiable information is present in the data.   |
+| Security       | I practiced this step, storing the original data in a password-protected MySQL database. |
+| Accessibility  | The data is accessible on Kaggle for ease of access and sharing within the data analysis community. |
+
+
+**Data integrity verification**
+
+Data integrity was ensured through exploratory data analysis and cleaning processes, including column standardization, data type conversion, duplicate removal, zero-value observation removal, and comprehensive data assessment. See the guiding questions for this phase for more details.
+
+#### Relevance to analysis
+
 These datasets provide valuable insights for health and fitness analysis. However, potential biases and data quality concerns should be considered when interpreting the results. Additionally, the lack of gender information may limit its applicability, particularly for products targeted at women by companies like Bellabeat.
 
 Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary analysis
