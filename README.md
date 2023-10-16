@@ -105,9 +105,6 @@ Analyze smart device usage data to gain insight into how people already use thei
 ## Act (Recommendations)
 
 
-[Link to Bellabeat_case_study_draft1.pdf](Bellabeat_case_study_draft1.pdf)
-
-
 
 
 ## Limitations
