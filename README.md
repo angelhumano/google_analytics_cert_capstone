@@ -133,8 +133,10 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 
 ## Challenges
 
+## Guiding questions for each phase
+
 <details>
-  <summary>## Guiding questions for each phase</summary>
+  <summary> Click here to see the guiding questions</summary>
 
 ### Ask (guiding questions)
 
