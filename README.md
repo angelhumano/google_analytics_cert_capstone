@@ -51,7 +51,7 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 
 
 
-## Deliverables for each phase
+### Deliverables for each phase
 1. A clear summary of the business task 
 2. A description of all data sources used 
 3. Documentation of any cleaning or manipulation of data 
