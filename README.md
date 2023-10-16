@@ -37,20 +37,17 @@ Bellabeat offers smart wellness products and services, including:
 
 I will follow a systematic data analysis process that I learned in the Google Analytics Certificate:
 
-- Ask: Formulating pertinent questions to guide my analysis.
-- Prepare: Gathering and organizing relevant data for analysis.
-- Process: Cleaning and transforming data for accuracy.
-- Analyze: Extracting valuable insights from the data.
-- Share: Presenting my findings to the Bellabeat executive team.
-- Act: Offering high-level recommendations for Bellabeat's marketing strategy.
+- **Ask**: Formulating pertinent questions to guide my analysis.
+- **Prepare**: Gathering and organizing relevant data for analysis.
+- **Process**: Cleaning and transforming data for accuracy.
+- **Analyze**: Extracting valuable insights from the data.
+- **Share**: Presenting my findings to the Bellabeat executive team.
+- **Act**: Offering high-level recommendations for Bellabeat's marketing strategy.
 
 
 ![Example Image](images/data_analysis_process.png)
 
 See original source :[Google Data Analytics Professional Certificate by Coursera](https://www.coursera.org/learn/foundations-data/supplement/Yo3Cn/the-data-analysis-process-and-this-program)
-
-
-
 
 
 
@@ -74,17 +71,15 @@ Analyze smart device usage data to gain insight into how people already use thei
 
 **Data**: Introducing the Fitbit Fitness Tracker Data
 
-Fitbit Fitness Tracker Data, collected via Amazon Mechanical Turk from 30 users in late 2016, offers minute-level physical activity, heart rate, and sleep monitoring. It is accessible on Kaggle.
-
-Access the data: [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit)
-Contributor: Kaggle user [Möbius](https://www.kaggle.com/arashnic), a Data Scientist specializing in Healthcare.
+- Brief: Fitbit Fitness Tracker Data, collected via Amazon Mechanical Turk from 30 users in late 2016, offers minute-level physical activity, heart rate, and sleep monitoring. It is accessible on Kaggle.
+- Access the data: [FitBit Fitness Tracker Data](https://www.kaggle.com/arashnic/fitbit)
+- Contributor: Kaggle user [Möbius](https://www.kaggle.com/arashnic), a Data Scientist specializing in Healthcare.
 
 **Bias and credibility concerns**
 
 The data collection method through Amazon Mechanical Turk introduces potential biases, including sampling, selection, demographic, and incentive-driven biases. These biases may affect the generalizability of findings.
 
 **Data quality checks (ROCCC)**
-
 
 | Data Quality Check  | Assessment                                                                                   |
 |---------------------|----------------------------------------------------------------------------------------------|
@@ -109,7 +104,7 @@ The data collection method through Amazon Mechanical Turk introduces potential b
 
 Data integrity was ensured through exploratory data analysis and cleaning processes, including column standardization, data type conversion, duplicate removal, zero-value observation removal, and comprehensive data assessment. See the guiding questions for this phase for more details.
 
-#### Relevance to analysis
+**Relevance to analysis**
 
 These datasets provide valuable insights for health and fitness analysis. However, potential biases and data quality concerns should be considered when interpreting the results. Additionally, the lack of gender information may limit its applicability, particularly for products targeted at women by companies like Bellabeat.
 
