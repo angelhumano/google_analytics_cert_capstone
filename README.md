@@ -133,7 +133,8 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 
 ## Challenges
 
-## Guiding questions for each phase
+<details>
+  <summary>## Guiding questions for each phase</summary>
 
 ### Ask (guiding questions)
 
@@ -203,4 +204,7 @@ The data exhibits reliability, originality, comprehensibility, and currency issu
 **How does it help you answer your question?**
 
 This information is crucial for me in interpreting and analyzing the dataset. It warns me about potential biases and issues, allowing me to approach any analysis or conclusions cautiously. It also highlights limitations, such as the lack of gender information, which could affect the generalizability of insights for a company like Bellabeat. 
+
+ 
+</details>
 
