@@ -61,13 +61,13 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 
 ## Ask 
 
-### Deliverable 1: Business task (The question or problem data analysis resolves for a business)
+**Deliverable 1**: Business task (The question or problem data analysis resolves for a business)
 
 Analyze smart device usage data to gain insight into how people already use their smart devices to help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
 ## Prepare
 
-### Deliverable 2: Data source description
+**Deliverable 2**: Data source description
 
 **Data**: Introducing the Fitbit Fitness Tracker Data
 
@@ -113,6 +113,10 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 ## Process 
 
 
+
+
+
+
 ## Analyze
 
 
@@ -155,4 +159,58 @@ How can your insights drive business decisions?
 - Insights could unlock new growth opportunities for the company
 
 ### Prepare (guiding questions)
+
+**Where is your data stored?**
+
+The original data is stored in my password-protected MySQL database on my local user account.
+
+*How is the data organized? Is it in long or wide format?**
+
+ Most datasets are organized in a long format, but some redundant datasets are in a wide format. The datasets are in CSV files.
+
+Are there issues with bias or credibility in this data? Does your data ROCCC?
+
+Amazon Mechanical Turk (MTurk) facilitated the collection of Fitbit data for the Kaggle dataset. It served as the platform for outsourcing the task of gathering Fitbit data to a widely distributed workforce. Participants who shared their Fitbit data on MTurk may have earned compensation; usually, MTurk typically provides income-earning opportunities. The way these datasets were collected raised the following integrity concerns:
+
+- Sampling bias: The data is derived from a non-random selection of 30 Fitbit users, making it an imperfect representation of the broader population.
+  
+- Selection bias: Data collected from Amazon Mechanical Turk (MTurk) depends on participants' voluntary choices, potentially resulting in a non-representative sample.
+  
+- Demographic bias: MTurk participants tend to be younger and more tech-savvy, which may limit the generalizability of findings across different age and gender groups.
+  
+- Incentive-driven bias: Some MTurk respondents may prioritize speed to maximize their earnings, potentially compromising the data's accuracy.
+
+Key data quality checks - ROCCC (Reliable, Original, Comprehensible, Current, and Cited):
+
+- Reliable (Moderate): While the data receives a high usability rating of 10 on Kaggle, signifying its user-friendliness, its sourcing raises concerns about generalizability. As a result, any insights derived from this data should be approached with caution.
+
+- Original (No): The data is not original; it was collected from a third-party source involving 30 Fitbit users through Amazon Mechanical Turk. While acquiring data directly from the source would be ideal, it's often not feasible, particularly with proprietary datasets like these.
+
+- Comprehensible (Moderate): The data's comprehensibility is compromised by variations in participant numbers across datasets, potentially impacting the insights drawn from it. For instance, different participant counts across datasets may lead to difficulties in making accurate comparisons and drawing conclusions from the data.
+
+- Current (Outdated): The data is not current, dating back to 2016. While it offers insights for that year, it might not accurately reflect recent trends, potentially impacting the relevance of current findings.
+
+- Cited (Yes): Yes, the data source is cited, indicating transparency and proper attribution to the original data provider.
+
+How are you addressing licensing, privacy, security, and accessibility? 
+
+- Licensing: The data is under CC0 1.0 Universal (CC0 1.0) Public Domain Dedication, allowing unrestricted copying, modification, distribution, and use for commercial purposes without seeking permission.
+
+- Privacy: No personally identifiable information is present in the data.
+
+- Security: I practiced this step, storing the original data in a password-protected MySQL database.
+
+- Accessibility: The data is also accessible on Kaggle, ensuring ease of access and sharing within the data analysis community.
+
+How did you verify the data’s integrity? 
+
+I verified the integrity of the data by performing exploratory data analysis and data cleaning steps.  
+
+Are there any problems with the data? 
+
+The data exhibits reliability, originality, comprehensibility, and currency issues. Furthermore, verifying data from its original source is not possible, underscoring the need for caution. Another issue I found with the data is the lack of gender information. This is relevant for Bellabeat,  a company producing products for women. If all the data comes from male participants, the insights might not be generalizable to the female users. This is another disadvantage of using Amazon Mechanical Turk to source fitness wearable data. 
+
+How does it help you answer your question? 
+
+This information is crucial for me in interpreting and analyzing the dataset. It warns me about potential biases and issues, allowing me to approach any analysis or conclusions cautiously. It also highlights limitations, such as the lack of gender information, which could affect the generalizability of insights for a company like Bellabeat. 
 
