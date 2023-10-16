@@ -63,7 +63,7 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 
 **Deliverable 1**: Business task (The question or problem data analysis resolves for a business)
 
-Analyze smart device usage data to gain insight into how people already use their smart devices to help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
+Analyze smart fitness device usage data to gain insight into how people already use them and help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
 ## Prepare
 
