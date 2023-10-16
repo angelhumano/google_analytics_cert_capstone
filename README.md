@@ -1,6 +1,15 @@
 # Google Data Analytics Certificate Capstone (Bellabeat Case Study)
 By Gabriel Fernandez
 
+
+
+## Project in brief
+- mention problem
+- tools
+- insights
+
+
+
 ## Introduction
 
 Welcome to my Google Analytics Certificate Capstone Project, centered around the Bellabeat case study (Case Study 2: How can a wellness company play it smart?). My objective is to analyze smart device fitness data for Bellabeat, a high-tech manufacturer of health-focused products for women, with a specific focus on the Bellabeat app.  
@@ -10,12 +19,6 @@ Through this case study, I will gain valuable insights into how consumers are us
 In this case study, I chose to use **R(RStudio and R Markdown)** for its versatility in completing all phases of data analysis and effectively documenting my findings. This certificate program also introduced me to other valuable tools, including Spreadsheets, SQL, and Tableau.
 
 Visit the [Bellabeat website](https://bellabeat.com/) to learn the company that inspired this case study.
-
-
-## Project in brief
-- mention problem
-- tools
-- insights
 
 ### Business problem
 
