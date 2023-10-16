@@ -61,31 +61,7 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 
 ## Ask 
 
-
-#### Guiding questions 
-
-What is Bellabeat Mission?
-
-Bellabeat empowers women to reconnect with themselves, unleash their inner strengths and be what they were meant to be.
-
-Who are the stakeholders?
-
-- Urška Sršen: Bellabeat’s cofounder and Chief Creative Officer 
-- Sando Mur: Mathematician and Bellabeat’s cofounder; key member of the Bellabeat executive team 
-- Bellabeat marketing analytics team: A team of data analysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat’s marketing strategy. As a junior data analyst on this team for six months, I've been learning about Bellabeat's mission and business goals and how I can assist in achieving them.
-
-What is the problem that I am trying to solve? 
-
-- Analyze smart device usage data (in the market) in order to gain insight into how people are already using their smart devices
-- Discover insights to unlock growth opportunities
-  
-How can your insights drive business decisions? 
-
-- Trends can inform Bellabeat marketing strategy
-- Usage can inspire product modification
-- Insights could unlock new growth opportunities for the company
-
-#### Deliverable 1: Business task (The question or problem data analysis resolves for a business)
+### Deliverable 1: Business task (The question or problem data analysis resolves for a business)
 
 Analyze smart device usage data to gain insight into how people already use their smart devices to help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
@@ -110,4 +86,31 @@ Analyze smart device usage data to gain insight into how people already use thei
 ## Limitations
 
 ## Challenges
+
+## Guiding questions for each phase
+
+### Ask (guiding questions)
+
+What is Bellabeat Mission?
+
+Bellabeat empowers women to reconnect with themselves, unleash their inner strengths and be what they were meant to be.
+
+Who are the stakeholders?
+
+- Urška Sršen: Bellabeat’s cofounder and Chief Creative Officer 
+- Sando Mur: Mathematician and Bellabeat’s cofounder; key member of the Bellabeat executive team 
+- Bellabeat marketing analytics team: A team of data analysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat’s marketing strategy. As a junior data analyst on this team for six months, I've been learning about Bellabeat's mission and business goals and how I can assist in achieving them.
+
+What is the problem that I am trying to solve? 
+
+- Analyze smart device usage data (in the market) in order to gain insight into how people are already using their smart devices
+- Discover insights to unlock growth opportunities
+  
+How can your insights drive business decisions? 
+
+- Trends can inform Bellabeat marketing strategy
+- Usage can inspire product modification
+- Insights could unlock new growth opportunities for the company
+
+### Prepare (guiding questions)
 
