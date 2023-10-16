@@ -2,8 +2,8 @@
 title: "Google Data Analytics Certificate Capstone (Bellabeat Case Study)"
 author: "Gabriel Fernandez"
 output:
-  pdf_document:
   github_document:
+  pdf_document:
 urlcolor: blue
 ---
 
@@ -13,7 +13,7 @@ urlcolor: blue
 knitr::opts_chunk$set(
   echo = FALSE,          # Display R code and its output
   comment=NA,           # Suppress code comments in output
-  include = FALSE,      # SUpress code outputs
+  include = FALSE,       # Control code outputs
   warning = FALSE,      # Suppress warning messages
   fig.align='center',   # Align figures in the center
   eval = TRUE           # Evaluate R code
@@ -32,6 +32,7 @@ library(janitor) # set of utility functions for data cleaning and data frame tid
 library(RColorBrewer) # Color palettes for data visualization
 library(ggcorrplot) # Visualize correlation matrices using ggplot2
 library(scales) # formatting and transforming data for visualizations
+library(viridis) #
 
 
 # display.brewer.all(colorblindFriendly = TRUE)
@@ -173,7 +174,7 @@ filter(daily_activity, total_steps == 0)
 ```
 Observations:
 
-- We found 77 observations where "total_steps" equal zero. We should delete these observations so they do not affect our mean and median. If the "total_step" is zero, the person did not wear the Fitbit.
+- There are 77 observations where "total_steps" is zero. We should delete these observations so they do not affect our mean and median. If the "total_step" is zero, the person did not wear the Fitbit.
 
 ```{r}
 # Check where calories is zero
@@ -323,7 +324,7 @@ cat("\n",
 
 ### Join the hourly datasets into a single dataset named "hourly_activity"
 
-- These datasets shared the same "Id" and "Activity_hour". Let us join them into a new dataset ("hourly_activity") before we clean them.
+- These datasets shared the same "Id" and "Activity_hour." Let us join them into a new dataset ("hourly_activity") before we clean them.
 
 ```{r}
 # Join the hourly datasets (hourly_calories, hourly_intensities, and hourly_steps)
@@ -418,7 +419,7 @@ Let us clean:
 - Change "date" from char to datetime.
 
 - Change "value" from double to factor. This variable indicates the sleep 
-state (1 = asleep, 2 = restless, 3 = awake). For for details see: [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+state (1 = asleep, 2 = restless, 3 = awake). For details, see the [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
  - Remove duplicate values: 543.
 
@@ -471,11 +472,11 @@ Let us clean:
 
 - Change "Id" from double to a character because the number represents a category.
 
-- Change "Time" from char to "datetime" and rename it "date_time".
+- Change "Time" from char to "datetime" and rename it "date_time."
 
-- Rename "Value" to "heart_rate". 
+- Rename "Value" to "heart_rate." 
 
-For more details, see: [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+For more details, see the [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 ```{r}
 # Clean seconds_heartrate dataset
@@ -533,9 +534,9 @@ Let us clean:
 
 - Change "Id" from double to a character because the number represents a category.
 
-- Change "Date" from char to datetime and rename it "date_time".
+- Change "Date" from char to datetime and rename it "date_time."
 
-- Change NA to 0 in the column "fat".
+- Change NA to 0 in the column "fat."
 
 
 ```{r}
@@ -571,7 +572,7 @@ cat("\n",
 
 ```
 
-## Distribution of ids across datasets
+## Distribution of IDs across datasets
 
 ```{r}
 # Loop through each  dataset and print th number o funiqu ids
@@ -688,11 +689,11 @@ Observations:
 
 - Many variables show a right-skewed distribution: a larger number of data values are located on the left side of the curve.
 
-- The variables "total_steps", "total_distance", "tracker_distance" have a similar distribution. We can explore their correlations later.
+- The variables "total_steps,"  "total_distance," and "tracker_distance" have a similar distribution. We can explore their correlations later.
 
-- Since the distributions are not normal. The median is a better indicator of central tendency for the numerical variables in these dataset.
+- Since the distributions are not normal, the median is a better indicator of central tendency for the numerical variables in this dataset.
 
--  **The variables 'logged_activities_distance' and 'sedentary_active_distance' may not offer valuable insights since most data points are zero. This suggests that users may not be consistently logging their activities.**
+-  **Since most data points are zero, the variables ‘logged_activities_distance’ and ‘sedentary_active_distance’ may not offer valuable insights. This suggests that users may not be consistently logging their activities.**
 
 - The following variables seem related. We will explore them further in the bivariate analysis section:
 
@@ -777,7 +778,7 @@ percent_of_max_under_75
 daily_activity_clean$activity_date %>% summary()
 ```
 
-```{r fig.align='center' }
+```{r }
 ggplot(data=daily_activity_clean , aes(x = activity_date)) + 
   geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
   labs(x = "Activity Date", y = "Frequency", title = "Distribution of Activity Date") 
@@ -789,7 +790,7 @@ Observations:
 
 
 
-```{r fig.align='center' }
+```{r  }
 # Investigate if the missing activity data coincides with the absence of entries for certain user IDs.
 
 ggplot(data=subset(daily_activity_clean, id %in% percent_of_max_top_75$id), aes(x = activity_date)) + 
@@ -814,7 +815,7 @@ Observations:
 #### Correlation between numerical variables
 
 
-```{r fig.align='center', fig.width=8, fig.height=8}
+```{r  fig.width=8, fig.height=8}
 corr <- cor(select_if(daily_activity_clean, is.numeric))
 
 ggcorrplot(corr,
@@ -863,9 +864,9 @@ print(sorted_cor_data)
 ```
 Observations:
 
-- "Total_distance", "tracker_distance", and "total_steps" are highly correlated, so we will retain only "total_distance" and "total_steps" as they provide similar information.
+- "Total_distance," "tracker_distance," and "total_steps" are highly correlated, so we will retain only "total_distance" and "total_steps" as they provide similar information.
 
-- The following minute and distance variables are highly correlated, indicating they represent different aspects of the same activity, whether related to time or distance
+- The following minute and distance variables are highly correlated, indicating they represent different aspects of the same activity, whether related to time or distance.
 
   - "lightly_active_minutes" and "light_active_distance" (corr = 0.85)
   - "fairly_active_minutes" and "moderately_active_distance" (corr = 0.94)
@@ -913,7 +914,8 @@ for (pair in correlated_pairs) {
     geom_vline(xintercept = avg_var1, linetype = "dashed", color = "red") +
     geom_hline(yintercept = avg_var2, linetype = "dashed", color = "blue") +
     xlab(var1) + ylab(var2) +
-    ggtitle(paste("Scatter Plot with Average Reference Lines of", var1, "vs", var2)))
+    ggtitle(paste("Scatter Plot with Average Reference Lines of", var1, "vs", var2))+
+    theme(plot.title = element_text(size = 10)))  # Adjust the font size 
 }
 ```
 
@@ -977,13 +979,13 @@ percentage_steps_df
 
 ```
 
-```{r fig.align='center' }
+```{r }
 # Convert "Category" to a factor with custom factor levels
 percentage_steps_df$Category <- factor(percentage_steps_df$Category, levels = c("Below 5,000", "Between 5,000 and 10,000", "At least 10,000"))
 
 # Create a bar plot using ggplot
 ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
-  geom_bar(stat = "identity", fill = "blue") +
+  geom_bar(stat = "identity", fill = "#336699") +
   labs(x = "Average Total Steps", y = "Percentage of Users", title = "58% of Users Average 5,000-10,000 Step Daily",subtitle = "Only 21% Achieve the 10,000-Step Goal") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
   ylim(0, 100) +  theme_minimal() + theme(panel.grid = element_blank())
@@ -993,7 +995,7 @@ ggplot(percentage_steps_df, aes(x = Category, y = Percentage_Average)) +
 
 #### Total Distance: Total kilometers tracked.
 
-```{r fig.align='center' }
+```{r }
 # Create a boxplot for total_distance
 boxplot(daily_activity_clean$total_distance, 
         main = "Boxplot of Total Distance",
@@ -1047,10 +1049,10 @@ percentage_t_distance_df$Category <- factor(percentage_t_distance_df$Category, l
 
 ```
 
-```{r fig.align='center' }
+```{r }
 # Create a bar plot using ggplot
 ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
-  geom_bar(stat = "identity", fill = "pink") +
+  geom_bar(stat = "identity", fill = "#B0B5B3") +
   labs(x = "Average Total Distance", y = "Percentage of Users", title = "55% of Users Average 5-10 Kilometers Daily",subtitle = "10,000 steps is approximately equal to covering 5 miles (or 8 kilometers)") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
   ylim(0, 100) +  theme_minimal() +theme(panel.grid = element_blank())
@@ -1060,7 +1062,7 @@ ggplot(percentage_t_distance_df, aes(x = Category, y = Percentage_Average)) +
 
 #### Sedentary Minutes: Total minutes spent in sedentary activity.
 
-```{r fig.align='center' }
+```{r }
 # Create a boxplot for sedentary_minutes
 boxplot(daily_activity_clean$sedentary_minutes,
         main = "Boxplot of Sedentary Minutes",
@@ -1089,9 +1091,9 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
 Observations: 
 
 - These are high values for sedentary minutes. For instance, 1020 minutes equals 17 hours, and 1400 minutes equals 24 hours. After performing a quick search, it seems that the
-[Fitbit uses 1400](https://community.fitbit.com/t5/Other-Charge-Trackers/sedentary-minutes/td-p/3372621) a default, sedentary minutes are recorded when the device is not worn, including sleep time.
+[Fitbit defaults to a value of 1400](https://community.fitbit.com/t5/Other-Charge-Trackers/sedentary-minutes/td-p/3372621) when not in use; sedentary minutes are recorded when the device is not worn, including sleep time.
 
-"SedentaryMinutes" is total minutes spent in sedentary activity according to the data dictionary. See meta data section. Therefore, we need to substract the times sleeping to obtain an more accurate estimate of daily sedentary minutes. 
+"SedentaryMinutes" represents the total duration of sedentary activity, as defined in the data dictionary. Refer to the metadata section for details. To obtain a more precise daily estimate of sedentary minutes, we should subtract the time spent sleeping.
 
 "Sleep time is not considered sedentary time, so it was removed to determine the waking day and to allow the proportion of the day spent sedentary to be calculated." [[Reference 1]](https://www.mdpi.com/1660-4601/18/8/3914)
 
@@ -1189,7 +1191,7 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
 ```
 Observations: 
 
-- The sedentary percentage difference has a median value of 59.95%, indicating a significant distinction between "sedentary_minutes" and "sedentary_min_awake". This suggests that the original column "sedentary_minutes" included the time asleep.
+- The sedentary percentage difference has a median value of 59.95%, indicating a significant distinction between "sedentary_minutes" and "sedentary_min_awake." This suggests that the original column "sedentary_minutes" included the time asleep.
 
 ```{r }
 # Create a boxplot for sedentary_min_awake
@@ -1218,7 +1220,7 @@ legend("topright", legend = legend_label, pch = "", col = "black", bty = "n", ce
 ```
  Observation: 
 
-- Data inconsistency alert: "sedentary_minutes" is less than "total_minutes_asleep", contrary to our expectations.
+- Data inconsistency alert: "sedentary_minutes" is less than "total_minutes_asleep," contrary to our expectations.
 
 
 ```{r}
@@ -1260,7 +1262,7 @@ dim(joined_activity_sleep)
 dim(clean_subset)
 ```
 
-```{r fig.align='center' }
+```{r }
 # Create a boxplot for sedentary_min_awake
 boxplot(clean_subset$sedentary_min_awake,
         main = "Boxplot of Sedentary Minutes Awake",
@@ -1327,18 +1329,18 @@ percentage_sedentary_awake_df
 
 ```
 
-```{r fig.align='center' }
+```{r }
 # Create a bar plot using ggplot
 ggplot(percentage_sedentary_awake_df, aes(x = Category, y = Percentage_Average)) +
-  geom_bar(stat = "identity", fill = "gray") +
+  geom_bar(stat = "identity", fill = "lightblue") +
   labs(x = "Average Total Sedentary Min Awake", y = "Percentage of Users", 
        title = "48% of Users Have an Average of at Least 400 Daily Sedentary Minutes While Awake",
-       subtitle = "In the 2022 study, exceeding 6 hours a day was linked to higher body fat in a representative sample.
+       subtitle = "In a 2022 study, exceeding 6 hours a day was linked to higher body fat percentages in a representative sample.
 6 hours = 360 minutes") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
   ylim(0, 100) +
   theme_minimal() +
-  theme(panel.grid = element_blank(), plot.title = element_text(size = 12), plot.subtitle = element_text(size = 10))
+  theme(panel.grid = element_blank(), plot.title = element_text(size = 12), plot.subtitle = element_text(size = 9))
 
 ```
 Observations:
@@ -1349,7 +1351,7 @@ In a representative sample of U.S. adults, over two-thirds spent 6 + hours/day s
 
 #### Calories: Total estimated energy expenditure (in kilocalories). 
 
-```{r fig.align='center' }
+```{r}
 # Create a boxplot for calories
 boxplot(daily_activity_clean$calories, 
         main = "Boxplot of Calories",
@@ -1419,21 +1421,21 @@ percentage_calories_df
 ```{r }
 # Create a bar plot using ggplot
 ggplot(percentage_calories_df, aes(x = Category, y = Percentage_Average)) +
-  geom_bar(stat = "identity", fill = "red") +
-  labs(x = "Calorie Categories", y = "Percentage of Users", 
+  geom_bar(stat = "identity", fill = "#F07F7F") +
+  labs(x = "User Categories", y = "Percentage of Users", 
        title = "42% of Users Have an Average Daily Calorie Expenditure Between 1,600 and 2,200.",
        subtitle = "Most females require 1,600 to 2,200 calories per day, as per the Dietary Guidelines for Americans, 2020-2025") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
   ylim(0, 100) +
   theme_minimal() +
   theme(panel.grid = element_blank(), 
-        plot.title = element_text(size = 12), 
-        plot.subtitle = element_text(size = 10))
+        plot.title = element_text(size = 11), 
+        plot.subtitle = element_text(size = 9))
 
 ```
 Observations:
 
-"Females ages 19 through 30 require about 1,800 to 2,400 calories a day. Males in this age group have higher calorie needs of about 2,400 to 3,000 a day. Calorie needs for adults ages 31 through 59 are generally lower; most females require about 1,600 to 2,200 calories a day and males require about 2,200 to 3,000 calories a day."[[Reference 3]](https://www.dietaryguidelines.gov/)
+"Females ages 19 through 30 require about 1,800 to 2,400 calories a day. Males in this age group have higher calorie needs of about 2,400 to 3,000 a day. Calorie needs for adults ages 31 through 59 are generally lower; most females require about 1,600 to 2,200 calories a day, and males require about 2,200 to 3,000 calories a day."[[Reference 3]](https://www.dietaryguidelines.gov/)
 
 
 
@@ -1519,7 +1521,7 @@ overall_average_df
 
 ```
 
-```{r fig.align='center',  fig.width=10, fig.height=4}
+```{r fig.width=10, fig.height=4}
 
 ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_average_df), Percentage), fill = row.names(overall_average_df))) +
   geom_bar(stat = "identity", width = 0.7, show.legend = FALSE) +
@@ -1538,7 +1540,7 @@ ggplot(overall_average_df, aes(x = Percentage, y = reorder(row.names(overall_ave
 
 
 
-```{r fig.align='center', fig.width=7, fig.height=3}
+```{r fig.width=7, fig.height=3}
 # Define the custom order of legend items
 
 custom_order <- c("Very Active", "Fairly Active", "Lightly Active", "Sedentary")
@@ -1578,7 +1580,7 @@ Observations:
 
 - We can use average user activity patterns to develop indicators to provide insights into activity levels. They can help track progress, set goals, and evaluate user behavior over time. 
 
-- This is a concern since the Physical Activity Guidelines for Americans recommend 150 minutes of moderate-intensity or 75 minutes of vigorous-intensity aerobic activity weekly, along with muscle-strengthening exercises for adults. Additionally, it's advised to reduce sedentary time and break up long periods of inactivity.[[Reference 4]]( https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
+- This is a concern since the Physical Activity Guidelines for Americans recommend 150 minutes of moderate-intensity or 75 minutes of vigorous-intensity aerobic activity weekly, along with muscle-strengthening exercises for adults. Additionally, it's advised to reduce sedentary time and break up long periods of inactivity. [[Reference 4]]( https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
 
 
 
@@ -1606,7 +1608,7 @@ daily_sleep_clean[daily_sleep_clean$total_time_in_bed < daily_sleep_clean$total_
 
 ### Univariate analysis
 
-```{r fig.align='center'}
+```{r }
 
 numerical_cols <- daily_sleep_clean%>%
   select_if(is.numeric)
@@ -1637,7 +1639,7 @@ for (i in col_names) {
 
 #### Correlation between numerical variables
 
-```{r fig.align='center' }
+```{r  }
 # Correlation between numerical variables
 corr <- cor(select_if(daily_sleep_clean, is.numeric))
 
@@ -1655,7 +1657,7 @@ ggcorrplot(corr,
 
 #### Scatterplots of total_minutes_asleep vs total_time_in_bed
 
-```{r fig.align='center' }
+```{r  }
 
 ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in_bed)) +
   geom_point()
@@ -1665,6 +1667,7 @@ ggplot(data = daily_sleep_clean, aes(x = total_minutes_asleep, y = total_time_in
 ### User Behavior for daily_sleep dataset
 
 
+
 ```{r  }
 
 
@@ -1672,7 +1675,7 @@ frequency_table <- as.data.frame(table(daily_sleep_clean$total_sleep_records))
 frequency_table$Percentage <- frequency_table$Freq / sum(frequency_table$Freq) * 100
 
 ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
+  geom_bar(stat = "identity", fill = "#4CC3ADFF") +
   geom_text(aes(label = paste(Freq, " (", percent(Percentage / 100), ")", sep = "")),
             hjust = 0.5,  vjust = -0.4, color = "black") +
   labs(x = "Total Sleep Records", y = "Frequency",
@@ -1689,7 +1692,7 @@ ggplot(data = frequency_table, aes(x = Var1, y = Freq)) +
 
 #### Total minutes asleep
 
-```{r fig.align='center' }
+```{r}
 # Create a boxplot for total_minutes_asleep
 boxplot(daily_sleep_clean$total_minutes_asleep, 
         main = "Boxplot of Total Minutes Asleep",
@@ -1758,11 +1761,11 @@ percentage_sleep_df
 str(percentage_sleep_df)
 ```
 
-```{r fig.align='center' }
+```{r}
 
 
 ggplot(percentage_sleep_df, aes(x = Category, y = Percentage_Average)) +
-  geom_bar(stat = "identity", fill = "purple") +
+  geom_bar(stat = "identity", fill = "#998FC7") +
   labs(x = "Average Sleep Duration", y = "Percentage of Users", 
        title = "52% of Users Get Less Than 7 Hours of Sleep on Average Daily") +
   geom_text(aes(label = paste0(Percentage_Average, "%")), vjust = -0.5, color = "black") + 
@@ -1859,7 +1862,7 @@ create_boxplots_in_one_output(sleep_df, columns_to_analyze, decimal_places = 2)
 
 ```
 
-```{r fig.align='center' }
+```{r }
 # Columns to analyze
 columns_to_analyze <- c("standard_deviation_sleep_hours", "sd_awake_in_bed_hours")
 
@@ -1924,16 +1927,27 @@ table(sleep_df$sleeper_type)
 sleep_df
 ```
 
-```{r }
+```{r}
+
 
 color_options <- c("#E69F00", "#0072B2") # Blue: "#0072B2", Orange: "#E69F00"
 
-# Function to create the violin plot for a given y-axis column
+# Define a function to remove underscores and title case labels
+clean_and_title_case_label <- function(label) {
+  label <- gsub("_", " ", label)  # Remove underscores
+  label <- tools::toTitleCase(label)  # Capitalize first letter of each word
+  label
+}
+
+# Update the labels in your code
 create_violin_plot <- function(data, x_axis_col, y_axis_col) {
-  ggplot(data, aes_string(x = x_axis_col, y = y_axis_col, fill = x_axis_col)) +
+  ggplot(data, aes(x = .data[[x_axis_col]], y = .data[[y_axis_col]], fill = .data[[x_axis_col]])) +
     geom_violin(scale = "width", draw_quantiles = c(0.25, 0.5, 0.75), trim = FALSE) +
     geom_boxplot(width = 0.1, fill = "white", color = "black") +
-    labs(x = "Sleeper Type", y = y_axis_col, title = paste("Comparison",x_axis_col,"for", y_axis_col)) +
+    labs(x = clean_and_title_case_label("Sleeper_Type"), 
+         y = clean_and_title_case_label(y_axis_col), 
+         title = paste("Comparison", clean_and_title_case_label(x_axis_col), "for", clean_and_title_case_label(y_axis_col)),
+         fill = clean_and_title_case_label(x_axis_col)) +  # Modify the legend title
     scale_fill_manual(values = color_options) +
     theme_minimal()
 }
@@ -1941,14 +1955,17 @@ create_violin_plot <- function(data, x_axis_col, y_axis_col) {
 
 ```
 
-```{r fig.align='center' }
+
+```{r}
 # Call the function to create the violin plots for each column
 for (col in c("average_sleep_hours", "standard_deviation_sleep_hours", "average_awake_in_bed_hours","sd_awake_in_bed_hours")) {
   plot <- create_violin_plot(sleep_df, "sleeper_type", col)
   print(plot)
 }
-
 ```
+
+
+
 
 Observations:
 
@@ -1958,7 +1975,7 @@ Observations:
 
 - Regular sleepers exhibit a slightly higher median average awake-in-bed duration compared to irregular sleepers.
 
-Summary: Regular sleepers get more sleep on average, have a more consistent sleep duration, and slightly higher median awake-in-bed duration than irregular sleepers.
+Summary: Regular sleepers get more sleep on average, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
 
 ## EDA minute_sleep_clean
 
@@ -1971,7 +1988,7 @@ Value indicating the sleep state.
 1 = asleep, 2 = restless, 3 = awake
 
 
-For more detail, check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+For more details, check the [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 ```{r}
 # Add labels to the value column
@@ -2017,7 +2034,7 @@ hour ("TotalIntensity" for that "ActivityHour" divided by 60).
 
 - "StepTotal": Total number of steps taken.
 
-For more detail, check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+For more details, check the [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 ```{r}
 hourly_df <-hourly_activity_clean
@@ -2049,11 +2066,24 @@ summary_data <- hourly_df %>%
   )
 ```
 
+```{r}
+# Choose a colorblind-friendly palette
+color_palette <- viridis_pal(option = "C")(30)
+
+# Display the colors
+color_palette
+```
+
+
+
+
+
+
+
 ```{r }
 
-
 # Define colors for AM and PM
-color_palette <- c("#FFA500", "#ADD8E6")  # Orange for AM, Light Blue for PM
+color_palette <- c("#FEBE2AFF", "#340498FF")  # Orange for AM, Light Blue for PM
 
 # Custom function to generate the bar plot with dynamically set y-axis limits
 generate_bar_plot <- function(data, y_var, y_label, limit_factor) {
@@ -2075,7 +2105,7 @@ generate_bar_plot <- function(data, y_var, y_label, limit_factor) {
 data <- summary_data
 
 # Create the bar plots with dynamically adjusted y-axis limits
-calories_plot <- generate_bar_plot(data, "calories", "Calorie Burn", limit_factor = 1.2)
+calories_plot <- generate_bar_plot(data, "calories", "Calories Burned", limit_factor = 1.2)
 total_intensity_plot <- generate_bar_plot(data, "total_intensity", "Total Intensity", limit_factor = 1.2)
 steps_plot <- generate_bar_plot(data, "step_total", "Steps Taken", limit_factor = 1.1)
 
@@ -2095,6 +2125,7 @@ Observations:
 
 
 ```{r}
+
 # Function to create a box plot with customizable orientation and colors for a given y-axis column
 create_custom_box_plot <- function(data, x_axis_col, y_axis_col, orientation = "ver", colors) {
   ggplot(data, aes_string(x = x_axis_col, y = y_axis_col, fill = x_axis_col)) +
@@ -2109,7 +2140,7 @@ create_custom_box_plot <- function(data, x_axis_col, y_axis_col, orientation = "
 }
 
 # Call the function with custom colors as a tuple and specify the x-axis label
-custom_colors <- c("#FFA500", "#ADD8E6")  # Orange for AM, Light Blue for PM
+custom_colors <- c("#FEBE2AFF", "#340498FF")   # Orange for AM, purple-blue for PM
 
 
 for (col in c("calories", "total_intensity", "step_total")) {
@@ -2144,12 +2175,12 @@ average_heart_rate <- seconds_heartrate_clean %>%
 
 # Bar Plot with smaller bars and custom breaks on the heart rate axis
 bar_plot <- ggplot(average_heart_rate, aes(x = id, y = average_heart_rate)) +
-  geom_bar(stat = "identity", fill = "#ADD8E6", width = 0.8) +  # Adjust the width here (e.g., 0.5 for smaller bars)
+  geom_bar(stat = "identity", fill = "#20A486FF", width = 0.8) +  # Adjust the width here (e.g., 0.5 for smaller bars)
   labs(x = "User ID", y = "Average Heart Rate", title = "Average Heart Rate for Each User") +
   theme_minimal() + coord_flip() +
   scale_y_continuous(breaks = seq(0, 100, 10), limits = c(0, 100))+ # Set custom breaks and limits for the y-axis 
-  geom_hline(yintercept = 60, linetype = "dashed", color = "green") +
-  geom_hline(yintercept = 100, linetype = "dashed", color = "green") 
+  geom_hline(yintercept = 60, linetype = "dashed", color = "black") +
+  geom_hline(yintercept = 100, linetype = "dashed", color = "black") 
 
 # Display the bar plot
 print(bar_plot)
@@ -2174,7 +2205,7 @@ str(weight_logs_clean)
 - "isManualReport": If the data for this weigh-in was done manually (TRUE), or if data was measured and synced directly to Fitbit.com from a connected scale (FALSE).
 
 
-For more detail, check :  [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
+For more details, check the [Fitbit data dictionary ](https://www.fitabase.com/resources/knowledge-base/exporting-data/data-dictionaries/)
 
 
 
@@ -2216,7 +2247,7 @@ weight_logs_clean %>% filter(fat != 0)
 
 Observation:
 
-- Only two users reported fat percentage.
+- Only two users reported a fat percentage.
 
 
 ```{r}
@@ -2304,11 +2335,13 @@ Observations:
 - [Histograms article](https://statisticsbyjim.com/basics/histograms/)
 - [Error bars vs CI](https://blogs.sas.com/content/iml/2019/10/09/statistic-error-bars-mean.html)
 
-
 - [Add density line to histogram](https://r-coder.com/density-plot-r)
 
 - [Categorical, ordinal, and interval  variables](https://www.graphpad.com/guides/prism/latest/statistics/the_different_kinds_of_variabl.htm)
 
+- [Viridis color maps](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) 
+
+- [Free color palettes generator](https://coolors.co/)
 
 ### Appendix: Interesting sites for further investigation
 
