@@ -207,6 +207,52 @@ The data exhibits reliability, originality, comprehensibility, and currency issu
 
 This information is crucial for me in interpreting and analyzing the dataset. It warns me about potential biases and issues, allowing me to approach any analysis or conclusions cautiously. It also highlights limitations, such as the lack of gender information, which could affect the generalizability of insights for a company like Bellabeat. 
 
+## Process (guiding questions)
+
+**What tools are you choosing and why?**
+
+I explored all the tools from the Google Analytics certificate program, including Google Sheets, BigQuery, Tableau, and R. Also, I used MySQL because it gave me more flexibility than the free version of BigQuery.
+
+- Google Sheets: Performed basic exploratory analysis
+- BigQuery: Loaded all the datasets to BigQuery and practiced aggregations.
+- Tableau: performed some exploratory data analysis.
+- MySQL: I initially faced issues loading data using the MySQL Workbench UI. However, I persevered and discovered a faster and more efficient method: loading all the datasets through the terminal.
+
+In the end, **I selected R in RStudio** for the Capstone project because it enabled transparent documentation of data analysis processes with R Notebooks, including data cleaning, transformation, and visualizations. Also, R Markdown made it easy to share my analysis on platforms such as Kaggle and GitHub, making the findings accessible to others interested in the work.
+
+**Have you ensured your data’s integrity?** 
+Data integrity was ensured through exploratory data analysis and cleaning processes, including column standardization, data type conversion, duplicate removal, zero-value observation removal, and comprehensive data assessment. See the guiding questions for this phase for more details.
+
+**What steps have you taken to ensure that your data is clean?**
+
+All data cleaning steps are documented in the project's R notebook. Please refer to the notebook for more details. The following are the most important steps I undertook:
+
+- Checked for missing values.
+- Changed column names to lowercase for consistency.
+- Converted data types.
+- Removed duplicates where necessary.
+- Identified and removed observations with zero values in the "total_steps" column.
+- Conducted an analysis of the distribution of IDs across datasets to identify potential discrepancies in data collection methods, completeness, or user engagement.
+- Merged related datasets (hourly_calories, hourly_intensities, and hourly_steps) into a single dataset named "hourly_activity."
+- Performed Exploratory Data Analysis (EDA) and summary statistics to better understand the data, detecting anomalies or inconsistencies.
+- Identified data inconsistencies and alerted potential issues, such as discrepancies between "sedentary_minutes" and "total_minutes_asleep."
+- Assessed data completeness by identifying users with missing activity data and observing declines in data reporting from some users during specific periods.
+
+**How can you verify that your data is clean and ready to analyze?**
+
+After cleaning and transforming the data, I conducted exploratory data analysis (EDA) on each cleaned dataset. I stored each dataset in a new object to preserve the original data. Additionally, I exported the clean datasets. The EDA encompassed:
+
+- Univariate analysis for numerical variables
+- Univariate analysis for categorical variables
+- Bivariate analysis
+- Summary statistics
+  
+**Have you documented your cleaning process so you can review and share those results?** 
+I documented my data cleaning process in an R notebook, noting any issues before proceeding with each step. This detailed record makes it easy for me to review personally and allows for sharing of results with others. Also, I thoroughly documented all findings and insights under the "Observations" section in my notebook.
+
+
+
+
  
 </details>
 
