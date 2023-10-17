@@ -112,10 +112,18 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 
 ## Process 
 
+All data cleaning steps are documented in the project's [R notebook](). Please refer to the notebook for more details. The following are the most important steps I undertook:
 
-
-
-
+- Checked for missing values.
+- Changed column names to lowercase for consistency.
+- Converted data types.
+- Removed duplicates where necessary.
+- Identified and removed observations with zero values in the "total_steps" column.
+- Conducted an analysis of the distribution of IDs across datasets to identify potential discrepancies in data collection methods, completeness, or user engagement.
+- Merged related datasets (hourly_calories, hourly_intensities, and hourly_steps) into a single dataset named "hourly_activity."
+- Performed Exploratory Data Analysis (EDA) and summary statistics to better understand the data, detecting anomalies or inconsistencies.
+- Identified data inconsistencies and alerted potential issues, such as discrepancies between "sedentary_minutes" and "total_minutes_asleep."
+- Assessed data completeness by identifying users with missing activity data and observing declines in data reporting from some users during specific periods.
 
 ## Analyze
 
