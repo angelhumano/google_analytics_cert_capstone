@@ -2,14 +2,6 @@
 By Gabriel Fernandez
 
 
-
-## Project in brief
-- mention problem
-- tools
-- insights
-
-
-
 ## Introduction
 
 Welcome to my Google Analytics Certificate Capstone Project, centered around the Bellabeat case study (Case Study 2: How can a wellness company play it smart?). My objective is to analyze smart device fitness data for Bellabeat, a high-tech manufacturer of health-focused products for women, with a specific focus on the Bellabeat app.  
@@ -202,7 +194,6 @@ In this manner, I ensured that the reporting methods aligned with each group's s
 
 
 ## Act 🏁 
-
 
 
 
