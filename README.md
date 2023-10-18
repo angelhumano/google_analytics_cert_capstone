@@ -184,6 +184,8 @@ I adapted my approach to cater to the distinct preferences and needs of two key 
 
 ![key_insights_poster](images/key_insights_poster.png)
 
+The [PDF poster](images/key_insights_poster.pdf) allows zooming for a closer look.
+
 - For the Marketing Analytics Team: This audience typically requires comprehensive insights and might be interested in data details. I provided an R Markdown report containing extensive details, allowing them to explore the underlying code and methodology.
 
 [R_notebook](Bellabeat_case_study_gabriel_fernandez.md)
