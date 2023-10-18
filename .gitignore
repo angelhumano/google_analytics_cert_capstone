@@ -4,6 +4,7 @@
 .Ruserdata
 .DS_Store
 .Rproj
+.Rmd
 .nb.html
 google_analytics_cert_capstone.Rproj
 clean_datasets
