@@ -59,13 +59,13 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 5. Supporting visualizations and key findings 
 6. Your top high-level content recommendations based on your analysis
 
-## Ask 
+## Ask :question:
 
 **Deliverable 1**: Business task (The question or problem data analysis resolves for a business)
 
 Analyze smart fitness device usage data to gain insight into how people already use them and help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
-## Prepare
+## Prepare 🛠:hammer:
 
 **Deliverable 2**: Data source description
 
@@ -112,6 +112,8 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 
 ## Process 
 
+**Deliverable 3**: Documentation of any cleaning or manipulation of data 
+
 All data cleaning steps are documented in the project's [R notebook](). Please refer to the notebook for more details. The following are the most important steps I undertook:
 
 - Checked for missing values.
@@ -126,6 +128,8 @@ All data cleaning steps are documented in the project's [R notebook](). Please r
 - Assessed data completeness by identifying users with missing activity data and observing declines in data reporting from some users during specific periods.
 
 ## Analyze
+
+**Deliverable 4**: A summary of your analysis 
 
 While exploring the activity minutes categories (sedentary, lightly active, fairly active, and very active), I recognized the potential to apply a similar categorization method to other variables. In short, I employed a segmentation approach to reveal user patterns informed by fitness research and government guidelines. The following were the most important findings from my analysis:
 
