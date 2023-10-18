@@ -106,7 +106,7 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 
 **Deliverable 3**: Documentation of any cleaning or manipulation of data 
 
-All data cleaning steps are documented in the project's [R notebook](). Please refer to the notebook for more details. The following are the most important steps I undertook:
+All data cleaning steps are documented in the project's [R_notebook](Bellabeat_case_study_gabriel_fernandez.md). Please refer to the notebook for more details. The following are the most important steps I undertook:
 
 - Checked for missing values.
 - Changed column names to lowercase for consistency.
@@ -169,7 +169,6 @@ The following insights should be viewed as exploratory and could benefit from ad
 - Users who manually log their weight data have a lower median weight than those who sync their weight from other devices.
 
 These insights can provide valuable information to inform Bellabeat App's marketing strategy and product improvement opportunities. By analyzing user activity and sleep patterns, interaction with its app, and potential subpopulations within the dataset, Bellabeat can refine its marketing strategies to boost user engagement and maximize app usage.
-
 
 
 ## Share 📢
