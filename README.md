@@ -148,6 +148,7 @@ While exploring the activity minutes categories (sedentary, lightly active, fair
 
 **User Behavior insights**
 
+
 **Activity  Insights**
 
 - Over half of the users maintain a healthy daily step count range of 5,000 to 10,000 steps, but only one-fifth achieve the 10,000-step milestone.
