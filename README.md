@@ -59,13 +59,13 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 5. Supporting visualizations and key findings 
 6. Your top high-level content recommendations based on your analysis
 
-## Ask 
+## Ask :question:
 
 **Deliverable 1**: Business task (The question or problem data analysis resolves for a business)
 
 Analyze smart fitness device usage data to gain insight into how people already use them and help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
-## Prepare
+## Prepare 🛠
 
 **Deliverable 2**: Data source description
 
@@ -110,21 +110,80 @@ These datasets provide valuable insights for health and fitness analysis. Howeve
 
 Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary analysis
 
-## Process 
+## Process 🔄
+
+**Deliverable 3**: Documentation of any cleaning or manipulation of data 
+
+All data cleaning steps are documented in the project's [R notebook](). Please refer to the notebook for more details. The following are the most important steps I undertook:
+
+- Checked for missing values.
+- Changed column names to lowercase for consistency.
+- Converted data types.
+- Removed duplicates where necessary.
+- Identified and removed observations with zero values in the "total_steps" column.
+- Conducted an analysis of the distribution of IDs across datasets to identify potential discrepancies in data collection methods, completeness, or user engagement.
+- Merged related datasets (hourly_calories, hourly_intensities, and hourly_steps) into a single dataset named "hourly_activity."
+- Performed Exploratory Data Analysis (EDA) and summary statistics to better understand the data, detecting anomalies or inconsistencies.
+- Identified data inconsistencies and alerted potential issues, such as discrepancies between "sedentary_minutes" and "total_minutes_asleep."
+- Assessed data completeness by identifying users with missing activity data and observing declines in data reporting from some users during specific periods.
+
+## Analyze 📉
+
+**Deliverable 4**: A summary of your analysis 
+
+While exploring the activity minutes categories (sedentary, lightly active, fairly active, and very active), I recognized the potential to apply a similar categorization method to other variables. In short, I employed a segmentation approach to reveal user patterns informed by fitness research and government guidelines. The following were the most important findings from my analysis:
+
+**Data insights**
+- The incomplete weight log dataset suggests potential low user engagement. Users seem to have not adopted the habit of logging data on their smart devices. For instance,  only two users reported their fat percentage in the weight_logs data.
+
+- The Kaggle dataset description states that 30 users provided their data. In the available datasets, the numbers within the parentheses represent the unique IDs for each dataset: "daily_activity_clean" (33), "hourly_activity_clean" (33), "daily_sleep_clean" (24), "minute_sleep_clean" (24), "seconds_heartrate_clean" (14), and "weight_logs_clean" (8). Two potential explanations for the discrepancy could be multiple Fitbit devices per user, leading to more unique IDs than users, or an oversight in the dataset description.
+
+- The variables "calories" and "sedentary_minutes" exhibit a multimodal distribution, indicating the presence of subpopulations within the data. In this dataset, gender could be a potential variable, resulting in a bimodal distribution when examining histograms of calories and sedentary minutes. Unfortunately, the gender of the users is not provided, limiting our ability to confirm this hypothesis.
+
+- Activity data is missing, notably in early May. Users with over 75% data consistency consistently report activity dates, but those with less than 75% data show a decline in reporting starting in late April. The drop in Activity Date reporting appears to be linked to some users not reporting data during that period.
+
+- I identified an inconsistency in the sedentary minutes data. The dataset includes a variable labeled "sedentary_minutes," which, as per the metadata, was supposed to represent the total minutes spent in sedentary activity. However, I found that in 42 entries, "sedentary_minutes" was less than "total_minutes_asleep." To address this, I removed these problematic entries from the dataset. I thoroughly documented this process in my R Notebook.
+
+- Correlations Between Activity Metrics: Several activity metrics, such as "total_distance," "tracker_distance," and "total_steps," are highly correlated. This suggests that these metrics provide similar information. Additionally, there are correlations between different intensity minutes and distance covered, indicating different aspects of the same activity.
+
+**User behavior insights**
+
+
+**Activity  insights**
+
+- Over half of the users maintain a healthy daily step count range of 5,000 to 10,000 steps, but only one-fifth achieve the 10,000-step milestone.
+- About 55% of users walk an average of 5-10 kilometers daily, approximately 5 miles.
+- Users' overall average intensity minutes consist primarily of sedentary and lightly active time, comprising 97%.
+Sedentary activities make up the majority of users' average intensity minutes, at around 80%. Lightly active time accounts for 17%, while very active and fairly active minutes are limited to 2% and 1%, respectively. These findings point to a potential deficit in moderate to vigorous physical activity.
+- Approximately 48% of users accumulate at least 400 daily sedentary minutes while awake, equivalent to exceeding 6 hours of daily sedentary time.
+- On average, users exhibit greater intensity in their activity at 5:00 AM, 8:00 AM, 5:00 PM, and 7:00 PM, along with recording higher step counts at 8:00 AM and 7:00 PM. These findings imply that daily routines and responsibilities could influence user activity levels, particularly before or after standard workday hours.
+-Caloric Expenditure: Approximately 42% of users maintain an average daily calorie expenditure ranging from 1,600 to 2,200, aligning with the recommended daily calorie intake for many females, as outlined in the Dietary Guidelines for Americans, 2020-2025.
+
+**Sleep insights**
+
+- More than half  (52%) of the users have an average daily sleep duration of less than 7 hours, indicating potential sleep deficiency.
+- Napping is infrequent among users. In most sleep records (89%), users typically experience a single continuous sleep period, including naps lasting over 60 minutes.
+- Most user sleep states are uninterrupted periods of sleep, covering 91% of total sleep time. Restlessness occurs during 7.4% of sleep minutes, and being fully awake represents just 1.1% of the time.
+- Upon segmenting the users into regular and irregular sleepers, we discovered that regular sleepers, on average, get more sleep, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
+
+
+**Heart rate**
+- Users' average heart rate is within the normal range. 
+
+**Weight logging behavior**
+
+The following insights should be viewed as exploratory and could benefit from additional data. The weight log dataset only has 68 entries; more data would be needed to evaluate these hunches.
+- Most users (61%) manually log their weight, while 39% sync it from other devices. Manual logging may be associated with lower median weight.
+- Users who manually log their weight data have a lower median weight than those who sync their weight from other devices.
+
+These insights can provide valuable information to inform Bellabeat App's marketing strategy and product improvement opportunities. By analyzing user activity and sleep patterns, interaction with its app, and potential subpopulations within the dataset, Bellabeat can refine its marketing strategies to boost user engagement and maximize app usage.
 
 
 
+## Share 📢
 
 
-
-## Analyze
-
-
-
-## Share 
-
-
-## Act (Recommendations)
+## Act 🏁 (Recommendations)
 
 
 
@@ -138,7 +197,7 @@ Note: During the completion of the capstone, I encountered difficulty in finding
 <details>
   <summary> Click here to see the guiding questions</summary>
 
-### Ask (guiding questions)
+### Ask 
 
 **What is Bellabeat Mission?**
 
@@ -161,7 +220,7 @@ Bellabeat empowers women to reconnect with themselves, unleash their inner stren
 - Usage can inspire product modification
 - Insights could unlock new growth opportunities for the company
 
-### Prepare (guiding questions)
+### Prepare
 
 **Where is your data stored?**
 
@@ -206,6 +265,115 @@ The data exhibits reliability, originality, comprehensibility, and currency issu
 **How does it help you answer your question?**
 
 This information is crucial for me in interpreting and analyzing the dataset. It warns me about potential biases and issues, allowing me to approach any analysis or conclusions cautiously. It also highlights limitations, such as the lack of gender information, which could affect the generalizability of insights for a company like Bellabeat. 
+
+## Process 
+
+**What tools are you choosing and why?**
+
+I explored all the tools from the Google Analytics certificate program, including Google Sheets, BigQuery, Tableau, and R. Also, I used MySQL because it gave me more flexibility than the free version of BigQuery.
+
+- Google Sheets: Performed basic exploratory analysis
+- BigQuery: Loaded all the datasets to BigQuery and practiced aggregations.
+- Tableau: performed some exploratory data analysis.
+- MySQL: I initially faced issues loading data using the MySQL Workbench UI. However, I persevered and discovered a faster and more efficient method: loading all the datasets through the terminal.
+
+In the end, **I selected R in RStudio** for the Capstone project because it enabled transparent documentation of data analysis processes with R Notebooks, including data cleaning, transformation, and visualizations. Also, R Markdown made it easy to share my analysis on platforms such as Kaggle and GitHub, making the findings accessible to others interested in the work.
+
+**Have you ensured your data’s integrity?** 
+Data integrity was ensured through exploratory data analysis and cleaning processes, including column standardization, data type conversion, duplicate removal, zero-value observation removal, and comprehensive data assessment. See the guiding questions for this phase for more details.
+
+**What steps have you taken to ensure that your data is clean?**
+
+All data cleaning steps are documented in the project's R notebook. Please refer to the notebook for more details. The following are the most important steps I undertook:
+
+- Checked for missing values.
+- Changed column names to lowercase for consistency.
+- Converted data types.
+- Removed duplicates where necessary.
+- Identified and removed observations with zero values in the "total_steps" column.
+- Conducted an analysis of the distribution of IDs across datasets to identify potential discrepancies in data collection methods, completeness, or user engagement.
+- Merged related datasets (hourly_calories, hourly_intensities, and hourly_steps) into a single dataset named "hourly_activity."
+- Performed Exploratory Data Analysis (EDA) and summary statistics to better understand the data, detecting anomalies or inconsistencies.
+- Identified data inconsistencies and alerted potential issues, such as discrepancies between "sedentary_minutes" and "total_minutes_asleep."
+- Assessed data completeness by identifying users with missing activity data and observing declines in data reporting from some users during specific periods.
+
+**How can you verify that your data is clean and ready to analyze?**
+
+After cleaning and transforming the data, I conducted exploratory data analysis (EDA) on each cleaned dataset. I stored each dataset in a new object to preserve the original data. Additionally, I exported the clean datasets. The EDA encompassed:
+
+- Univariate analysis for numerical variables
+- Univariate analysis for categorical variables
+- Bivariate analysis
+- Summary statistics
+  
+**Have you documented your cleaning process so you can review and share those results?** 
+I documented my data cleaning process in an R notebook, noting any issues before proceeding with each step. This detailed record makes it easy for me to review personally and allows for sharing of results with others. Also, I thoroughly documented all findings and insights under the "Observations" section in my notebook.
+
+
+## Analyze 
+
+**How should you organize your data to perform analysis on it?**
+
+After conducting the Exploratory Data Analysis (EDA), I initially felt uncertain about the next steps. Usually, when you are learning data analysis, the textbooks provide clean datasets with variables such as gender, age, and various other demographic attributes. These variables offer clear directions for exploration and the opportunity to derive meaningful insights. In this case, the data had many integrity issues and lacked standard demographic variables. My first insight into how to uncover user patterns happened when I explored the activity minutes categories (sedentary, lightly active, fairly active, and very active). I noticed that I could apply a similar categorization/segmentation method for activity minutes for the other variables. This approach ultimately led to the discovery of several interesting insights. I created a new "User behavior" section in the R Notebook to perform this type of analysis.  
+
+**Has your data been properly formatted?**
+I formatted and prepared my data during the previous two phases: Prepare and Process.
+
+**What surprises did you discover in the data?**
+
+- The incomplete weight log dataset suggests potential low user engagement. Users seem to have not adopted the habit of logging data on their smart devices. For instance,  only two users reported their fat percentage in the weight_logs data.
+- The Kaggle dataset description states that 30 users provided their data. In the available datasets, the numbers within the parentheses represent the unique IDs for each dataset: "daily_activity_clean" (33), "hourly_activity_clean" (33), "daily_sleep_clean" (24), "minute_sleep_clean" (24), "seconds_heartrate_clean" (14), and "weight_logs_clean" (8). Two potential explanations for the discrepancy could be multiple Fitbit devices per user, leading to more unique IDs than users, or an oversight in the dataset description.
+- The variables "calories" and "sedentary_minutes" exhibit a multimodal distribution, indicating the presence of subpopulations within the data. In this dataset, gender could be a potential variable, resulting in a bimodal distribution when examining histograms of calories and sedentary minutes. Unfortunately, the gender of the users is not provided, limiting our ability to confirm this hypothesis.
+- Activity data is missing, notably in early May. Users with over 75% data consistency consistently report activity dates, but those with less than 75% data show a decline in reporting starting in late April. The drop in Activity Date reporting appears to be linked to some users not reporting data during that period.
+- I identified an inconsistency in the sedentary minutes data. The dataset includes a variable labeled "sedentary_minutes," which, as per the metadata, was supposed to represent the total minutes spent in sedentary activity. However, I found that in 42 entries, "sedentary_minutes" was less than "total_minutes_asleep." To address this, I removed these problematic entries from the dataset. I thoroughly documented this process in my R Notebook.
+- Correlations Between Activity Metrics: Several activity metrics, such as "total_distance," "tracker_distance," and "total_steps," are highly correlated. This suggests that these metrics provide similar information. Additionally, there are correlations between different intensity minutes and distance covered, indicating different aspects of the same activity.
+
+**What trends or relationships did you find in the data?**
+
+**Activity  insights**
+- Over half of the users maintain a healthy daily step count range of 5,000 to 10,000 steps, but only one-fifth achieve the 10,000-step milestone.
+- About 55% of users walk an average of 5-10 kilometers daily, approximately 5 miles.
+
+
+**Intensity minutes**
+
+- Users' overall average intensity minutes consist primarily of sedentary and lightly active time, comprising 97%.
+- Sedentary activities make up the majority of users' average intensity minutes, at around 80%. Lightly active time accounts for 17%, while very active and fairly active minutes are limited to 2% and 1%, respectively. These findings point to a potential deficit in moderate to vigorous physical activity.
+- Approximately 48% of users accumulate at least 400 daily sedentary minutes while awake, equivalent to exceeding 6 hours of daily sedentary time.
+- On average, users exhibit greater intensity in their activity at 5:00 AM, 8:00 AM, 5:00 PM, and 7:00 PM, along with recording higher step counts at 8:00 AM and 7:00 PM. These findings imply that daily routines and responsibilities could influence user activity levels, particularly before or after standard workday hours.
+
+**Caloric expenditure**
+
+- Approximately 42% of users maintain an average daily calorie expenditure ranging from 1,600 to 2,200, aligning with the recommended daily calorie intake for many females, as outlined in the Dietary Guidelines for Americans, 2020-2025.
+
+**Sleep insights**
+
+- More than half (52%) of the users have an average daily sleep duration of less than 7 hours, indicating potential sleep deficiency.
+- Napping is infrequent among users. In most sleep records (89%), users typically experience a single continuous sleep period, including naps lasting over 60 minutes.
+- Most user sleep states are uninterrupted periods of sleep, covering 91% of total sleep time. Restlessness occurs during 7.4% of sleep minutes, and being fully awake represents just 1.1% of the time.
+- Upon segmenting the users into regular and irregular sleepers, we discovered that regular sleepers, on average, get more sleep, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
+
+**Heart rate**
+- Users' average heart rate is within the normal range. 
+
+**Weight logging behavior**
+
+The following insights should be viewed as exploratory and could benefit from additional data. The weight log dataset only has 68 entries; more data would be needed to evaluate these hunches.
+- Most users (61%) manually log their weight, while 39% sync it from other devices. Manual logging may be associated with lower median weight.
+- Users who manually log their weight data have a lower median weight than those who sync their weight from other devices.
+
+**How will these insights help answer your business questions?**
+
+These insights can provide valuable information to inform Bellabeat App's marketing strategy and product improvement opportunities. By analyzing user activity and sleep patterns, interaction with its app, and potential subpopulations within the dataset, Bellabeat can refine its marketing strategies to boost user engagement and maximize app usage.
+
+
+
+
+
+
+
+
+
 
  
 </details>
