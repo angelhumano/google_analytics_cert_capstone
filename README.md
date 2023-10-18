@@ -65,7 +65,7 @@ See original source :[Google Data Analytics Professional Certificate by Coursera
 
 Analyze smart fitness device usage data to gain insight into how people already use them and help guide future marketing strategies for the Bellabeat App. Key stakeholders are Urška Sršen, Sando Mur, and the Bellabeat marketing analytics team.
 
-## Prepare 🛠:hammer:
+## Prepare 🛠
 
 **Deliverable 2**: Data source description
 
@@ -110,7 +110,7 @@ These datasets provide valuable insights for health and fitness analysis. Howeve
 
 Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary analysis
 
-## Process 
+## Process 🔄
 
 **Deliverable 3**: Documentation of any cleaning or manipulation of data 
 
@@ -127,7 +127,7 @@ All data cleaning steps are documented in the project's [R notebook](). Please r
 - Identified data inconsistencies and alerted potential issues, such as discrepancies between "sedentary_minutes" and "total_minutes_asleep."
 - Assessed data completeness by identifying users with missing activity data and observing declines in data reporting from some users during specific periods.
 
-## Analyze
+## Analyze 📉
 
 **Deliverable 4**: A summary of your analysis 
 
@@ -182,10 +182,10 @@ These insights can provide valuable information to inform Bellabeat App marketin
 
 
 
-## Share 
+## Share 📢
 
 
-## Act (Recommendations)
+## Act 🏁 (Recommendations)
 
 
 
