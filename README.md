@@ -146,10 +146,10 @@ While exploring the activity minutes categories (sedentary, lightly active, fair
 
 - Correlations Between Activity Metrics: Several activity metrics, such as "total_distance," "tracker_distance," and "total_steps," are highly correlated. This suggests that these metrics provide similar information. Additionally, there are correlations between different intensity minutes and distance covered, indicating different aspects of the same activity.
 
-**User Behavior insights**
+**User behavior insights**
 
 
-**Activity  Insights**
+**Activity  insights**
 
 - Over half of the users maintain a healthy daily step count range of 5,000 to 10,000 steps, but only one-fifth achieve the 10,000-step milestone.
 - About 55% of users walk an average of 5-10 kilometers daily, approximately 5 miles.
@@ -167,7 +167,7 @@ Sedentary activities make up the majority of users' average intensity minutes, a
 - Upon segmenting the users into regular and irregular sleepers, we discovered that regular sleepers, on average, get more sleep, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
 
 
-**Heart Rate**
+**Heart rate**
 - Users' average heart rate is within the normal range. 
 
 **Weight logging behavior**
@@ -176,10 +176,7 @@ The following insights should be viewed as exploratory and could benefit from ad
 - Most users (61%) manually log their weight, while 39% sync it from other devices. Manual logging may be associated with lower median weight.
 - Users who manually log their weight data have a lower median weight than those who sync their weight from other devices.
 
-
 These insights can provide valuable information to inform Bellabeat App's marketing strategy and product improvement opportunities. By analyzing user activity and sleep patterns, interaction with its app, and potential subpopulations within the dataset, Bellabeat can refine its marketing strategies to boost user engagement and maximize app usage.
-
-
 
 
 
@@ -314,6 +311,7 @@ I documented my data cleaning process in an R notebook, noting any issues before
 
 
 ## Analyze 
+
 **How should you organize your data to perform analysis on it?**
 
 After conducting the Exploratory Data Analysis (EDA), I initially felt uncertain about the next steps. Usually, when you are learning data analysis, the textbooks provide clean datasets with variables such as gender, age, and various other demographic attributes. These variables offer clear directions for exploration and the opportunity to derive meaningful insights. In this case, the data had many integrity issues and lacked standard demographic variables. My first insight into how to uncover user patterns happened when I explored the activity minutes categories (sedentary, lightly active, fairly active, and very active). I noticed that I could apply a similar categorization/segmentation method for activity minutes for the other variables. This approach ultimately led to the discovery of several interesting insights. I created a new "User behavior" section in the R Notebook to perform this type of analysis.  
@@ -332,19 +330,19 @@ I formatted and prepared my data during the previous two phases: Prepare and Pro
 
 **What trends or relationships did you find in the data?**
 
-**Activity  Insights**
+**Activity  insights**
 - Over half of the users maintain a healthy daily step count range of 5,000 to 10,000 steps, but only one-fifth achieve the 10,000-step milestone.
 - About 55% of users walk an average of 5-10 kilometers daily, approximately 5 miles.
 
 
-**Intensity Minutes**
+**Intensity minutes**
 
 - Users' overall average intensity minutes consist primarily of sedentary and lightly active time, comprising 97%.
 - Sedentary activities make up the majority of users' average intensity minutes, at around 80%. Lightly active time accounts for 17%, while very active and fairly active minutes are limited to 2% and 1%, respectively. These findings point to a potential deficit in moderate to vigorous physical activity.
 - Approximately 48% of users accumulate at least 400 daily sedentary minutes while awake, equivalent to exceeding 6 hours of daily sedentary time.
 - On average, users exhibit greater intensity in their activity at 5:00 AM, 8:00 AM, 5:00 PM, and 7:00 PM, along with recording higher step counts at 8:00 AM and 7:00 PM. These findings imply that daily routines and responsibilities could influence user activity levels, particularly before or after standard workday hours.
 
-**Caloric Expenditure**
+**Caloric expenditure**
 
 - Approximately 42% of users maintain an average daily calorie expenditure ranging from 1,600 to 2,200, aligning with the recommended daily calorie intake for many females, as outlined in the Dietary Guidelines for Americans, 2020-2025.
 
@@ -355,10 +353,10 @@ I formatted and prepared my data during the previous two phases: Prepare and Pro
 - Most user sleep states are uninterrupted periods of sleep, covering 91% of total sleep time. Restlessness occurs during 7.4% of sleep minutes, and being fully awake represents just 1.1% of the time.
 - Upon segmenting the users into regular and irregular sleepers, we discovered that regular sleepers, on average, get more sleep, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
 
-**Heart Rate**
+**Heart rate**
 - Users' average heart rate is within the normal range. 
 
-**Weight Logging Behavior**
+**Weight logging behavior**
 
 The following insights should be viewed as exploratory and could benefit from additional data. The weight log dataset only has 68 entries; more data would be needed to evaluate these hunches.
 - Most users (61%) manually log their weight, while 39% sync it from other devices. Manual logging may be associated with lower median weight.
