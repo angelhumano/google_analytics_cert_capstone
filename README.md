@@ -183,7 +183,25 @@ These insights can provide valuable information to inform Bellabeat App's market
 ## Share 📢
 
 
-## Act 🏁 (Recommendations)
+Bellabeat can leverage insights on activity, sleep, and engagement patterns to implement targeted approaches for different user segments. This can lead to increased user retention and higher levels of satisfaction. Additionally, encouraging users to log weight data can promote a more comprehensive and engaged use of the app and improve the data quality. 
+
+**How do your findings relate to your original question?**
+
+The insights I have uncovered, particularly those related to user activity, sleep patterns, and engagement, clearly explain how users interact with the Bellabeat App and its features. 
+
+**Who is your audience? What is the best way to communicate with them?**
+
+I adapted my approach to cater to the distinct preferences and needs of two key audiences:
+
+The Bellabeat Founders require a visually intuitive presentation of insights due to their busy schedules and limited technical interest. I created a poster summarizing essential findings using standalone visualizations to meet this requirement. A detailed R Markdown report is also available for those seeking more in-depth information.
+
+For the Marketing Analytics Team: This audience typically requires comprehensive insights and might be interested in data details. I provided an R Markdown report containing extensive insights to meet their needs. Moreover, I granted access to my R notebook, allowing them to explore the underlying code and methodology.
+
+In this manner, I ensured that the reporting methods aligned with each group's specific requirements and preferences.
+
+
+
+## Act 🏁 
 
 
 
@@ -367,6 +385,37 @@ The following insights should be viewed as exploratory and could benefit from ad
 These insights can provide valuable information to inform Bellabeat App's marketing strategy and product improvement opportunities. By analyzing user activity and sleep patterns, interaction with its app, and potential subpopulations within the dataset, Bellabeat can refine its marketing strategies to boost user engagement and maximize app usage.
 
 
+## Share
+
+**Were you able to answer the business questions?**
+
+I found many behavioral insights that can guide marketing strategy and product improvement.
+
+**What story does your data tell?**
+
+Bellabeat can leverage insights on activity, sleep, and engagement patterns to implement targeted approaches for different user segments. This can lead to increased user retention and higher levels of satisfaction. Additionally, encouraging users to log weight data can promote a more comprehensive and engaged use of the app and improve the data quality. 
+
+**How do your findings relate to your original question?**
+
+The insights I have uncovered, particularly those related to user activity, sleep patterns, and engagement, clearly explain how users interact with the Bellabeat App and its features. 
+
+**Who is your audience? What is the best way to communicate with them?**
+
+I adapted my approach to cater to the distinct preferences and needs of two key audiences:
+
+The Bellabeat Founders require a visually intuitive presentation of insights due to their busy schedules and limited technical interest. I created a poster summarizing essential findings using standalone visualizations to meet this requirement. A detailed R Markdown report is also available for those seeking more in-depth information.
+
+For the Marketing Analytics Team: This audience typically requires comprehensive insights and might be interested in data details. I provided an R Markdown report containing extensive insights to meet their needs. Moreover, I granted access to my R notebook, allowing them to explore the underlying code and methodology.
+
+In this manner, I ensured that the reporting methods aligned with each group's specific requirements and preferences.
+
+
+**Can data visualization help you share your findings?**
+
+Data visualization was critical in sharing my findings.
+
+**Is your presentation accessible to your audience?**
+Yes. I created this GitHub repository to share my findings.
 
 
 
