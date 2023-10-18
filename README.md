@@ -127,7 +127,7 @@ All data cleaning steps are documented in the project's [R notebook](). Please r
 
 ## Analyze
 
-While exploring the activity minutes categories (sedentary, lightly active, fairly active, and very active), I recognized the potential to apply a similar categorization method to other variables. In short, I employed a segmentation approach to reveal user patterns informed by fitness research and government guidelines. The following were my most important findings from my analysis:
+While exploring the activity minutes categories (sedentary, lightly active, fairly active, and very active), I recognized the potential to apply a similar categorization method to other variables. In short, I employed a segmentation approach to reveal user patterns informed by fitness research and government guidelines. The following were the most important findings from my analysis:
 
 **Data insights**
 - The incomplete weight log dataset suggests potential low user engagement. Users seem to have not adopted the habit of logging data on their smart devices. For instance,  only two users reported their fat percentage in the weight_logs data.
@@ -159,9 +159,8 @@ Sedentary activities make up the majority of users' average intensity minutes, a
 - More than half  (52%) of the users have an average daily sleep duration of less than 7 hours, indicating potential sleep deficiency.
 - Napping is infrequent among users. In most sleep records (89%), users typically experience a single continuous sleep period, including naps lasting over 60 minutes.
 - Most user sleep states are uninterrupted periods of sleep, covering 91% of total sleep time. Restlessness occurs during 7.4% of sleep minutes, and being fully awake represents just 1.1% of the time.
-- - Upon segmenting the users into regular and irregular sleepers, we discovered that regular sleepers, on average, get more sleep, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
+- Upon segmenting the users into regular and irregular sleepers, we discovered that regular sleepers, on average, get more sleep, have a more consistent sleep duration, and have slightly higher median awake-in-bed duration than irregular sleepers.
 
-**Other insights**
 
 **Heart Rate**
 - Users' average heart rate is within the normal range. 
@@ -170,14 +169,10 @@ Sedentary activities make up the majority of users' average intensity minutes, a
 
 The following insights should be viewed as exploratory and could benefit from additional data. The weight log dataset only has 68 entries; more data would be needed to evaluate these hunches.
 - Most users (61%) manually log their weight, while 39% sync it from other devices. Manual logging may be associated with lower median weight.
-- 
 - Users who manually log their weight data have a lower median weight than those who sync their weight from other devices.
 
 
-
-
-
-
+These insights can provide valuable information to inform Bellabeat App marketing strategy and product improvement opportunities. By analyzing user activity and sleep patterns, interaction with its app, and potential subpopulations within the dataset, Bellabeat can refine its marketing strategies to boost user engagement and maximize app usage.
 
 
 
