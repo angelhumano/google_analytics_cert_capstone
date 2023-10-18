@@ -191,7 +191,7 @@ I adapted my approach to cater to the distinct preferences and needs of two key 
 
 - The Bellabeat Founders require a visually intuitive presentation of insights due to their busy schedules and limited technical interest. I created a poster summarizing essential findings using standalone visualizations to meet this requirement. A detailed R Markdown report is also available for those seeking more in-depth information.
 
-[key_insights_poster]()
+[key_insights_poster](images/key_insights_poster.png)
 
 - For the Marketing Analytics Team: This audience typically requires comprehensive insights and might be interested in data details. I provided an R Markdown report containing extensive insights to meet their needs. Moreover, I granted access to my R notebook, allowing them to explore the underlying code and methodology.
 
