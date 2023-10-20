@@ -445,8 +445,7 @@ Yes. I created this GitHub repository to share my findings.
 
 **Is there additional data you could use to expand on your findings?**
 
-
-
+I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary material.
 
 
  
