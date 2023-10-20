@@ -198,6 +198,27 @@ In this manner, I ensured that the reporting methods aligned with each group's s
 
 **Deliverable 6**: Your top high-level insights based on your analysis 
 
+Bellabeat can leverage insights on activity, sleep, and engagement patterns to implement targeted approaches for different user segments. I want to propose the following recommendations to guide the Bellabeat market strategy:
+
+ - Since many users are not meeting activity and sleep guidelines and spend excessive time in sedentary activities, Bellabeat should adopt personalized interventions to encourage them to develop healthier activity and sleep patterns. This can lead to improved user engagement and satisfaction, higher retention rates, positive word-of-mouth marketing, and a more health-conscious user base. The increased value experienced within the app ecosystem makes switching to a competitor less likely.
+
+- Addressing low engagement in data logging and data quality issues is a critical step in enhancing user retention. By leveraging A/B testing and nudges to improve the interface and encourage data logging, we can provide greater value to our customers in their pursuit of healthier habits. As we deliver more value through the app, our customers are more likely to promote it through positive word-of-mouth marketing, further expanding our market share.
+
+- Optimize in-app notifications for promotions and new features by aligning them with users' activity patterns. This strategy minimizes costs and risks while enhancing user engagement. Utilize A/B testing for maximum impact. As users recognize the increased value through these well-timed notifications, they are more likely to engage in positive word-of-mouth marketing, fostering expansion with low financial risk.
+
+These recommendations could guide the marketing strategy by focusing on personalized interventions, data quality improvement, and well-timed notifications to enhance user engagement, satisfaction, and retention. These strategies promote positive word-of-mouth marketing, minimize costs, reduce risks, and expand market share, making it less likely for users to switch to competitors.
+
+
+Some ideas to discuss with the product development team:
+
+- To help users become active, how can we implement nudges to help them reach the recommended physical activity guidelines by the CDC?
+- Given the high sedentary minutes observed, can we provide users with reminders or prompts to reduce prolonged periods of inactivity?
+- How can personalized activity recommendations be based on observed trends and user behavior?
+- How can we promote healthy sleep patterns and provide tips for improving sleep duration?
+
+
+**Deliverable 6**: Your top high-level insights based on your analysis 
+
 
 ## Limitations
 
