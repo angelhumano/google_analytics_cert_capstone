@@ -233,21 +233,39 @@ Some ideas to discuss with the product development team:
 
 ## Supplementary Material
 
+<br>
+
 ![Physical Activity Guidelines for Americans](images/physical_activity_guidelines_for_americans.png)
+
+<br>
 
 ![Overall Prevalence of Inactivity 2017-2020](images/overall_prevalence_inactivity_2017_2020.png)
 
+<br>
+
 ![Distribution of Adults Meeting Physical Activity Guidelines USA 2020](images/distribution_of_adults_meeting_physical_activity_guidelines_USA_2020.png)
+
+<br>
 
 ![Age Adjusted by Sex and Family Income](images/age_adjusted_by_sex_and_family_income_as_percentage_of_federal_poverty_level.png)
 
+<br>
+
 ![Percentage of Adults by Sex and Age](images/percentage_adults_by_sex_and_age.png)
+
+<br>
 
 ![Age-Adjusted by Sex and Race and Hispanic Origin](images/age_adjusted_by_sex_and_race_and_hispanic_origin.png)
 
+<br>
 
+**Source of supplemental materials**
 
+- [Physical Activity Guidelines for Americans (2nd ed.)](https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
 
+- [Adult Physical Inactivity Prevalence Maps by Race/Ethnicity](https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity)
+- 
+- [Physical activity among adults aged 18 and over : United States, 2020](https://stacks.cdc.gov/view/cdc/120213)
 
 
 ## Guiding questions for each phase
