@@ -217,12 +217,21 @@ Some ideas to discuss with the product development team:
 - How can we promote healthy sleep patterns and provide tips for improving sleep duration?
 
 
-**Deliverable 6**: Your top high-level insights based on your analysis 
-
-
 ## Limitations
 
-## Challenges
+  - The data used for analysis, Fitbit Fitness Tracker Data, was collected via Amazon Mechanical Turk from a relatively small sample of 30 users in late 2016. This limited sample size may not be fully representative of the broader population, and findings may not generalize well.
+
+  - The data collected through Amazon Mechanical Turk introduces potential biases, including sampling, selection, demographic, and incentive-driven biases, which can affect the generalizability of findings.
+
+  - The data is from 2016, which may not accurately represent current user behavior, potentially impacting the relevance of the analysis.
+
+  - The absence of gender data in the analysis is a significant limitation because it affects the ability to perform gender-specific marketing strategy analyses. This limitation is particularly important as Bellabeat caters to women.
+
+  - The weight log dataset has limited entries (68), which may not provide a comprehensive understanding of user weight tracking behavior.
+
+  - The absence of additional data sources is a limitation that may impede the validation or extension of the findings.
+
+
 
 ## Guiding questions for each phase
 
