@@ -241,11 +241,9 @@ Some ideas to discuss with the product development team:
 
 ![Percentage of Adults by Sex and Age](images/percentage_adults_by_sex_and_age.png)
 
+![distribution_of_adults_meeting_physical_activity_ guidelines_USA_2020](images/distribution_of_adults_meeting_physical_activity_guidelines_USA_2020.png)
+
 ![Age Adjusted by Sex, Race, and Hispanic Origin](images/age_adjusted_by_sex_and_race_and_hispanic_origin.png)
-
-![distribution_of_adults_meeting_physical_activity_ guidelines_USA_2020.pn ](distribution_of_adults_meeting_physical_activity_guidelines_USA_2020.png)
-
-
 
 
 
