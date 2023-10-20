@@ -100,7 +100,7 @@ Data integrity was ensured through exploratory data analysis and cleaning proces
 
 These datasets provide valuable insights for health and fitness analysis. However, potential biases and data quality concerns should be considered when interpreting the results. Additionally, the lack of gender information may limit its applicability, particularly for products targeted at women by companies like Bellabeat.
 
-Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary analysis
+Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under Supplementary Material.
 
 ## Process 🔄
 
@@ -230,6 +230,12 @@ Some ideas to discuss with the product development team:
   - The weight log dataset has limited entries (68), which may not provide a comprehensive understanding of user weight tracking behavior.
 
   - The absence of additional data sources is a limitation that may impede the validation or extension of the findings.
+
+## Supplementary Material
+
+
+
+
 
 
 
