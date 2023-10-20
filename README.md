@@ -235,20 +235,16 @@ Some ideas to discuss with the product development team:
 
 ![Physical Activity Guidelines for Americans](images/physical_activity_guidelines_for_americans.png)
 
-![Age Adjusted by Sex and Family Income](images/age_adjusted_by_sex_and_family_income_as_percentage_of_federal_poverty_level.png)
-
-![Age Adjusted by Sex, Race, and Hispanic Origin](images/age_adjusted_by_sex_and_race_and_hispanic_origin.png)
-
-![Distribution of Adults Meeting Physical Activity Guidelines in the USA 2020](images/distribution_of_adults_meeting_physical_activity_guidelines_USA_2020.png)
-
 ![Overall Prevalence of Inactivity 2017-2020](images/overall_prevalence_inactivity_2017_2020.png)
+
+![Age Adjusted by Sex and Family Income](images/age_adjusted_by_sex_and_family_income_as_percentage_of_federal_poverty_level.png)
 
 ![Percentage of Adults by Sex and Age](images/percentage_adults_by_sex_and_age.png)
 
+![Age Adjusted by Sex, Race, and Hispanic Origin](images/age_adjusted_by_sex_and_race_and_hispanic_origin.png)
 
 
-
-
+![cas](images/distribution_of_adults_ meeting_physical_activity_ guidelines_USA_2020.png)
 
 
 
