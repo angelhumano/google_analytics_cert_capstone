@@ -100,7 +100,7 @@ Data integrity was ensured through exploratory data analysis and cleaning proces
 
 These datasets provide valuable insights for health and fitness analysis. However, potential biases and data quality concerns should be considered when interpreting the results. Additionally, the lack of gender information may limit its applicability, particularly for products targeted at women by companies like Bellabeat.
 
-Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary analysis
+Note: During the completion of the capstone, I encountered difficulty in finding an alternative Fitbit dataset, highlighting the challenge of accessing proprietary data. However, during my research, I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under Supplementary Material.
 
 ## Process 🔄
 
@@ -198,10 +198,60 @@ In this manner, I ensured that the reporting methods aligned with each group's s
 
 **Deliverable 6**: Your top high-level insights based on your analysis 
 
+Bellabeat can leverage insights on activity, sleep, and engagement patterns to implement targeted approaches for different user segments. I want to propose the following recommendations to guide the Bellabeat market strategy:
+
+ - Since many users are not meeting activity and sleep guidelines and spend excessive time in sedentary activities, Bellabeat should adopt personalized interventions to encourage them to develop healthier activity and sleep patterns. This can lead to improved user engagement and satisfaction, higher retention rates, positive word-of-mouth marketing, and a more health-conscious user base. The increased value experienced within the app ecosystem makes switching to a competitor less likely.
+
+- Addressing low engagement in data logging and data quality issues is a critical step in enhancing user retention. By leveraging A/B testing and nudges to improve the interface and encourage data logging, we can provide greater value to our customers in their pursuit of healthier habits. As we deliver more value through the app, our customers are more likely to promote it through positive word-of-mouth marketing, further expanding our market share.
+
+- Optimize in-app notifications for promotions and new features by aligning them with users' activity patterns. This strategy minimizes costs and risks while enhancing user engagement. Utilize A/B testing for maximum impact. As users recognize the increased value through these well-timed notifications, they are more likely to engage in positive word-of-mouth marketing, fostering expansion with low financial risk.
+
+These recommendations could guide the marketing strategy by focusing on personalized interventions, data quality improvement, and well-timed notifications to enhance user engagement, satisfaction, and retention. These strategies promote positive word-of-mouth marketing, minimize costs, reduce risks, and expand market share, making it less likely for users to switch to competitors.
+
+
+Some ideas to discuss with the product development team:
+
+- To help users become active, how can we implement nudges to help them reach the recommended physical activity guidelines by the CDC?
+- Given the high sedentary minutes observed, can we provide users with reminders or prompts to reduce prolonged periods of inactivity?
+- How can personalized activity recommendations be based on observed trends and user behavior?
+- How can we promote healthy sleep patterns and provide tips for improving sleep duration?
+
 
 ## Limitations
 
-## Challenges
+  - The data used for analysis, Fitbit Fitness Tracker Data, was collected via Amazon Mechanical Turk from a relatively small sample of 30 users in late 2016. This limited sample size may not be fully representative of the broader population, and findings may not generalize well.
+
+  - The data collected through Amazon Mechanical Turk introduces potential biases, including sampling, selection, demographic, and incentive-driven biases, which can affect the generalizability of findings.
+
+  - The data is from 2016, which may not accurately represent current user behavior, potentially impacting the relevance of the analysis.
+
+  - The absence of gender data in the analysis is a significant limitation because it affects the ability to perform gender-specific marketing strategy analyses. This limitation is particularly important as Bellabeat caters to women.
+
+  - The weight log dataset has limited entries (68), which may not provide a comprehensive understanding of user weight tracking behavior.
+
+  - The absence of additional data sources is a limitation that may impede the validation or extension of the findings.
+
+## Supplementary Material
+
+![Physical Activity Guidelines for Americans](images/physical_activity_guidelines_for_americans.png)
+
+![Age Adjusted by Sex and Family Income](images/age_adjusted_by_sex_and_family_income_as_percentage_of_federal_poverty_level.png)
+
+![Age Adjusted by Sex, Race, and Hispanic Origin](images/age_adjusted_by_sex_and_race_and_hispanic_origin.png)
+
+![Distribution of Adults Meeting Physical Activity Guidelines in the USA 2020](images/distribution_of_adults_meeting_physical_activity_guidelines_USA_2020.png)
+
+![Overall Prevalence of Inactivity 2017-2020](images/overall_prevalence_inactivity_2017_2020.png)
+
+![Percentage of Adults by Sex and Age](images/percentage_adults_by_sex_and_age.png)
+
+
+
+
+
+
+
+
 
 ## Guiding questions for each phase
 
@@ -411,10 +461,11 @@ Data visualization was critical in sharing my findings.
 Yes. I created this GitHub repository to share my findings.
 
 
+## Act
 
+**Is there additional data you could use to expand on your findings?**
 
-
-
+I came across many research articles and analysis that can complement the insights gained from this project. You can find this in the appendix under supplementary material.
 
 
  
