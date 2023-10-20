@@ -264,7 +264,7 @@ Some ideas to discuss with the product development team:
 - [Physical Activity Guidelines for Americans (2nd ed.)](https://health.gov/sites/default/files/2019-09/Physical_Activity_Guidelines_2nd_edition.pdf)
 
 - [Adult Physical Inactivity Prevalence Maps by Race/Ethnicity](https://www.cdc.gov/physicalactivity/data/inactivity-prevalence-maps/index.html#Race-Ethnicity)
-- 
+  
 - [Physical activity among adults aged 18 and over : United States, 2020](https://stacks.cdc.gov/view/cdc/120213)
 
 
