@@ -19,8 +19,8 @@ Bellabeat, a successful small company, has the potential to become a major playe
 Bellabeat offers smart wellness products and services, including:
 
 - **Bellabeat App:** Tracks activity, sleep, stress, menstrual cycle, and mindfulness habits, providing insights for a healthier lifestyle.
--**Leaf:** A versatile wellness tracker worn as a bracelet, necklace, or clip, monitoring activity, sleep, and stress.
--**Time**: A smart wellness watch tracking activity, sleep, and stress, providing daily insights.
+- **Leaf:** A versatile wellness tracker worn as a bracelet, necklace, or clip, monitoring activity, sleep, and stress.
+- **Time**: A smart wellness watch tracking activity, sleep, and stress, providing daily insights.
 - **Spring**: A water bottle that monitors daily water intake to ensure proper hydration.
 - **Bellabeat Membership**: A subscription-based program offering personalized guidance on nutrition, activity, sleep, health, beauty, and mindfulness.
 
