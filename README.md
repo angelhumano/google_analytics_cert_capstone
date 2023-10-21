@@ -149,7 +149,7 @@ While exploring the activity minutes categories (sedentary, lightly active, fair
 Sedentary activities make up the majority of users' average intensity minutes, at around 80%. Lightly active time accounts for 17%, while very active and fairly active minutes are limited to 2% and 1%, respectively. These findings point to a potential deficit in moderate to vigorous physical activity.
 - Approximately 48% of users accumulate at least 400 daily sedentary minutes while awake, equivalent to exceeding 6 hours of daily sedentary time.
 - On average, users exhibit greater intensity in their activity at 5:00 AM, 8:00 AM, 5:00 PM, and 7:00 PM, along with recording higher step counts at 8:00 AM and 7:00 PM. These findings imply that daily routines and responsibilities could influence user activity levels, particularly before or after standard workday hours.
--Caloric Expenditure: Approximately 42% of users maintain an average daily calorie expenditure ranging from 1,600 to 2,200, aligning with the recommended daily calorie intake for many females, as outlined in the Dietary Guidelines for Americans, 2020-2025.
+- Caloric Expenditure: Approximately 42% of users maintain an average daily calorie expenditure ranging from 1,600 to 2,200, aligning with the recommended daily calorie intake for many females, as outlined in the Dietary Guidelines for Americans, 2020-2025.
 
 **Sleep insights**
 
