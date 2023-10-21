@@ -1,5 +1,5 @@
 # Google Data Analytics Certificate Capstone (Bellabeat Case Study)
-By Gabriel Fernandez
+By Gabriel Fernandez (Fall 2023)
 
 
 ## Introduction
