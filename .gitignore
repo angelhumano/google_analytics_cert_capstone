@@ -1,11 +1,7 @@
+#Ignore R code
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
-.DS_Store
 .Rproj
-Bellabeat_case_study_gabriel_fernandez.Rmd
 .nb.html
-google_analytics_cert_capstone.Rproj
-clean_datasets
-.ipynb_checkpoints
