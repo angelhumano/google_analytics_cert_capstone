@@ -1,4 +1,5 @@
-# Auto detect text files and perform LF normalization
 
+# Auto detect text files and perform LF normalization
+* text=auto
 #Bellabeat_case_study_gabriel_fernandez.md linguist-language=R
 
